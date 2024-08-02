@@ -1,0 +1,210 @@
+{
+  "code": 200,
+  "data": [
+    {
+      "path": "/overview/index",
+      "name": "overview",
+      "component": "/overview/index",
+      "meta": {
+        "icon": "Location",
+        "title": "系统总览",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      }
+    },
+    {
+      "path": "/calc_two/manual",
+      "name": "calc_two_manual",
+      "redirect": "/calc_two/manual",
+      "meta": {
+        "icon": "HelpFilled",
+        "title": "两相位配时计算",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/calc_two_cross/manual/index",
+          "name": "calc_two_cross_manual",
+          "component": "/calc_two_cross/manual/index",
+          "meta": {
+            "icon": "Menu",
+            "title": "十字路口",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_two_t/manual/index",
+          "name": "calc_two_t_manual",
+          "component": "/calc_two_t/manual/index",
+          "meta": {
+            "icon": "Menu",
+            "title": "T型路口",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/calc_three/manual",
+      "name": "calc_three_manual",
+      "redirect": "/calc_three/manual",
+      "meta": {
+        "icon": "HelpFilled",
+        "title": "三相位配时计算",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/calc_three_cross/manual/index",
+          "name": "calc_three_cross_manual",
+          "component": "/calc_three_cross/manual/index",
+          "meta": {
+            "icon": "Menu",
+            "title": "十字路口",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/calc_two/excel_import",
+      "name": "calc_two_excel_import",
+      "redirect": "/calc_two/excel_import",
+      "meta": {
+        "icon": "ChromeFilled",
+        "title": "两相位数据导入",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/calc_two_cross/excel_import/index",
+          "name": "calc_two_cross_excel_import",
+          "component": "/calc_two_cross/excel_import/index",
+          "meta": {
+            "icon": "Menu",
+            "title": "十字路口",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_two_t/excel_import/index",
+          "name": "calc_two_t_excel_import",
+          "component": "/calc_two_t/excel_import/index",
+          "meta": {
+            "icon": "Menu",
+            "title": "T型路口",
+            "isLink": "",
+            "isHide": true,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/calc_three/excel_import",
+      "name": "calc_three_excel_import",
+      "redirect": "/calc_three/excel_import",
+      "meta": {
+        "icon": "ChromeFilled",
+        "title": "三相位数据导入",
+        "isLink": "",
+        "isHide": true,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/calc_three_cross/excel_import/index",
+          "name": "calc_three_cross_excel_import",
+          "component": "/calc_three_cross/excel_import/index",
+          "meta": {
+            "icon": "Menu",
+            "title": "十字路口",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/intersection/index",
+      "name": "intersection",
+      "component": "/intersection/index",
+      "meta": {
+        "icon": "Management",
+        "title": "路口配时管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      }
+    },
+    {
+      "path": "/intersection_historian/index",
+      "name": "intersection_historian",
+      "component": "/intersection_historian/index",
+      "meta": {
+        "icon": "platform",
+        "title": "历史记录",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      }
+    },
+    {
+      "path": "/user/index",
+      "name": "user",
+      "component": "/user/index",
+      "meta": {
+        "icon": "Tickets",
+        "title": "用户管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      }
+    }
+  ],
+  "msg": "成功"
+}
