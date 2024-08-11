@@ -97,7 +97,7 @@
         "icon": "ChromeFilled",
         "title": "两相位数据导入",
         "isLink": "",
-        "isHide": true,
+        "isHide": false,
         "isFull": false,
         "isAffix": false,
         "isKeepAlive": true
@@ -141,7 +141,7 @@
         "icon": "ChromeFilled",
         "title": "三相位数据导入",
         "isLink": "",
-        "isHide": true,
+        "isHide": false,
         "isFull": false,
         "isAffix": false,
         "isKeepAlive": true
