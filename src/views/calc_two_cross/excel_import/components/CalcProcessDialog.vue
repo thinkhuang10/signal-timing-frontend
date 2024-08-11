@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from "vue";
+import { ref } from "vue";
 
 let percentage: any = ref(10);
 let colors: any = ref([

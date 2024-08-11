@@ -6,8 +6,8 @@
     :close-on-click-modal="false"
     title="提示"
     width="400px"
-    align-center
     @closed="CloseDialog()"
+    align-center
   >
     <el-row>
       <el-col :span="8"></el-col>
@@ -56,8 +56,8 @@ function increase() {
 
 const dialogVisible = ref(false);
 const openDialog = async () => {
-  let min = 10;
-  let max = 20;
+  let min = 5;
+  let max = 12;
   let random = Math.floor(Math.random() * (max - min + 1)) + min;
 
   percentageInterval = 100 / random;

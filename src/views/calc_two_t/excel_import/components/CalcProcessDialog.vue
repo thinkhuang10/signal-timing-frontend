@@ -6,8 +6,8 @@
     :close-on-click-modal="false"
     title="提示"
     width="400px"
-    align-center
     @closed="CloseDialog()"
+    align-center
   >
     <el-row>
       <el-col :span="8"></el-col>
