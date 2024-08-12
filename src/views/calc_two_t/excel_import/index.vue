@@ -286,12 +286,12 @@
       <el-table :data="Cal_WorkDayTableData" style="width: 100%">
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
-        <el-table-column label="东-西">
+        <el-table-column label="一相位">
           <el-table-column prop="e_w_green" label="绿灯" />
           <el-table-column prop="e_w_yellow" label="黄灯" />
           <el-table-column prop="e_w_red" label="红灯" />
         </el-table-column>
-        <el-table-column label="南-北">
+        <el-table-column label="二相位">
           <el-table-column prop="s_n_green" label="绿灯" />
           <el-table-column prop="s_n_yellow" label="黄灯" />
           <el-table-column prop="s_n_red" label="红灯" />
@@ -305,12 +305,12 @@
       <el-table :data="Cal_Correct_WorkDayTableData" style="width: 100%">
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
-        <el-table-column label="东-西">
+        <el-table-column label="一相位">
           <el-table-column prop="e_w_green" label="绿灯" />
           <el-table-column prop="e_w_yellow" label="黄灯" />
           <el-table-column prop="e_w_red" label="红灯" />
         </el-table-column>
-        <el-table-column label="南-北">
+        <el-table-column label="二相位">
           <el-table-column prop="s_n_green" label="绿灯" />
           <el-table-column prop="s_n_yellow" label="黄灯" />
           <el-table-column prop="s_n_red" label="红灯" />
@@ -336,12 +336,12 @@
       <el-table :data="Cal_WeekDayTableData" style="width: 100%">
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
-        <el-table-column label="东-西">
+        <el-table-column label="一相位">
           <el-table-column prop="e_w_green" label="绿灯" />
           <el-table-column prop="e_w_yellow" label="黄灯" />
           <el-table-column prop="e_w_red" label="红灯" />
         </el-table-column>
-        <el-table-column label="南-北">
+        <el-table-column label="二相位">
           <el-table-column prop="s_n_green" label="绿灯" />
           <el-table-column prop="s_n_yellow" label="黄灯" />
           <el-table-column prop="s_n_red" label="红灯" />
@@ -355,12 +355,12 @@
       <el-table :data="Cal_Correct_WeekDayTableData" style="width: 100%">
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
-        <el-table-column label="东-西">
+        <el-table-column label="一相位">
           <el-table-column prop="e_w_green" label="绿灯" />
           <el-table-column prop="e_w_yellow" label="黄灯" />
           <el-table-column prop="e_w_red" label="红灯" />
         </el-table-column>
-        <el-table-column label="南-北">
+        <el-table-column label="二相位">
           <el-table-column prop="s_n_green" label="绿灯" />
           <el-table-column prop="s_n_yellow" label="黄灯" />
           <el-table-column prop="s_n_red" label="红灯" />
