@@ -225,8 +225,21 @@
 
         <el-row>
           <el-form-item style="margin-left: 20px">
-            <el-button type="primary">数据上传</el-button>
-            <el-text style="margin-left: 15px" type="info">数据样表.xls</el-text>
+            <!-- <el-button type="primary">数据上传</el-button>
+            <el-text style="margin-left: 15px" type="info">数据样表.xls</el-text> -->
+            <el-upload
+              ref="upload"
+              class="upload-demo"
+              action="http://localhost:3001/upload/list"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :auto-upload="false"
+            >
+              <template #trigger>
+                <el-button type="primary">选择文件</el-button>
+              </template>
+              <el-button style="margin-left: 15px" type="success" @click="submitUpload">数据上传</el-button>
+            </el-upload>
           </el-form-item>
         </el-row>
         <el-row>
@@ -356,6 +369,22 @@ import { HOME_URL } from "@/config";
 
 // const userStore = useUserStore();
 // const role = computed(() => userStore.userInfo.role);
+
+import { genFileId } from "element-plus";
+import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+
+const upload = ref<UploadInstance>();
+
+const handleExceed: UploadProps["onExceed"] = files => {
+  upload.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  upload.value!.handleStart(file);
+};
+
+const submitUpload = () => {
+  upload.value!.submit();
+};
 
 let Cal_WorkDayTableData: any = [
   {
