@@ -244,8 +244,8 @@
         </el-row>
         <el-row>
           <el-form-item style="margin-left: 20px">
-            <el-button type="primary" v-if="isCalcButtonVisibleRef">计算</el-button>
-            <el-button type="primary">保存</el-button>
+            <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="submitCalcImport">计算</el-button>
+            <!-- <el-button type="primary">保存</el-button> -->
           </el-form-item>
         </el-row>
       </el-form>
@@ -310,7 +310,7 @@
       <el-divider content-position="left">
         <span style="color: #28b779">计算输出结果</span>
       </el-divider>
-      <el-table :data="Cal_WeekDayTableData" style="width: 100%">
+      <el-table :data="Cal_HoliDayTableData" style="width: 100%">
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="东-西">
@@ -329,7 +329,7 @@
       <el-divider content-position="left">
         <span style="color: #28b779">实际输出结果</span>
       </el-divider>
-      <el-table :data="Cal_Correct_WeekDayTableData" style="width: 100%">
+      <el-table :data="Cal_Correct_HoliDayTableData" style="width: 100%">
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="东-西">
@@ -386,124 +386,129 @@ const submitUpload = () => {
   upload.value!.submit();
 };
 
-let Cal_WorkDayTableData: any = [
-  {
-    No: 1,
-    date: "00:00:00-06:00:00",
-    e_w_green: 33,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 33,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 2,
-    date: "06:00:00-12:00:00",
-    e_w_green: 11,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 22,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 3,
-    date: "12:00:00-18:00:00",
-    e_w_green: 35,
-    e_w_yellow: 2,
-    e_w_red: 19,
-    s_n_green: 32,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 4,
-    date: "18:00:00-24:00:00",
-    e_w_green: 23,
-    e_w_yellow: 4,
-    e_w_red: 11,
-    s_n_green: 23,
-    s_n_yellow: 5,
-    s_n_red: 18
-  }
-];
+let Cal_WorkDayTableData: any = ref([]);
+let Cal_HoliDayTableData: any = ref([]);
+let Cal_Correct_WorkDayTableData: any = ref([]);
+let Cal_Correct_HoliDayTableData: any = ref([]);
 
-let Cal_WeekDayTableData: any = [
-  {
-    No: 1,
-    date: "00:00:00-08:00:00",
-    e_w_green: 33,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 33,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 2,
-    date: "08:00:00-16:00:00",
-    e_w_green: 11,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 22,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 3,
-    date: "16:00:00-24:00:00",
-    e_w_green: 35,
-    e_w_yellow: 2,
-    e_w_red: 19,
-    s_n_green: 32,
-    s_n_yellow: 5,
-    s_n_red: 21
-  }
-];
+const submitCalcImport = () => {
+  // 测试用表格数据
+  let testString =
+    '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 274.0,\n\t\t\t"east_mean" : 42.663299663299661,\n\t\t\t"east_min" : 1.0,\n\t\t\t"north_max" : 119.0,\n\t\t\t"north_mean" : 21.902439024390244,\n\t\t\t"north_min" : 1.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 58.0,\n\t\t\t"south_mean" : 3.8561151079136691,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 207.0,\n\t\t\t"west_mean" : 29.030716723549489,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 546.0,\n\t\t\t"east_mean" : 268.88102893890675,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 262.0,\n\t\t\t"north_mean" : 161.38943894389439,\n\t\t\t"north_min" : 41.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t],\n\t\t\t"south_max" : 181.0,\n\t\t\t"south_mean" : 40.148148148148145,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 633.0,\n\t\t\t"west_mean" : 235.14195583596214,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 831.0,\n\t\t\t"east_mean" : 371.11739130434785,\n\t\t\t"east_min" : 155.0,\n\t\t\t"north_max" : 303.0,\n\t\t\t"north_mean" : 177.36637931034483,\n\t\t\t"north_min" : 72.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"south_max" : 272.0,\n\t\t\t"south_mean" : 48.349137931034484,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 756.0,\n\t\t\t"west_mean" : 370.98706896551727,\n\t\t\t"west_min" : 140.0\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 181.0,\n\t\t\t"east_mean" : 27.483420593368237,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 107.0,\n\t\t\t"north_mean" : 16.751304347826085,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 55.0,\n\t\t\t"south_mean" : 2.0128205128205128,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 103.0,\n\t\t\t"west_mean" : 21.788756388415674,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 466.0,\n\t\t\t"east_mean" : 160.95412844036699,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 294.0,\n\t\t\t"north_mean" : 106.36529680365297,\n\t\t\t"north_min" : 25.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t80,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89\n\t\t\t],\n\t\t\t"south_max" : 148.0,\n\t\t\t"south_mean" : 19.95774647887324,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 247.0,\n\t\t\t"west_mean" : 117.74770642201835,\n\t\t\t"west_min" : 49.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 899.0,\n\t\t\t"east_mean" : 456.05134474327627,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 414.0,\n\t\t\t"north_mean" : 200.28423772609818,\n\t\t\t"north_min" : 51.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t],\n\t\t\t"south_max" : 219.0,\n\t\t\t"south_mean" : 39.661764705882355,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 859.0,\n\t\t\t"west_mean" : 443.92874692874693,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 691.0,\n\t\t\t"east_mean" : 278.7892503536068,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 290.0,\n\t\t\t"north_mean" : 158.70742358078601,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t81\n\t\t\t],\n\t\t\t"south_max" : 175.0,\n\t\t\t"south_mean" : 35.006906077348063,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 575.0,\n\t\t\t"west_mean" : 259.66810966810965,\n\t\t\t"west_min" : 0.0\n\t\t}\n\t]\n}\n';
 
-let Cal_Correct_WorkDayTableData: any = ref([
-  {
-    No: 1,
-    date: "00:00:00-06:00:00",
-    e_w_green: 33,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 33,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 2,
-    date: "06:00:00-12:00:00",
-    e_w_green: 11,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 22,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 3,
-    date: "12:00:00-18:00:00",
-    e_w_green: 35,
-    e_w_yellow: 2,
-    e_w_red: 19,
-    s_n_green: 32,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 4,
-    date: "18:00:00-24:00:00",
-    e_w_green: 23,
-    e_w_yellow: 4,
-    e_w_red: 11,
-    s_n_green: 23,
-    s_n_yellow: 5,
-    s_n_red: 18
-  }
-]);
+  // 流量值
+  let calcFlow = JSON.parse(testString);
+
+  let holiday_row: any[] = getImportFormatData(calcFlow.holiday_result);
+  let count = 1;
+  holiday_row.forEach(element => {
+    Cal_HoliDayTableData.value.push({
+      No: count,
+      date: element.timeSpan,
+      e_w_green: 33,
+      e_w_yellow: 5,
+      e_w_red: 21,
+      s_n_green: 33,
+      s_n_yellow: 5,
+      s_n_red: 21
+    });
+
+    Cal_Correct_HoliDayTableData.value.push({
+      No: count,
+      date: element.timeSpan,
+      e_w_green: 33,
+      e_w_yellow: 5,
+      e_w_red: 21,
+      s_n_green: 33,
+      s_n_yellow: 5,
+      s_n_red: 21
+    });
+
+    count++;
+  });
+
+  let workday_row: any[] = getImportFormatData(calcFlow.workday_result);
+  count = 1;
+  workday_row.forEach(element => {
+    Cal_WorkDayTableData.value.push({
+      No: count,
+      date: element.timeSpan,
+      e_w_green: 33,
+      e_w_yellow: 5,
+      e_w_red: 21,
+      s_n_green: 33,
+      s_n_yellow: 5,
+      s_n_red: 21
+    });
+
+    Cal_Correct_WorkDayTableData.value.push({
+      No: count,
+      date: element.timeSpan,
+      e_w_green: 33,
+      e_w_yellow: 5,
+      e_w_red: 21,
+      s_n_green: 33,
+      s_n_yellow: 5,
+      s_n_red: 21
+    });
+
+    count++;
+  });
+};
+
+const getImportFormatData = (importResult: any) => {
+  let dataRow: any[] = [];
+  importResult.forEach((element: any) => {
+    let slotArray: any = sortArr(element.slot_ids);
+
+    slotArray.forEach((slotArrayEle: any) => {
+      let firstVal: any = slotArrayEle[0];
+      let lastVal: any = slotArrayEle[slotArrayEle.length - 1];
+      let timeSpan = queryDataTable[Number(firstVal)] + " ~ " + queryDataTable[Number(lastVal + 1)];
+
+      dataRow.push({
+        id: firstVal,
+        timeSpan: timeSpan,
+        east_max: element.east_max,
+        east_mean: element.east_mean,
+        east_min: element.east_min,
+        south_max: element.south_max,
+        south_mean: element.south_mean,
+        south_min: element.south_min,
+        west_max: element.west_max,
+        west_mean: element.west_mean,
+        west_min: element.west_min,
+        north_max: element.north_max,
+        north_mean: element.north_mean,
+        north_min: element.north_min
+      });
+    });
+  });
+
+  return dataRow.sort(sortIdAsc);
+};
+
+// 从小到大 升序排序
+function sortIdAsc(a: any, b: any) {
+  return a.id - b.id;
+}
+
+const sortArr = (arr: any[]) => {
+  let result: any[][] = [],
+    i = 0;
+  const list = arr.sort((a, b) => a - b);
+  list.forEach((item, index) => {
+    if (index === 0) {
+      result[0] = [item];
+    } else if (item - list[index - 1] === 1) {
+      // 判断当前值 和 前一个值是否相差1
+      result[i].push(item);
+    } else {
+      result[++i] = [item]; // 开辟新空间。
+    }
+  });
+  return result;
+};
 
 const deleteRow_WorkDayTableData = (index: number) => {
   Cal_Correct_WorkDayTableData.value.splice(index, 1);
@@ -521,39 +526,6 @@ const onAddItem_WorkDayTableData = () => {
     s_n_red: 21
   });
 };
-
-let Cal_Correct_WeekDayTableData: any = ref([
-  {
-    No: 1,
-    date: "00:00:00-08:00:00",
-    e_w_green: 33,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 33,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 2,
-    date: "08:00:00-16:00:00",
-    e_w_green: 11,
-    e_w_yellow: 5,
-    e_w_red: 21,
-    s_n_green: 22,
-    s_n_yellow: 5,
-    s_n_red: 21
-  },
-  {
-    No: 3,
-    date: "16:00:00-24:00:00",
-    e_w_green: 35,
-    e_w_yellow: 2,
-    e_w_red: 19,
-    s_n_green: 32,
-    s_n_yellow: 5,
-    s_n_red: 21
-  }
-]);
 
 const deleteRow_WeekDayTableData = (index: number) => {
   Cal_Correct_WorkDayTableData.value.splice(index, 1);
@@ -1132,6 +1104,106 @@ const CalcProcessDialogRef = ref<InstanceType<typeof CalcProcessDialog> | null>(
 const openDialog = () => {
   CalcProcessDialogRef.value?.openDialog();
 };
+
+const queryDataTable = [
+  "00:00",
+  "00:15",
+  "00:30",
+  "00:45",
+  "01:00",
+  "01:15",
+  "01:30",
+  "01:45",
+  "02:00",
+  "02:15",
+  "02:30",
+  "02:45",
+  "03:00",
+  "03:15",
+  "03:30",
+  "03:45",
+  "04:00",
+  "04:15",
+  "04:30",
+  "04:45",
+  "05:00",
+  "05:15",
+  "05:30",
+  "05:45",
+  "06:00",
+  "06:15",
+  "06:30",
+  "06:45",
+  "07:00",
+  "07:15",
+  "07:30",
+  "07:45",
+  "08:00",
+  "08:15",
+  "08:30",
+  "08:45",
+  "09:00",
+  "09:15",
+  "09:30",
+  "09:45",
+  "10:00",
+  "10:15",
+  "10:30",
+  "10:45",
+  "11:00",
+  "11:15",
+  "11:30",
+  "11:45",
+  "12:00",
+  "12:15",
+  "12:30",
+  "12:45",
+  "13:00",
+  "13:15",
+  "13:30",
+  "13:45",
+  "14:00",
+  "14:15",
+  "14:30",
+  "14:45",
+  "15:00",
+  "15:15",
+  "15:30",
+  "15:45",
+  "16:00",
+  "16:15",
+  "16:30",
+  "16:45",
+  "17:00",
+  "17:15",
+  "17:30",
+  "17:45",
+  "18:00",
+  "18:15",
+  "18:30",
+  "08:45",
+  "19:00",
+  "19:15",
+  "19:30",
+  "19:45",
+  "20:00",
+  "20:15",
+  "20:30",
+  "20:45",
+  "21:00",
+  "21:15",
+  "21:30",
+  "21:45",
+  "22:00",
+  "22:15",
+  "22:30",
+  "22:45",
+  "23:00",
+  "23:15",
+  "23:30",
+  "23:45",
+  "24:00"
+];
 </script>
 
 <style scoped lang="scss">
