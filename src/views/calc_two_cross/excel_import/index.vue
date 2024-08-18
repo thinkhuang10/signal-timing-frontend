@@ -356,14 +356,13 @@
 </template>
 
 <script setup lang="ts" name="map">
-import { onMounted, ref, computed, reactive } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
-import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
-import { add_historian } from "@/api/modules/intersection_historian";
+import { get_detail_by_code } from "@/api/modules/intersection";
 import { get_calc_stiminge } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
-import { ElMessage, FormInstance } from "element-plus";
+import { FormInstance } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 
@@ -391,7 +390,7 @@ let Cal_HoliDayTableData: any = ref([]);
 let Cal_Correct_WorkDayTableData: any = ref([]);
 let Cal_Correct_HoliDayTableData: any = ref([]);
 
-const submitCalcImport = () => {
+const submitCalcImport = async () => {
   // 测试用表格数据
   let testString =
     '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 274.0,\n\t\t\t"east_mean" : 42.663299663299661,\n\t\t\t"east_min" : 1.0,\n\t\t\t"north_max" : 119.0,\n\t\t\t"north_mean" : 21.902439024390244,\n\t\t\t"north_min" : 1.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 58.0,\n\t\t\t"south_mean" : 3.8561151079136691,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 207.0,\n\t\t\t"west_mean" : 29.030716723549489,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 546.0,\n\t\t\t"east_mean" : 268.88102893890675,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 262.0,\n\t\t\t"north_mean" : 161.38943894389439,\n\t\t\t"north_min" : 41.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t],\n\t\t\t"south_max" : 181.0,\n\t\t\t"south_mean" : 40.148148148148145,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 633.0,\n\t\t\t"west_mean" : 235.14195583596214,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 831.0,\n\t\t\t"east_mean" : 371.11739130434785,\n\t\t\t"east_min" : 155.0,\n\t\t\t"north_max" : 303.0,\n\t\t\t"north_mean" : 177.36637931034483,\n\t\t\t"north_min" : 72.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"south_max" : 272.0,\n\t\t\t"south_mean" : 48.349137931034484,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 756.0,\n\t\t\t"west_mean" : 370.98706896551727,\n\t\t\t"west_min" : 140.0\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 181.0,\n\t\t\t"east_mean" : 27.483420593368237,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 107.0,\n\t\t\t"north_mean" : 16.751304347826085,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 55.0,\n\t\t\t"south_mean" : 2.0128205128205128,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 103.0,\n\t\t\t"west_mean" : 21.788756388415674,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 466.0,\n\t\t\t"east_mean" : 160.95412844036699,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 294.0,\n\t\t\t"north_mean" : 106.36529680365297,\n\t\t\t"north_min" : 25.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t80,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89\n\t\t\t],\n\t\t\t"south_max" : 148.0,\n\t\t\t"south_mean" : 19.95774647887324,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 247.0,\n\t\t\t"west_mean" : 117.74770642201835,\n\t\t\t"west_min" : 49.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 899.0,\n\t\t\t"east_mean" : 456.05134474327627,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 414.0,\n\t\t\t"north_mean" : 200.28423772609818,\n\t\t\t"north_min" : 51.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t],\n\t\t\t"south_max" : 219.0,\n\t\t\t"south_mean" : 39.661764705882355,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 859.0,\n\t\t\t"west_mean" : 443.92874692874693,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 691.0,\n\t\t\t"east_mean" : 278.7892503536068,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 290.0,\n\t\t\t"north_mean" : 158.70742358078601,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t81\n\t\t\t],\n\t\t\t"south_max" : 175.0,\n\t\t\t"south_mean" : 35.006906077348063,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 575.0,\n\t\t\t"west_mean" : 259.66810966810965,\n\t\t\t"west_min" : 0.0\n\t\t}\n\t]\n}\n';
@@ -400,60 +399,166 @@ const submitCalcImport = () => {
   let calcFlow = JSON.parse(testString);
 
   let holiday_row: any[] = getImportFormatData(calcFlow.holiday_result);
-  let count = 1;
-  holiday_row.forEach(element => {
-    Cal_HoliDayTableData.value.push({
-      No: count,
-      date: element.timeSpan,
-      e_w_green: 33,
-      e_w_yellow: 5,
-      e_w_red: 21,
-      s_n_green: 33,
-      s_n_yellow: 5,
-      s_n_red: 21
-    });
+  let holiday_id = 1;
+  holiday_row.forEach(async element => {
+    let input_infos_obj: any = getInputObjInfo(
+      element.east_max,
+      element.east_mean,
+      element.east_min,
+      element.south_max,
+      element.south_mean,
+      element.south_min,
+      element.west_max,
+      element.west_mean,
+      element.west_min,
+      element.north_max,
+      element.north_mean,
+      element.north_min
+    );
 
-    Cal_Correct_HoliDayTableData.value.push({
-      No: count,
-      date: element.timeSpan,
-      e_w_green: 33,
-      e_w_yellow: 5,
-      e_w_red: 21,
-      s_n_green: 33,
-      s_n_yellow: 5,
-      s_n_red: 21
-    });
+    console.log(input_infos_obj);
 
-    count++;
+    try {
+      // let calc_result = "11.5,22.5,33.5,44.5\n";
+      let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
+      calc_result = calc_result.replace(/\n$/, "");
+      let calc_outputs: any = calc_result.split(",");
+      Cal_HoliDayTableData.value.push({
+        No: holiday_id,
+        date: element.timeSpan,
+        e_w_green: Math.round(calc_outputs[0]),
+        e_w_yellow: 3,
+        e_w_red: Math.round(calc_outputs[1]),
+        s_n_green: Math.round(calc_outputs[2]),
+        s_n_yellow: 3,
+        s_n_red: Math.round(calc_outputs[3])
+      });
+
+      Cal_Correct_HoliDayTableData.value.push({
+        No: holiday_id,
+        date: element.timeSpan,
+        e_w_green: Math.round(calc_outputs[0]),
+        e_w_yellow: 3,
+        e_w_red: Math.round(calc_outputs[1]),
+        s_n_green: Math.round(calc_outputs[2]),
+        s_n_yellow: 3,
+        s_n_red: Math.round(calc_outputs[3])
+      });
+
+      holiday_id++;
+    } catch {
+      console.error("submitCalcImport error.");
+    }
   });
 
   let workday_row: any[] = getImportFormatData(calcFlow.workday_result);
-  count = 1;
-  workday_row.forEach(element => {
-    Cal_WorkDayTableData.value.push({
-      No: count,
-      date: element.timeSpan,
-      e_w_green: 33,
-      e_w_yellow: 5,
-      e_w_red: 21,
-      s_n_green: 33,
-      s_n_yellow: 5,
-      s_n_red: 21
-    });
+  let workday_id = 1;
+  workday_row.forEach(async element => {
+    let input_infos_obj: any = getInputObjInfo(
+      element.east_max,
+      element.east_mean,
+      element.east_min,
+      element.south_max,
+      element.south_mean,
+      element.south_min,
+      element.west_max,
+      element.west_mean,
+      element.west_min,
+      element.north_max,
+      element.north_mean,
+      element.north_min
+    );
 
-    Cal_Correct_WorkDayTableData.value.push({
-      No: count,
-      date: element.timeSpan,
-      e_w_green: 33,
-      e_w_yellow: 5,
-      e_w_red: 21,
-      s_n_green: 33,
-      s_n_yellow: 5,
-      s_n_red: 21
-    });
+    console.log(input_infos_obj);
 
-    count++;
+    try {
+      // let calc_result = "11.5,22.5,33.5,44.5\n";
+      let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
+      calc_result = calc_result.replace(/\n$/, "");
+      let calc_outputs: any = calc_result.split(",");
+
+      Cal_WorkDayTableData.value.push({
+        No: workday_id,
+        date: element.timeSpan,
+        e_w_green: Math.round(calc_outputs[0]),
+        e_w_yellow: 3,
+        e_w_red: Math.round(calc_outputs[1]),
+        s_n_green: Math.round(calc_outputs[2]),
+        s_n_yellow: 3,
+        s_n_red: Math.round(calc_outputs[3])
+      });
+
+      Cal_Correct_WorkDayTableData.value.push({
+        No: workday_id,
+        date: element.timeSpan,
+        e_w_green: Math.round(calc_outputs[0]),
+        e_w_yellow: 3,
+        e_w_red: Math.round(calc_outputs[1]),
+        s_n_green: Math.round(calc_outputs[2]),
+        s_n_yellow: 3,
+        s_n_red: Math.round(calc_outputs[3])
+      });
+
+      workday_id++;
+    } catch {
+      console.error("submitCalcImport error.");
+    }
   });
+};
+
+const getInputObjInfo = (
+  east_max: any,
+  east_mean: any,
+  east_min: any,
+  south_max: any,
+  south_mean: any,
+  south_min: any,
+  west_max: any,
+  west_mean: any,
+  west_min: any,
+  north_max: any,
+  north_mean: any,
+  north_min: any
+) => {
+  return {
+    T: Number(form_model.TRef),
+    ptime: Number(form_model.ptimeRef),
+    tortime: Number(form_model.tortimeRef),
+    ytime: Number(form_model.ytimeRef),
+    mingtime: Number(form_model.mingtimeRef),
+
+    w_eflow: Number(west_mean),
+    w_epathNS: Number(form_model.westTotalRoadCountRef),
+    w_epathsN: Number(form_model.westOutputRoadCountRef),
+    w_epathrN: Number(form_model.westRightRoadCountRef),
+    w_epathlen: Number(form_model.westNextDistanceRef),
+    w_eflowM: Number(west_max),
+    w_eflowN: Number(west_min),
+
+    e_wflow: Number(east_mean),
+    e_wpathNS: Number(form_model.eastTotalRoadCountRef),
+    e_wpathsN: Number(form_model.eastOutputRoadCountRef),
+    e_wpathrN: Number(form_model.eastRightRoadCountRef),
+    e_wpathlen: Number(form_model.eastNextDistanceRef),
+    e_wflowM: Number(east_max),
+    e_wflowN: Number(east_min),
+
+    n_sflow: Number(north_mean),
+    n_spathNS: Number(form_model.northTotalRoadCountRef),
+    n_spathsN: Number(form_model.northOutputRoadCountRef),
+    n_spathrN: Number(form_model.northRightRoadCountRef),
+    n_spathlen: Number(form_model.northNextDistanceRef),
+    n_sflowM: Number(north_max),
+    n_sflowN: Number(north_min),
+
+    s_nflow: Number(south_mean),
+    s_npathNS: Number(form_model.southTotalRoadCountRef),
+    s_npathsN: Number(form_model.southOutputRoadCountRef),
+    s_npathrN: Number(form_model.southRightRoadCountRef),
+    s_npathlen: Number(form_model.southNextDistanceRef),
+    s_nflowM: Number(south_max),
+    s_nflowN: Number(south_min)
+  };
 };
 
 const getImportFormatData = (importResult: any) => {
@@ -732,47 +837,6 @@ const rules = reactive({
 
 const ruleFormRef = ref<FormInstance>();
 
-const e_w_green_computed = computed(() => {
-  return Math.round(form_model.e_w_green_Ref);
-});
-
-const e_w_yellow_computed = computed(() => {
-  return Math.round(form_model.e_w_yellow_Ref);
-});
-
-const e_w_red_computed = computed(() => {
-  if (CheckEndWithDotFive(form_model.e_w_red_Ref) && form_model.e_w_red_Ref > 1) {
-    return Math.round(form_model.e_w_red_Ref - 1);
-  }
-
-  return Math.round(form_model.e_w_red_Ref);
-});
-
-const s_n_green_computed = computed(() => {
-  return Math.round(form_model.s_n_green_Ref);
-});
-
-const s_n_yellow_computed = computed(() => {
-  return Math.round(form_model.s_n_yellow_Ref);
-});
-
-const s_n_red_computed = computed(() => {
-  if (CheckEndWithDotFive(form_model.s_n_red_Ref) && form_model.s_n_red_Ref > 1) {
-    return Math.round(form_model.s_n_red_Ref - 1);
-  }
-
-  return Math.round(form_model.s_n_red_Ref);
-});
-
-// 请输 0.5 的倍数的数字
-function CheckEndWithDotFive(val: any) {
-  let input: any = val.toString();
-
-  if (input.endsWith(".5")) return true;
-
-  return false;
-}
-
 let isCalcButtonVisibleRef = ref(true);
 
 onMounted(async () => {
@@ -876,130 +940,10 @@ async function InitParameters() {
 }
 
 async function CloseDialog() {
-  // 调用数据接口计算
-  let input_infos_obj: any = GetInputObjInfo();
-
-  console.log(input_infos_obj);
-
   try {
-    // let calc_result = "11.5,22.5,33.5,44.5\n";
-    let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
-    calc_result = calc_result.replace(/\n$/, "");
-    let calc_outputs: any = calc_result.split(",");
-    if (calc_outputs.length >= 4) {
-      form_model.e_w_green_Ref = calc_outputs[0];
-      form_model.e_w_yellow_Ref = form_model.ytimeRef;
-      form_model.e_w_red_Ref = calc_outputs[1];
-
-      form_model.s_n_green_Ref = calc_outputs[2];
-      form_model.s_n_yellow_Ref = form_model.ytimeRef;
-      form_model.s_n_red_Ref = calc_outputs[3];
-
-      form_model.e_w_green_correct_Ref = e_w_green_computed.value;
-      form_model.e_w_yellow_correct_Ref = e_w_yellow_computed.value;
-      form_model.e_w_red_correct_Ref = e_w_red_computed.value;
-      form_model.s_n_green_correct_Ref = s_n_green_computed.value;
-      form_model.s_n_yellow_correct_Ref = s_n_yellow_computed.value;
-      form_model.s_n_red_correct_Ref = s_n_red_computed.value;
-    }
   } catch (error) {
     console.log("get_calc_stiminge 出现异常: " + error);
   }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function SaveParametersToSQL() {
-  // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
-    if (!valid) {
-      ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
-      return;
-    }
-
-    if ("" == selectedPositionRef.value) {
-      ElMessage.error({ message: "请选择位置！" });
-      return;
-    }
-
-    let isPTimeSuccess: any = CheckPTime();
-    if (!isPTimeSuccess) return;
-
-    // 调用数据接口计算
-    let input_infos_obj: any = GetInputObjInfo();
-
-    let output_infos_obj = {
-      e_w_red: Number(form_model.e_w_red_Ref),
-      e_w_yellow: Number(form_model.e_w_yellow_Ref),
-      e_w_green: Number(form_model.e_w_green_Ref),
-      s_n_red: Number(form_model.s_n_red_Ref),
-      s_n_yellow: Number(form_model.s_n_yellow_Ref),
-      s_n_green: Number(form_model.s_n_green_Ref),
-      e_w_red_correct: Number(form_model.e_w_red_correct_Ref),
-      e_w_yellow_correct: Number(form_model.e_w_yellow_correct_Ref),
-      e_w_green_correct: Number(form_model.e_w_green_correct_Ref),
-      s_n_red_correct: Number(form_model.s_n_red_correct_Ref),
-      s_n_yellow_correct: Number(form_model.s_n_yellow_correct_Ref),
-      s_n_green_correct: Number(form_model.s_n_green_correct_Ref)
-    };
-
-    // 保存数据到数
-    let input_infos_str: any = JSON.stringify(input_infos_obj);
-    let output_infos_str: any = JSON.stringify(output_infos_obj);
-    await set_detail_by_code({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
-    await add_historian({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
-
-    ElMessage.info({ message: "保存成功." });
-  });
-}
-
-function CheckPTime() {
-  if (
-    Number(form_model.TRef) !=
-    Number(form_model.e_w_red_correct_Ref) + Number(form_model.e_w_yellow_correct_Ref) + Number(form_model.e_w_green_correct_Ref)
-  ) {
-    ElMessage.error({ message: "东西实际输出结果之和不等于协同周期！" });
-    return false;
-  }
-
-  if (
-    Number(form_model.TRef) !=
-    Number(form_model.s_n_red_correct_Ref) + Number(form_model.s_n_yellow_correct_Ref) + Number(form_model.s_n_green_correct_Ref)
-  ) {
-    ElMessage.error({ message: "南北实际输出结果之和不等于协同周期！" });
-    return false;
-  }
-
-  return true;
-}
-
-function GetInputObjInfo() {
-  return {
-    T: Number(form_model.TRef),
-    ptime: Number(form_model.ptimeRef),
-    tortime: Number(form_model.tortimeRef),
-    ytime: Number(form_model.ytimeRef),
-    mingtime: Number(form_model.mingtimeRef),
-
-    w_epathNS: Number(form_model.westTotalRoadCountRef),
-    w_epathsN: Number(form_model.westOutputRoadCountRef),
-    w_epathrN: Number(form_model.westRightRoadCountRef),
-    w_epathlen: Number(form_model.westNextDistanceRef),
-
-    e_wpathNS: Number(form_model.eastTotalRoadCountRef),
-    e_wpathsN: Number(form_model.eastOutputRoadCountRef),
-    e_wpathrN: Number(form_model.eastRightRoadCountRef),
-    e_wpathlen: Number(form_model.eastNextDistanceRef),
-
-    n_spathNS: Number(form_model.northTotalRoadCountRef),
-    n_spathsN: Number(form_model.northOutputRoadCountRef),
-    n_spathrN: Number(form_model.northRightRoadCountRef),
-    n_spathlen: Number(form_model.northNextDistanceRef),
-
-    s_npathNS: Number(form_model.southTotalRoadCountRef),
-    s_npathsN: Number(form_model.southOutputRoadCountRef),
-    s_npathrN: Number(form_model.southRightRoadCountRef),
-    s_npathlen: Number(form_model.southNextDistanceRef)
-  };
 }
 
 function eastTotalRoadCountRefChange(selectedVal: any) {
