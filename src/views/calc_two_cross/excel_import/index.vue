@@ -230,7 +230,7 @@
             <el-upload
               ref="upload"
               class="upload-demo"
-              action="http://localhost:3001/upload/list"
+              action="/api/upload/list"
               :limit="1"
               :on-exceed="handleExceed"
               :auto-upload="false"
