@@ -727,6 +727,7 @@ const rules = reactive({
     { pattern: /^([1-9]|10)$/, message: "范围在1-10" }
   ],
 
+  // 一相位 正向
   f_fordflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
@@ -744,6 +745,7 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
+  // 一相位 反向
   f_oppflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
@@ -761,6 +763,7 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
+  // 二相位 正向
   s_fordflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
@@ -778,6 +781,7 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
+  // 二相位 反向
   s_oppflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
@@ -795,6 +799,7 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
+  // 三相位 正向
   t_fordflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
@@ -812,6 +817,7 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
+  // 三相位 反向
   t_oppflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }

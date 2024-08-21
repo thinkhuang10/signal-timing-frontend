@@ -365,6 +365,7 @@ import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
+import { get_Two_Cross_ImportFormatData } from "@/utils/import_calc";
 
 // const userStore = useUserStore();
 // const role = computed(() => userStore.userInfo.role);
@@ -398,60 +399,12 @@ const submitCalcImport = async () => {
   // 流量值
   let calcFlow = JSON.parse(testString);
 
-  let holiday_row: any[] = getImportFormatData(calcFlow.holiday_result);
-  let holiday_id = 1;
-  holiday_row.forEach(async element => {
-    let input_infos_obj: any = getInputObjInfo(
-      element.east_max,
-      element.east_mean,
-      element.east_min,
-      element.south_max,
-      element.south_mean,
-      element.south_min,
-      element.west_max,
-      element.west_mean,
-      element.west_min,
-      element.north_max,
-      element.north_mean,
-      element.north_min
-    );
+  calcWorkdayDataTable(calcFlow.workday_result);
+  calcHolidayDataTable(calcFlow.holiday_result);
+};
 
-    console.log(input_infos_obj);
-
-    try {
-      // let calc_result = "11.5,22.5,33.5,44.5\n";
-      let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
-      calc_result = calc_result.replace(/\n$/, "");
-      let calc_outputs: any = calc_result.split(",");
-      Cal_HoliDayTableData.value.push({
-        No: holiday_id,
-        date: element.timeSpan,
-        e_w_green: Math.round(calc_outputs[0]),
-        e_w_yellow: 3,
-        e_w_red: Math.round(calc_outputs[1]),
-        s_n_green: Math.round(calc_outputs[2]),
-        s_n_yellow: 3,
-        s_n_red: Math.round(calc_outputs[3])
-      });
-
-      Cal_Correct_HoliDayTableData.value.push({
-        No: holiday_id,
-        date: element.timeSpan,
-        e_w_green: Math.round(calc_outputs[0]),
-        e_w_yellow: 3,
-        e_w_red: Math.round(calc_outputs[1]),
-        s_n_green: Math.round(calc_outputs[2]),
-        s_n_yellow: 3,
-        s_n_red: Math.round(calc_outputs[3])
-      });
-
-      holiday_id++;
-    } catch {
-      console.error("submitCalcImport error.");
-    }
-  });
-
-  let workday_row: any[] = getImportFormatData(calcFlow.workday_result);
+function calcWorkdayDataTable(workdayFlow: any): void {
+  let workday_row: any[] = get_Two_Cross_ImportFormatData(workdayFlow);
   let workday_id = 1;
   workday_row.forEach(async element => {
     let input_infos_obj: any = getInputObjInfo(
@@ -504,7 +457,62 @@ const submitCalcImport = async () => {
       console.error("submitCalcImport error.");
     }
   });
-};
+}
+
+function calcHolidayDataTable(holidayFlow: any): void {
+  let holiday_row: any[] = get_Two_Cross_ImportFormatData(holidayFlow);
+  let holiday_id = 1;
+  holiday_row.forEach(async element => {
+    let input_infos_obj: any = getInputObjInfo(
+      element.east_max,
+      element.east_mean,
+      element.east_min,
+      element.south_max,
+      element.south_mean,
+      element.south_min,
+      element.west_max,
+      element.west_mean,
+      element.west_min,
+      element.north_max,
+      element.north_mean,
+      element.north_min
+    );
+
+    console.log(input_infos_obj);
+
+    try {
+      // let calc_result = "11.5,22.5,33.5,44.5\n";
+      let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
+      calc_result = calc_result.replace(/\n$/, "");
+      let calc_outputs: any = calc_result.split(",");
+      Cal_HoliDayTableData.value.push({
+        No: holiday_id,
+        date: element.timeSpan,
+        e_w_green: Math.round(calc_outputs[0]),
+        e_w_yellow: 3,
+        e_w_red: Math.round(calc_outputs[1]),
+        s_n_green: Math.round(calc_outputs[2]),
+        s_n_yellow: 3,
+        s_n_red: Math.round(calc_outputs[3])
+      });
+
+      Cal_Correct_HoliDayTableData.value.push({
+        No: holiday_id,
+        date: element.timeSpan,
+        e_w_green: Math.round(calc_outputs[0]),
+        e_w_yellow: 3,
+        e_w_red: Math.round(calc_outputs[1]),
+        s_n_green: Math.round(calc_outputs[2]),
+        s_n_yellow: 3,
+        s_n_red: Math.round(calc_outputs[3])
+      });
+
+      holiday_id++;
+    } catch {
+      console.error("submitCalcImport error.");
+    }
+  });
+}
 
 const getInputObjInfo = (
   east_max: any,
@@ -559,60 +567,6 @@ const getInputObjInfo = (
     s_nflowM: Number(south_max),
     s_nflowN: Number(south_min)
   };
-};
-
-const getImportFormatData = (importResult: any) => {
-  let dataRow: any[] = [];
-  importResult.forEach((element: any) => {
-    let slotArray: any = sortArr(element.slot_ids);
-
-    slotArray.forEach((slotArrayEle: any) => {
-      let firstVal: any = slotArrayEle[0];
-      let lastVal: any = slotArrayEle[slotArrayEle.length - 1];
-      let timeSpan = queryDataTable[Number(firstVal)] + " ~ " + queryDataTable[Number(lastVal + 1)];
-
-      dataRow.push({
-        id: firstVal,
-        timeSpan: timeSpan,
-        east_max: element.east_max,
-        east_mean: element.east_mean,
-        east_min: element.east_min,
-        south_max: element.south_max,
-        south_mean: element.south_mean,
-        south_min: element.south_min,
-        west_max: element.west_max,
-        west_mean: element.west_mean,
-        west_min: element.west_min,
-        north_max: element.north_max,
-        north_mean: element.north_mean,
-        north_min: element.north_min
-      });
-    });
-  });
-
-  return dataRow.sort(sortIdAsc);
-};
-
-// 从小到大 升序排序
-function sortIdAsc(a: any, b: any) {
-  return a.id - b.id;
-}
-
-const sortArr = (arr: any[]) => {
-  let result: any[][] = [],
-    i = 0;
-  const list = arr.sort((a, b) => a - b);
-  list.forEach((item, index) => {
-    if (index === 0) {
-      result[0] = [item];
-    } else if (item - list[index - 1] === 1) {
-      // 判断当前值 和 前一个值是否相差1
-      result[i].push(item);
-    } else {
-      result[++i] = [item]; // 开辟新空间。
-    }
-  });
-  return result;
 };
 
 const deleteRow_WorkDayTableData = (index: number) => {
@@ -1048,106 +1002,6 @@ const CalcProcessDialogRef = ref<InstanceType<typeof CalcProcessDialog> | null>(
 const openDialog = () => {
   CalcProcessDialogRef.value?.openDialog();
 };
-
-const queryDataTable = [
-  "00:00",
-  "00:15",
-  "00:30",
-  "00:45",
-  "01:00",
-  "01:15",
-  "01:30",
-  "01:45",
-  "02:00",
-  "02:15",
-  "02:30",
-  "02:45",
-  "03:00",
-  "03:15",
-  "03:30",
-  "03:45",
-  "04:00",
-  "04:15",
-  "04:30",
-  "04:45",
-  "05:00",
-  "05:15",
-  "05:30",
-  "05:45",
-  "06:00",
-  "06:15",
-  "06:30",
-  "06:45",
-  "07:00",
-  "07:15",
-  "07:30",
-  "07:45",
-  "08:00",
-  "08:15",
-  "08:30",
-  "08:45",
-  "09:00",
-  "09:15",
-  "09:30",
-  "09:45",
-  "10:00",
-  "10:15",
-  "10:30",
-  "10:45",
-  "11:00",
-  "11:15",
-  "11:30",
-  "11:45",
-  "12:00",
-  "12:15",
-  "12:30",
-  "12:45",
-  "13:00",
-  "13:15",
-  "13:30",
-  "13:45",
-  "14:00",
-  "14:15",
-  "14:30",
-  "14:45",
-  "15:00",
-  "15:15",
-  "15:30",
-  "15:45",
-  "16:00",
-  "16:15",
-  "16:30",
-  "16:45",
-  "17:00",
-  "17:15",
-  "17:30",
-  "17:45",
-  "18:00",
-  "18:15",
-  "18:30",
-  "08:45",
-  "19:00",
-  "19:15",
-  "19:30",
-  "19:45",
-  "20:00",
-  "20:15",
-  "20:30",
-  "20:45",
-  "21:00",
-  "21:15",
-  "21:30",
-  "21:45",
-  "22:00",
-  "22:15",
-  "22:30",
-  "22:45",
-  "23:00",
-  "23:15",
-  "23:30",
-  "23:45",
-  "24:00"
-];
 </script>
 
 <style scoped lang="scss">
