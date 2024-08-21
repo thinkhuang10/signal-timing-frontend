@@ -247,8 +247,8 @@
         </el-row>
         <el-row>
           <el-form-item style="margin-left: 20px">
-            <el-button type="primary" v-if="isCalcButtonVisibleRef">计算</el-button>
-            <el-button type="primary">保存</el-button>
+            <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="submitCalcImport">计算</el-button>
+            <!-- <el-button type="primary">保存</el-button> -->
           </el-form-item>
         </el-row>
       </el-form>
@@ -267,19 +267,19 @@
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
-          <el-table-column prop="e_w_green" label="绿灯" />
-          <el-table-column prop="e_w_yellow" label="黄灯" />
-          <el-table-column prop="e_w_red" label="红灯" />
+          <el-table-column prop="first_green" label="绿灯" />
+          <el-table-column prop="first_yellow" label="黄灯" />
+          <el-table-column prop="first_red" label="红灯" />
         </el-table-column>
         <el-table-column label="二相位">
-          <el-table-column prop="s_n_green" label="绿灯" />
-          <el-table-column prop="s_n_yellow" label="黄灯" />
-          <el-table-column prop="s_n_red" label="红灯" />
+          <el-table-column prop="second_green" label="绿灯" />
+          <el-table-column prop="second_yellow" label="黄灯" />
+          <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="s_n_green3" label="绿灯" />
-          <el-table-column prop="s_n_yellow3" label="黄灯" />
-          <el-table-column prop="s_n_red3" label="红灯" />
+          <el-table-column prop="third_green3" label="绿灯" />
+          <el-table-column prop="third_yellow3" label="黄灯" />
+          <el-table-column prop="third_red3" label="红灯" />
         </el-table-column>
       </el-table>
 
@@ -291,19 +291,19 @@
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
-          <el-table-column prop="e_w_green" label="绿灯" />
-          <el-table-column prop="e_w_yellow" label="黄灯" />
-          <el-table-column prop="e_w_red" label="红灯" />
+          <el-table-column prop="first_green" label="绿灯" />
+          <el-table-column prop="first_yellow" label="黄灯" />
+          <el-table-column prop="first_red" label="红灯" />
         </el-table-column>
         <el-table-column label="二相位">
-          <el-table-column prop="s_n_green" label="绿灯" />
-          <el-table-column prop="s_n_yellow" label="黄灯" />
-          <el-table-column prop="s_n_red" label="红灯" />
+          <el-table-column prop="second_green" label="绿灯" />
+          <el-table-column prop="second_yellow" label="黄灯" />
+          <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="s_n_green3" label="绿灯" />
-          <el-table-column prop="s_n_yellow3" label="黄灯" />
-          <el-table-column prop="s_n_red3" label="红灯" />
+          <el-table-column prop="third_green3" label="绿灯" />
+          <el-table-column prop="third_yellow3" label="黄灯" />
+          <el-table-column prop="third_red3" label="红灯" />
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
@@ -327,19 +327,19 @@
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
-          <el-table-column prop="e_w_green" label="绿灯" />
-          <el-table-column prop="e_w_yellow" label="黄灯" />
-          <el-table-column prop="e_w_red" label="红灯" />
+          <el-table-column prop="first_green" label="绿灯" />
+          <el-table-column prop="first_yellow" label="黄灯" />
+          <el-table-column prop="first_red" label="红灯" />
         </el-table-column>
         <el-table-column label="二相位">
-          <el-table-column prop="s_n_green" label="绿灯" />
-          <el-table-column prop="s_n_yellow" label="黄灯" />
-          <el-table-column prop="s_n_red" label="红灯" />
+          <el-table-column prop="second_green" label="绿灯" />
+          <el-table-column prop="second_yellow" label="黄灯" />
+          <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="s_n_green3" label="绿灯" />
-          <el-table-column prop="s_n_yellow3" label="黄灯" />
-          <el-table-column prop="s_n_red3" label="红灯" />
+          <el-table-column prop="third_green3" label="绿灯" />
+          <el-table-column prop="third_yellow3" label="黄灯" />
+          <el-table-column prop="third_red3" label="红灯" />
         </el-table-column>
       </el-table>
 
@@ -351,19 +351,19 @@
         <el-table-column prop="No" label="序号" width="60" />
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
-          <el-table-column prop="e_w_green" label="绿灯" />
-          <el-table-column prop="e_w_yellow" label="黄灯" />
-          <el-table-column prop="e_w_red" label="红灯" />
+          <el-table-column prop="first_green" label="绿灯" />
+          <el-table-column prop="first_yellow" label="黄灯" />
+          <el-table-column prop="first_red" label="红灯" />
         </el-table-column>
         <el-table-column label="二相位">
-          <el-table-column prop="s_n_green" label="绿灯" />
-          <el-table-column prop="s_n_yellow" label="黄灯" />
-          <el-table-column prop="s_n_red" label="红灯" />
+          <el-table-column prop="second_green" label="绿灯" />
+          <el-table-column prop="second_yellow" label="黄灯" />
+          <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="s_n_green3" label="绿灯" />
-          <el-table-column prop="s_n_yellow3" label="黄灯" />
-          <el-table-column prop="s_n_red3" label="红灯" />
+          <el-table-column prop="third_green3" label="绿灯" />
+          <el-table-column prop="third_yellow3" label="黄灯" />
+          <el-table-column prop="third_red3" label="红灯" />
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
@@ -382,12 +382,14 @@
 import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code } from "@/api/modules/intersection";
-import { get_calc_stiminge } from "@/api/modules/calc";
+import { get_calc_ttiming } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
+
+import { get_Three_Cross_ImportFormatData } from "@/utils/import_calc";
 
 // const userStore = useUserStore();
 // const role = computed(() => userStore.userInfo.role);
@@ -396,6 +398,241 @@ let Cal_WorkDayTableData: any = ref([]);
 let Cal_HoliDayTableData: any = ref([]);
 let Cal_Correct_WorkDayTableData: any = ref([]);
 let Cal_Correct_HoliDayTableData: any = ref([]);
+
+const submitCalcImport = async () => {
+  // 测试用表格数据
+  let testString =
+    '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 207.0,\n\t\t\t"first_backward_mean" : 29.030716723549489,\n\t\t\t"first_backward_min" : 1.0,\n\t\t\t"first_forward_max" : 274.0,\n\t\t\t"first_forward_mean" : 42.663299663299661,\n\t\t\t"first_forward_min" : 1.0,\n\t\t\t"second_backward_max" : 119.0,\n\t\t\t"second_backward_mean" : 21.902439024390244,\n\t\t\t"second_backward_min" : 1.0,\n\t\t\t"second_forward_max" : 90.0,\n\t\t\t"second_forward_mean" : 6.0036630036630036,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"third_backward_max" : 50.0,\n\t\t\t"third_backward_mean" : 1.6045627376425855,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 58.0,\n\t\t\t"third_forward_mean" : 3.8561151079136691,\n\t\t\t"third_forward_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 633.0,\n\t\t\t"first_backward_mean" : 236.71165644171779,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 546.0,\n\t\t\t"first_forward_mean" : 270.6043613707165,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 262.0,\n\t\t\t"second_backward_mean" : 161.22115384615384,\n\t\t\t"second_backward_min" : 41.0,\n\t\t\t"second_forward_max" : 266.0,\n\t\t\t"second_forward_mean" : 69.723723723723722,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t],\n\t\t\t"third_backward_max" : 136.0,\n\t\t\t"third_backward_mean" : 29.246246246246248,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 181.0,\n\t\t\t"third_forward_mean" : 40.477477477477478,\n\t\t\t"third_forward_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 756.0,\n\t\t\t"first_backward_mean" : 377.56,\n\t\t\t"first_backward_min" : 143.0,\n\t\t\t"first_forward_max" : 831.0,\n\t\t\t"first_forward_mean" : 373.57466063348414,\n\t\t\t"first_forward_min" : 155.0,\n\t\t\t"second_backward_max" : 303.0,\n\t\t\t"second_backward_mean" : 178.12946428571428,\n\t\t\t"second_backward_min" : 72.0,\n\t\t\t"second_forward_max" : 350.0,\n\t\t\t"second_forward_mean" : 87.311111111111117,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"third_backward_max" : 133.0,\n\t\t\t"third_backward_mean" : 37.266666666666666,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 272.0,\n\t\t\t"third_forward_mean" : 48.188340807174889,\n\t\t\t"third_forward_min" : 0.0\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 103.0,\n\t\t\t"first_backward_mean" : 19.27027027027027,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 169.0,\n\t\t\t"first_forward_mean" : 24.176165803108809,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 84.0,\n\t\t\t"second_backward_mean" : 14.93526405451448,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 73.0,\n\t\t\t"second_forward_mean" : 2.6304347826086958,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"third_backward_max" : 30.0,\n\t\t\t"third_backward_mean" : 0.13223140495867769,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 49.0,\n\t\t\t"third_forward_mean" : 1.623400365630713,\n\t\t\t"third_forward_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 247.0,\n\t\t\t"first_backward_mean" : 102.63436123348018,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 466.0,\n\t\t\t"first_forward_mean" : 141.37610619469027,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 294.0,\n\t\t\t"second_backward_mean" : 94.365638766519822,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 188.0,\n\t\t\t"second_forward_mean" : 30.20888888888889,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90\n\t\t\t],\n\t\t\t"third_backward_max" : 74.0,\n\t\t\t"third_backward_mean" : 11.581497797356828,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 148.0,\n\t\t\t"third_forward_mean" : 16.452054794520549,\n\t\t\t"third_forward_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 859.0,\n\t\t\t"first_backward_mean" : 433.27964205816556,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 899.0,\n\t\t\t"first_forward_mean" : 447.91928251121078,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 414.0,\n\t\t\t"second_backward_mean" : 199.06032482598607,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 687.0,\n\t\t\t"second_forward_mean" : 63.032894736842103,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"third_backward_max" : 599.0,\n\t\t\t"third_backward_mean" : 24.274122807017545,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 219.0,\n\t\t\t"third_forward_mean" : 39.058568329718007,\n\t\t\t"third_forward_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 575.0,\n\t\t\t"first_backward_mean" : 251.79372197309416,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 691.0,\n\t\t\t"first_forward_mean" : 272.4279475982533,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 240.0,\n\t\t\t"second_backward_mean" : 156.40779610194903,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 487.0,\n\t\t\t"second_forward_mean" : 54.290830945558739,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81\n\t\t\t],\n\t\t\t"third_backward_max" : 412.0,\n\t\t\t"third_backward_mean" : 19.536796536796537,\n\t\t\t"third_backward_min" : 0.0,\n\t\t\t"third_forward_max" : 175.0,\n\t\t\t"third_forward_mean" : 34.105485232067508,\n\t\t\t"third_forward_min" : 0.0\n\t\t}\n\t]\n}\n';
+
+  // 流量值
+  let calcFlow = JSON.parse(testString);
+
+  console.log(calcFlow);
+
+  calcWorkdayDataTable(calcFlow.workday_result);
+  calcHolidayDataTable(calcFlow.holiday_result);
+};
+
+function calcWorkdayDataTable(workdayFlow: any): void {
+  let workday_row: any[] = get_Three_Cross_ImportFormatData(workdayFlow);
+  let workday_id = 1;
+
+  Cal_WorkDayTableData.value = [];
+  Cal_Correct_WorkDayTableData.value = [];
+
+  workday_row.forEach(async element => {
+    let input_infos_obj: any = getInputObjInfo(
+      element.first_forward_max,
+      element.first_forward_mean,
+      element.first_forward_min,
+      element.first_backward_max,
+      element.first_backward_mean,
+      element.first_backward_min,
+      element.second_forward_max,
+      element.second_forward_mean,
+      element.second_forward_min,
+      element.second_backward_max,
+      element.second_backward_mean,
+      element.second_backward_min,
+      element.third_forward_max,
+      element.third_forward_mean,
+      element.third_forward_min,
+      element.third_backward_max,
+      element.third_backward_mean,
+      element.third_backward_min
+    );
+
+    console.log(input_infos_obj);
+
+    try {
+      // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
+      let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
+      calc_result = calc_result.replace(/\n$/, "");
+      let calc_outputs: any = calc_result.split(",");
+      if (calc_outputs.length >= 6) {
+        Cal_WorkDayTableData.value.push({
+          No: workday_id,
+          date: element.timeSpan,
+          first_green: Math.round(calc_outputs[0]),
+          first_yellow: 3,
+          first_red: Math.round(calc_outputs[1]),
+          second_green: Math.round(calc_outputs[2]),
+          second_yellow: 3,
+          second_red: Math.round(calc_outputs[3]),
+          third_green: Math.round(calc_outputs[4]),
+          third_yellow: 3,
+          third_red: Math.round(calc_outputs[5])
+        });
+
+        Cal_Correct_WorkDayTableData.value.push({
+          No: workday_id,
+          date: element.timeSpan,
+          first_green: Math.round(calc_outputs[0]),
+          first_yellow: 3,
+          first_red: Math.round(calc_outputs[1]),
+          second_green: Math.round(calc_outputs[2]),
+          second_yellow: 3,
+          second_red: Math.round(calc_outputs[3]),
+          third_green: Math.round(calc_outputs[4]),
+          third_yellow: 3,
+          third_red: Math.round(calc_outputs[5])
+        });
+
+        workday_id++;
+      }
+    } catch (error) {
+      console.log("get_calc_stimingf出现异常: " + error);
+    }
+  });
+}
+
+function calcHolidayDataTable(holidayFlow: any): void {
+  let holiday_row: any[] = get_Three_Cross_ImportFormatData(holidayFlow);
+  let holiday_id = 1;
+
+  Cal_HoliDayTableData.value = [];
+  Cal_Correct_HoliDayTableData.value = [];
+
+  holiday_row.forEach(async element => {
+    let input_infos_obj: any = getInputObjInfo(
+      element.east_max,
+      element.east_mean,
+      element.east_min,
+      element.south_max,
+      element.south_mean,
+      element.south_min,
+      element.west_max,
+      element.west_mean,
+      element.west_min,
+      element.north_max,
+      element.north_mean,
+      element.north_min,
+      element.third_forward_max,
+      element.third_forward_mean,
+      element.third_forward_min,
+      element.third_backward_max,
+      element.third_backward_mean,
+      element.third_backward_min
+    );
+
+    console.log(input_infos_obj);
+
+    try {
+      // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
+      let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
+      calc_result = calc_result.replace(/\n$/, "");
+      let calc_outputs: any = calc_result.split(",");
+      if (calc_outputs.length >= 6) {
+        Cal_HoliDayTableData.value.push({
+          No: holiday_id,
+          date: element.timeSpan,
+          first_green: Math.round(calc_outputs[0]),
+          first_yellow: 3,
+          first_red: Math.round(calc_outputs[1]),
+          second_green: Math.round(calc_outputs[2]),
+          second_yellow: 3,
+          second_red: Math.round(calc_outputs[3]),
+          third_green: Math.round(calc_outputs[4]),
+          third_yellow: 3,
+          third_red: Math.round(calc_outputs[5])
+        });
+
+        Cal_Correct_HoliDayTableData.value.push({
+          No: holiday_id,
+          date: element.timeSpan,
+          first_green: Math.round(calc_outputs[0]),
+          first_yellow: 3,
+          first_red: Math.round(calc_outputs[1]),
+          second_green: Math.round(calc_outputs[2]),
+          second_yellow: 3,
+          second_red: Math.round(calc_outputs[3]),
+          third_green: Math.round(calc_outputs[4]),
+          third_yellow: 3,
+          third_red: Math.round(calc_outputs[5])
+        });
+
+        holiday_id++;
+      }
+    } catch (error) {
+      console.log("get_calc_stimingf出现异常: " + error);
+    }
+  });
+}
+
+function getInputObjInfo(
+  first_forward_max: any,
+  first_forward_mean: any,
+  first_forward_min: any,
+  first_backward_max: any,
+  first_backward_mean: any,
+  first_backward_min: any,
+  second_forward_max: any,
+  second_forward_mean: any,
+  second_forward_min: any,
+  second_backward_max: any,
+  second_backward_mean: any,
+  second_backward_min: any,
+  third_forward_max: any,
+  third_forward_mean: any,
+  third_forward_min: any,
+  third_backward_max: any,
+  third_backward_mean: any,
+  third_backward_min: any
+) {
+  return {
+    T: Number(form_model.TRef),
+    ptime: Number(form_model.ptimeRef),
+    tortime: Number(form_model.tortimeRef),
+    ytime: Number(form_model.ytimeRef),
+    mingtime: Number(form_model.mingtimeRef),
+    E_pathNS: Number(form_model.E_pathNSRef),
+    W_pathNS: Number(form_model.W_pathNSRef),
+    S_pathNS: Number(form_model.S_pathNSRef),
+    N_pathNS: Number(form_model.N_pathNSRef),
+
+    f_fordflow: Number(first_forward_mean),
+    f_fordpathsN: Number(form_model.f_fordpathsNRef),
+    f_fordpathrN: Number(form_model.f_fordpathrNRef),
+    f_fordpathlen: Number(form_model.f_fordpathlenRef),
+    f_fordflowM: Number(first_forward_max),
+    f_fordflowN: Number(first_forward_min),
+
+    f_oppflow: Number(first_backward_mean),
+    f_opppathsN: Number(form_model.f_opppathsNRef),
+    f_opppathrN: Number(form_model.f_opppathrNRef),
+    f_opppathlen: Number(form_model.f_opppathlenRef),
+    f_oppflowM: Number(first_backward_max),
+    f_oppflowN: Number(first_backward_min),
+
+    s_fordflow: Number(second_forward_mean),
+    s_fordpathsN: Number(form_model.s_fordpathsNRef),
+    s_fordpathrN: Number(form_model.s_fordpathrNRef),
+    s_fordpathlen: Number(form_model.s_fordpathlenRef),
+    s_fordflowM: Number(second_forward_max),
+    s_fordflowN: Number(second_forward_min),
+
+    s_oppflow: Number(second_backward_mean),
+    s_opppathsN: Number(form_model.s_opppathsNRef),
+    s_opppathrN: Number(form_model.s_opppathrNRef),
+    s_opppathlen: Number(form_model.s_opppathlenRef),
+    s_oppflowM: Number(second_backward_max),
+    s_oppflowN: Number(second_backward_min),
+
+    t_fordflow: Number(third_forward_mean),
+    t_fordpathsN: Number(form_model.t_fordpathsNRef),
+    t_fordpathrN: Number(form_model.t_fordpathrNRef),
+    t_fordpathlen: Number(form_model.t_fordpathlenRef),
+    t_fordflowM: Number(third_forward_max),
+    t_fordflowN: Number(third_forward_min),
+
+    t_oppflow: Number(third_backward_mean),
+    t_opppathsN: Number(form_model.t_opppathsNRef),
+    t_opppathrN: Number(form_model.t_opppathrNRef),
+    t_opppathlen: Number(form_model.t_opppathlenRef),
+    t_oppflowM: Number(third_backward_max),
+    t_oppflowN: Number(third_backward_min)
+  };
+}
 
 const deleteRow_WorkDayTableData = (index: number) => {
   Cal_Correct_WorkDayTableData.value.splice(index, 1);
@@ -541,73 +778,29 @@ let form_model = reactive({
   S_pathNSRef: 4,
   N_pathNSRef: 4,
 
-  f_fordflowRef: 300,
   f_fordpathsNRef: 2,
   f_fordpathrNRef: 1,
   f_fordpathlenRef: 500,
-  f_fordflowMRef: 500,
-  f_fordflowNRef: 100,
 
-  f_oppflowRef: 300,
   f_opppathsNRef: 2,
   f_opppathrNRef: 1,
   f_opppathlenRef: 500,
-  f_oppflowMRef: 500,
-  f_oppflowNRef: 100,
 
-  s_fordflowRef: 300,
   s_fordpathsNRef: 2,
   s_fordpathrNRef: 1,
   s_fordpathlenRef: 500,
-  s_fordflowMRef: 500,
-  s_fordflowNRef: 100,
 
-  s_oppflowRef: 300,
   s_opppathsNRef: 2,
   s_opppathrNRef: 1,
   s_opppathlenRef: 500,
-  s_oppflowMRef: 500,
-  s_oppflowNRef: 100,
 
-  t_fordflowRef: 300,
   t_fordpathsNRef: 2,
   t_fordpathrNRef: 1,
   t_fordpathlenRef: 500,
-  t_fordflowMRef: 500,
-  t_fordflowNRef: 100,
 
-  t_oppflowRef: 300,
   t_opppathsNRef: 2,
   t_opppathrNRef: 1,
-  t_opppathlenRef: 500,
-  t_oppflowMRef: 500,
-  t_oppflowNRef: 100,
-
-  first_green_Ref: 0.0,
-  first_yellow_Ref: 0.0,
-  first_red_Ref: 0.0,
-
-  second_green_Ref: 0.0,
-  second_yellow_Ref: 0.0,
-  second_red_Ref: 0.0,
-
-  three_green_Ref: 0.0,
-  three_yellow_Ref: 0.0,
-  three_red_Ref: 0.0,
-
-  is_show_warning_Ref: false,
-
-  first_green_correct_Ref: 0.0,
-  first_yellow_correct_Ref: 0.0,
-  first_red_correct_Ref: 0.0,
-
-  second_green_correct_Ref: 0.0,
-  second_yellow_correct_Ref: 0.0,
-  second_red_correct_Ref: 0.0,
-
-  three_green_correct_Ref: 0.0,
-  three_yellow_correct_Ref: 0.0,
-  three_red_correct_Ref: 0.0
+  t_opppathlenRef: 500
 });
 
 /*
@@ -646,109 +839,37 @@ const rules = reactive({
   ],
 
   // 一相位 正向
-  f_fordflowRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
   f_fordpathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_fordflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_fordflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
   // 一相位 反向
-  f_oppflowRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
   f_opppathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_oppflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_oppflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
   // 二相位 正向
-  s_fordflowRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
   s_fordpathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_fordflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_fordflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
   // 二相位 反向
-  s_oppflowRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
   s_opppathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_oppflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_oppflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
   // 三相位 正向
-  t_fordflowRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
   t_fordpathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_fordflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_fordflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
   // 三相位 反向
-  t_oppflowRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
   t_opppathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_oppflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_oppflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ]
@@ -859,62 +980,30 @@ async function InitParameters() {
 
 async function CloseDialog() {
   // 调用数据接口计算
-  let input_infos_obj: any = GetInputObjInfo();
-
-  console.log(input_infos_obj);
-
-  try {
-    // let calc_result = "11.5,22.5,33.5,44.5\n";
-    let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
-    calc_result = calc_result.replace(/\n$/, "");
-    let calc_outputs: any = calc_result.split(",");
-    if (calc_outputs.length >= 4) {
-      // form_model.e_w_green_Ref = calc_outputs[0];
-      // form_model.e_w_yellow_Ref = form_model.ytimeRef;
-      // form_model.e_w_red_Ref = calc_outputs[1];
-      // form_model.s_n_green_Ref = calc_outputs[2];
-      // form_model.s_n_yellow_Ref = form_model.ytimeRef;
-      // form_model.s_n_red_Ref = calc_outputs[3];
-      // form_model.e_w_green_correct_Ref = e_w_green_computed.value;
-      // form_model.e_w_yellow_correct_Ref = e_w_yellow_computed.value;
-      // form_model.e_w_red_correct_Ref = e_w_red_computed.value;
-      // form_model.s_n_green_correct_Ref = s_n_green_computed.value;
-      // form_model.s_n_yellow_correct_Ref = s_n_yellow_computed.value;
-      // form_model.s_n_red_correct_Ref = s_n_red_computed.value;
-    }
-  } catch (error) {
-    console.log("get_calc_stiminge 出现异常: " + error);
-  }
-}
-
-function GetInputObjInfo() {
-  return {
-    T: Number(form_model.TRef),
-    ptime: Number(form_model.ptimeRef),
-    tortime: Number(form_model.tortimeRef),
-    ytime: Number(form_model.ytimeRef),
-    mingtime: Number(form_model.mingtimeRef)
-
-    // w_epathNS: Number(form_model.westTotalRoadCountRef),
-    // w_epathsN: Number(form_model.westOutputRoadCountRef),
-    // w_epathrN: Number(form_model.westRightRoadCountRef),
-    // w_epathlen: Number(form_model.westNextDistanceRef),
-
-    // e_wpathNS: Number(form_model.eastTotalRoadCountRef),
-    // e_wpathsN: Number(form_model.eastOutputRoadCountRef),
-    // e_wpathrN: Number(form_model.eastRightRoadCountRef),
-    // e_wpathlen: Number(form_model.eastNextDistanceRef),
-
-    // n_spathNS: Number(form_model.northTotalRoadCountRef),
-    // n_spathsN: Number(form_model.northOutputRoadCountRef),
-    // n_spathrN: Number(form_model.northRightRoadCountRef),
-    // n_spathlen: Number(form_model.northNextDistanceRef),
-
-    // s_npathNS: Number(form_model.southTotalRoadCountRef),
-    // s_npathsN: Number(form_model.southOutputRoadCountRef),
-    // s_npathrN: Number(form_model.southRightRoadCountRef),
-    // s_npathlen: Number(form_model.southNextDistanceRef)
-  };
+  // let input_infos_obj: any = getInputObjInfo();
+  // console.log(input_infos_obj);
+  // try {
+  //   // let calc_result = "11.5,22.5,33.5,44.5\n";
+  //   let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
+  //   calc_result = calc_result.replace(/\n$/, "");
+  //   let calc_outputs: any = calc_result.split(",");
+  //   if (calc_outputs.length >= 4) {
+  //     // form_model.e_w_green_Ref = calc_outputs[0];
+  //     // form_model.e_w_yellow_Ref = form_model.ytimeRef;
+  //     // form_model.e_w_red_Ref = calc_outputs[1];
+  //     // form_model.s_n_green_Ref = calc_outputs[2];
+  //     // form_model.s_n_yellow_Ref = form_model.ytimeRef;
+  //     // form_model.s_n_red_Ref = calc_outputs[3];
+  //     // form_model.e_w_green_correct_Ref = e_w_green_computed.value;
+  //     // form_model.e_w_yellow_correct_Ref = e_w_yellow_computed.value;
+  //     // form_model.e_w_red_correct_Ref = e_w_red_computed.value;
+  //     // form_model.s_n_green_correct_Ref = s_n_green_computed.value;
+  //     // form_model.s_n_yellow_correct_Ref = s_n_yellow_computed.value;
+  //     // form_model.s_n_red_correct_Ref = s_n_red_computed.value;
+  //   }
+  // } catch (error) {
+  //   console.log("get_calc_stiminge 出现异常: " + error);
+  // }
 }
 
 // function eastTotalRoadCountRefChange(selectedVal: any) {
