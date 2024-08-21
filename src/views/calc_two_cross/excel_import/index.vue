@@ -406,6 +406,10 @@ const submitCalcImport = async () => {
 function calcWorkdayDataTable(workdayFlow: any): void {
   let workday_row: any[] = get_Two_Cross_ImportFormatData(workdayFlow);
   let workday_id = 1;
+
+  Cal_WorkDayTableData.value = [];
+  Cal_Correct_WorkDayTableData.value = [];
+
   workday_row.forEach(async element => {
     let input_infos_obj: any = getInputObjInfo(
       element.east_max,
@@ -462,6 +466,10 @@ function calcWorkdayDataTable(workdayFlow: any): void {
 function calcHolidayDataTable(holidayFlow: any): void {
   let holiday_row: any[] = get_Two_Cross_ImportFormatData(holidayFlow);
   let holiday_id = 1;
+
+  Cal_HoliDayTableData.value = [];
+  Cal_Correct_HoliDayTableData.value = [];
+
   holiday_row.forEach(async element => {
     let input_infos_obj: any = getInputObjInfo(
       element.east_max,

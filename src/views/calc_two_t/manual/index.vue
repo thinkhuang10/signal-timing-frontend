@@ -932,7 +932,7 @@ async function CloseDialog() {
       form_model.second_red_correct_Ref = second_red_computed.value;
     }
   } catch (error) {
-    console.log("get_calc_stiminge出现异常: " + error);
+    console.log("get_calc_stimingf出现异常: " + error);
   }
 }
 

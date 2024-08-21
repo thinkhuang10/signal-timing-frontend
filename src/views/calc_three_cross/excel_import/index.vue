@@ -98,23 +98,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="f_fordflowRef">
-              <el-input v-model="form_model.f_fordflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="f_fordflowNRef">
-              <el-input v-model="form_model.f_fordflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="f_fordflowMRef">
-              <el-input v-model="form_model.f_fordflowMRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-        </el-row>
 
         <!-- 一相位 逆向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
@@ -140,23 +123,6 @@
           <el-col :span="6">
             <el-form-item label="距前路口距离(米)" prop="f_opppathlenRef">
               <el-input v-model="form_model.f_opppathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="f_oppflowRef">
-              <el-input v-model="form_model.f_oppflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="f_oppflowNRef">
-              <el-input v-model="form_model.f_oppflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="f_oppflowMRef">
-              <el-input v-model="form_model.f_oppflowMRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -188,23 +154,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="s_fordflowRef">
-              <el-input v-model="form_model.s_fordflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="s_fordflowNRef">
-              <el-input v-model="form_model.s_fordflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="s_fordflowMRef">
-              <el-input v-model="form_model.s_fordflowMRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-        </el-row>
 
         <!-- 二相位 逆向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
@@ -230,23 +179,6 @@
           <el-col :span="6">
             <el-form-item label="距前路口距离(米)" prop="s_opppathlenRef">
               <el-input v-model="form_model.s_opppathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="s_oppflowRef">
-              <el-input v-model="form_model.s_oppflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="s_oppflowNRef">
-              <el-input v-model="form_model.s_oppflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="s_oppflowMRef">
-              <el-input v-model="form_model.s_oppflowMRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -278,23 +210,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="t_fordflowRef">
-              <el-input v-model="form_model.t_fordflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="t_fordflowNRef">
-              <el-input v-model="form_model.t_fordflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="t_fordflowMRef">
-              <el-input v-model="form_model.t_fordflowMRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-        </el-row>
 
         <!-- 三相位 逆向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
@@ -320,23 +235,6 @@
           <el-col :span="6">
             <el-form-item label="距前路口距离(米)" prop="t_opppathlenRef">
               <el-input v-model="form_model.t_opppathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="t_oppflowRef">
-              <el-input v-model="form_model.t_oppflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="t_oppflowNRef">
-              <el-input v-model="form_model.t_oppflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="t_oppflowMRef">
-              <el-input v-model="form_model.t_oppflowMRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
