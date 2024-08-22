@@ -290,9 +290,9 @@
           <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="third_green3" label="绿灯" />
-          <el-table-column prop="third_yellow3" label="黄灯" />
-          <el-table-column prop="third_red3" label="红灯" />
+          <el-table-column prop="third_green" label="绿灯" />
+          <el-table-column prop="third_yellow" label="黄灯" />
+          <el-table-column prop="third_red" label="红灯" />
         </el-table-column>
       </el-table>
 
@@ -314,9 +314,9 @@
           <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="third_green3" label="绿灯" />
-          <el-table-column prop="third_yellow3" label="黄灯" />
-          <el-table-column prop="third_red3" label="红灯" />
+          <el-table-column prop="third_green" label="绿灯" />
+          <el-table-column prop="third_yellow" label="黄灯" />
+          <el-table-column prop="third_red" label="红灯" />
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
@@ -350,9 +350,9 @@
           <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="third_green3" label="绿灯" />
-          <el-table-column prop="third_yellow3" label="黄灯" />
-          <el-table-column prop="third_red3" label="红灯" />
+          <el-table-column prop="third_green" label="绿灯" />
+          <el-table-column prop="third_yellow" label="黄灯" />
+          <el-table-column prop="third_red" label="红灯" />
         </el-table-column>
       </el-table>
 
@@ -374,9 +374,9 @@
           <el-table-column prop="second_red" label="红灯" />
         </el-table-column>
         <el-table-column label="三相位">
-          <el-table-column prop="third_green3" label="绿灯" />
-          <el-table-column prop="third_yellow3" label="黄灯" />
-          <el-table-column prop="third_red3" label="红灯" />
+          <el-table-column prop="third_green" label="绿灯" />
+          <el-table-column prop="third_yellow" label="黄灯" />
+          <el-table-column prop="third_red" label="红灯" />
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
