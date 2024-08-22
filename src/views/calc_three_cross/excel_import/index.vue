@@ -241,8 +241,21 @@
 
         <el-row>
           <el-form-item style="margin-left: 20px">
-            <el-button type="primary">数据上传</el-button>
-            <el-text style="margin-left: 15px" type="info">数据样表.xls</el-text>
+            <!-- <el-button type="primary">数据上传</el-button>
+            <el-text style="margin-left: 15px" type="info">数据样表.xls</el-text> -->
+            <el-upload
+              ref="upload"
+              class="upload-demo"
+              action="/api/upload/list"
+              :limit="1"
+              :on-exceed="handleExceed"
+              :auto-upload="false"
+            >
+              <template #trigger>
+                <el-button type="primary">选择文件</el-button>
+              </template>
+              <el-button style="margin-left: 15px" type="success" @click="submitUpload">数据上传</el-button>
+            </el-upload>
           </el-form-item>
         </el-row>
         <el-row>
@@ -264,7 +277,7 @@
         <span style="color: #28b779">计算输出结果</span>
       </el-divider>
       <el-table :data="Cal_WorkDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
           <el-table-column prop="first_green" label="绿灯" />
@@ -288,7 +301,7 @@
         <span style="color: #28b779">实际输出结果</span>
       </el-divider>
       <el-table :data="Cal_Correct_WorkDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
           <el-table-column prop="first_green" label="绿灯" />
@@ -324,7 +337,7 @@
         <span style="color: #28b779">计算输出结果</span>
       </el-divider>
       <el-table :data="Cal_HoliDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
           <el-table-column prop="first_green" label="绿灯" />
@@ -348,7 +361,7 @@
         <span style="color: #28b779">实际输出结果</span>
       </el-divider>
       <el-table :data="Cal_Correct_HoliDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="一相位">
           <el-table-column prop="first_green" label="绿灯" />
@@ -389,10 +402,27 @@ import { FormInstance } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 
-import { get_Three_Cross_ImportFormatData } from "@/utils/import_calc";
+import { get_Three_Cross_ImportFormatData, sortIdAsc } from "@/utils/import_calc";
 
 // const userStore = useUserStore();
 // const role = computed(() => userStore.userInfo.role);
+
+// 配置上传文件
+import { genFileId } from "element-plus";
+import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+
+const upload = ref<UploadInstance>();
+
+const handleExceed: UploadProps["onExceed"] = files => {
+  upload.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  upload.value!.handleStart(file);
+};
+
+const submitUpload = () => {
+  upload.value!.submit();
+};
 
 let Cal_WorkDayTableData: any = ref([]);
 let Cal_HoliDayTableData: any = ref([]);
@@ -415,7 +445,6 @@ const submitCalcImport = async () => {
 
 function calcWorkdayDataTable(workdayFlow: any): void {
   let workday_row: any[] = get_Three_Cross_ImportFormatData(workdayFlow);
-  let workday_id = 1;
 
   Cal_WorkDayTableData.value = [];
   Cal_Correct_WorkDayTableData.value = [];
@@ -442,8 +471,6 @@ function calcWorkdayDataTable(workdayFlow: any): void {
       element.third_backward_min
     );
 
-    console.log(input_infos_obj);
-
     try {
       // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
       let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
@@ -451,7 +478,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
       let calc_outputs: any = calc_result.split(",");
       if (calc_outputs.length >= 6) {
         Cal_WorkDayTableData.value.push({
-          No: workday_id,
+          id: element.id,
           date: element.timeSpan,
           first_green: Math.round(calc_outputs[0]),
           first_yellow: 3,
@@ -463,9 +490,11 @@ function calcWorkdayDataTable(workdayFlow: any): void {
           third_yellow: 3,
           third_red: Math.round(calc_outputs[5])
         });
+
+        Cal_WorkDayTableData.value.sort(sortIdAsc);
 
         Cal_Correct_WorkDayTableData.value.push({
-          No: workday_id,
+          id: element.id,
           date: element.timeSpan,
           first_green: Math.round(calc_outputs[0]),
           first_yellow: 3,
@@ -478,7 +507,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
           third_red: Math.round(calc_outputs[5])
         });
 
-        workday_id++;
+        Cal_Correct_WorkDayTableData.value.sort(sortIdAsc);
       }
     } catch (error) {
       console.log("get_calc_stimingf出现异常: " + error);
@@ -488,7 +517,6 @@ function calcWorkdayDataTable(workdayFlow: any): void {
 
 function calcHolidayDataTable(holidayFlow: any): void {
   let holiday_row: any[] = get_Three_Cross_ImportFormatData(holidayFlow);
-  let holiday_id = 1;
 
   Cal_HoliDayTableData.value = [];
   Cal_Correct_HoliDayTableData.value = [];
@@ -515,8 +543,6 @@ function calcHolidayDataTable(holidayFlow: any): void {
       element.third_backward_min
     );
 
-    console.log(input_infos_obj);
-
     try {
       // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
       let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
@@ -524,7 +550,7 @@ function calcHolidayDataTable(holidayFlow: any): void {
       let calc_outputs: any = calc_result.split(",");
       if (calc_outputs.length >= 6) {
         Cal_HoliDayTableData.value.push({
-          No: holiday_id,
+          id: element.id,
           date: element.timeSpan,
           first_green: Math.round(calc_outputs[0]),
           first_yellow: 3,
@@ -536,9 +562,11 @@ function calcHolidayDataTable(holidayFlow: any): void {
           third_yellow: 3,
           third_red: Math.round(calc_outputs[5])
         });
+
+        Cal_HoliDayTableData.value.sort(sortIdAsc);
 
         Cal_Correct_HoliDayTableData.value.push({
-          No: holiday_id,
+          id: element.id,
           date: element.timeSpan,
           first_green: Math.round(calc_outputs[0]),
           first_yellow: 3,
@@ -551,7 +579,7 @@ function calcHolidayDataTable(holidayFlow: any): void {
           third_red: Math.round(calc_outputs[5])
         });
 
-        holiday_id++;
+        Cal_Correct_HoliDayTableData.value.sort(sortIdAsc);
       }
     } catch (error) {
       console.log("get_calc_stimingf出现异常: " + error);

@@ -261,7 +261,7 @@
         <span style="color: #28b779">计算输出结果</span>
       </el-divider>
       <el-table :data="Cal_WorkDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="东-西">
           <el-table-column prop="e_w_green" label="绿灯" />
@@ -280,7 +280,7 @@
         <span style="color: #28b779">实际输出结果</span>
       </el-divider>
       <el-table :data="Cal_Correct_WorkDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="东-西">
           <el-table-column prop="e_w_green" label="绿灯" />
@@ -311,7 +311,7 @@
         <span style="color: #28b779">计算输出结果</span>
       </el-divider>
       <el-table :data="Cal_HoliDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="东-西">
           <el-table-column prop="e_w_green" label="绿灯" />
@@ -330,7 +330,7 @@
         <span style="color: #28b779">实际输出结果</span>
       </el-divider>
       <el-table :data="Cal_Correct_HoliDayTableData" style="width: 100%">
-        <el-table-column prop="No" label="序号" width="60" />
+        <!-- <el-table-column prop="No" label="序号" width="60" /> -->
         <el-table-column prop="date" label="时间段" width="160" />
         <el-table-column label="东-西">
           <el-table-column prop="e_w_green" label="绿灯" />
@@ -365,11 +365,12 @@ import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
-import { get_Two_Cross_ImportFormatData } from "@/utils/import_calc";
+import { get_Two_Cross_ImportFormatData, sortIdAsc } from "@/utils/import_calc";
 
 // const userStore = useUserStore();
 // const role = computed(() => userStore.userInfo.role);
 
+// 配置上传文件
 import { genFileId } from "element-plus";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 
@@ -405,7 +406,6 @@ const submitCalcImport = async () => {
 
 function calcWorkdayDataTable(workdayFlow: any): void {
   let workday_row: any[] = get_Two_Cross_ImportFormatData(workdayFlow);
-  let workday_id = 1;
 
   Cal_WorkDayTableData.value = [];
   Cal_Correct_WorkDayTableData.value = [];
@@ -426,8 +426,6 @@ function calcWorkdayDataTable(workdayFlow: any): void {
       element.north_min
     );
 
-    console.log(input_infos_obj);
-
     try {
       // let calc_result = "11.5,22.5,33.5,44.5\n";
       let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
@@ -435,7 +433,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
       let calc_outputs: any = calc_result.split(",");
 
       Cal_WorkDayTableData.value.push({
-        No: workday_id,
+        id: element.id,
         date: element.timeSpan,
         e_w_green: Math.round(calc_outputs[0]),
         e_w_yellow: 3,
@@ -444,9 +442,11 @@ function calcWorkdayDataTable(workdayFlow: any): void {
         s_n_yellow: 3,
         s_n_red: Math.round(calc_outputs[3])
       });
+
+      Cal_WorkDayTableData.value.sort(sortIdAsc);
 
       Cal_Correct_WorkDayTableData.value.push({
-        No: workday_id,
+        id: element.id,
         date: element.timeSpan,
         e_w_green: Math.round(calc_outputs[0]),
         e_w_yellow: 3,
@@ -456,7 +456,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
         s_n_red: Math.round(calc_outputs[3])
       });
 
-      workday_id++;
+      Cal_Correct_WorkDayTableData.value.sort(sortIdAsc);
     } catch {
       console.error("submitCalcImport error.");
     }
@@ -465,7 +465,6 @@ function calcWorkdayDataTable(workdayFlow: any): void {
 
 function calcHolidayDataTable(holidayFlow: any): void {
   let holiday_row: any[] = get_Two_Cross_ImportFormatData(holidayFlow);
-  let holiday_id = 1;
 
   Cal_HoliDayTableData.value = [];
   Cal_Correct_HoliDayTableData.value = [];
@@ -486,15 +485,13 @@ function calcHolidayDataTable(holidayFlow: any): void {
       element.north_min
     );
 
-    console.log(input_infos_obj);
-
     try {
       // let calc_result = "11.5,22.5,33.5,44.5\n";
       let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
       calc_result = calc_result.replace(/\n$/, "");
       let calc_outputs: any = calc_result.split(",");
       Cal_HoliDayTableData.value.push({
-        No: holiday_id,
+        id: element.id,
         date: element.timeSpan,
         e_w_green: Math.round(calc_outputs[0]),
         e_w_yellow: 3,
@@ -503,9 +500,11 @@ function calcHolidayDataTable(holidayFlow: any): void {
         s_n_yellow: 3,
         s_n_red: Math.round(calc_outputs[3])
       });
+
+      Cal_HoliDayTableData.value.sort(sortIdAsc);
 
       Cal_Correct_HoliDayTableData.value.push({
-        No: holiday_id,
+        id: element.id,
         date: element.timeSpan,
         e_w_green: Math.round(calc_outputs[0]),
         e_w_yellow: 3,
@@ -515,7 +514,7 @@ function calcHolidayDataTable(holidayFlow: any): void {
         s_n_red: Math.round(calc_outputs[3])
       });
 
-      holiday_id++;
+      Cal_Correct_HoliDayTableData.value.sort(sortIdAsc);
     } catch {
       console.error("submitCalcImport error.");
     }
