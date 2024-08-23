@@ -67,7 +67,7 @@ const openDialog = async () => {
 
   colorIntervalId = setInterval(() => {
     increase();
-  }, 1000);
+  }, 1);
 
   intervalId = setTimeout(() => {
     dialogVisible.value = false;

@@ -73,7 +73,7 @@ const openDialog = async () => {
     dialogVisible.value = false;
     clearInterval(colorIntervalId);
     clearInterval(intervalId);
-  }, random * 1000);
+  }, random * 1);
 };
 
 function CloseDialog() {

@@ -225,20 +225,20 @@
 
         <el-row>
           <el-form-item style="margin-left: 20px">
-            <!-- <el-button type="primary">数据上传</el-button>
-            <el-text style="margin-left: 15px" type="info">数据样表.xls</el-text> -->
             <el-upload
               ref="upload"
-              class="upload-demo"
               action="/api/upload/list"
               :limit="1"
               :on-exceed="handleExceed"
               :auto-upload="false"
+              :before-upload="beforeFileUpload"
+              :on-success="uploadFileSuccess"
+              accept=".xls,.xlsx"
             >
               <template #trigger>
-                <el-button type="primary">选择文件</el-button>
+                <el-button type="primary" style="margin-right: 15px">选择文件</el-button>
               </template>
-              <el-button style="margin-left: 15px" type="success" @click="submitUpload">数据上传</el-button>
+              <el-button type="success" @click="submitUpload">数据上传</el-button>
             </el-upload>
           </el-form-item>
         </el-row>
@@ -360,9 +360,10 @@ import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code } from "@/api/modules/intersection";
 import { get_calc_stiminge } from "@/api/modules/calc";
+import { getCheckExcelFormat } from "@/api/modules/calc_import";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
-import { FormInstance } from "element-plus";
+import { FormInstance, ElMessage } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 import { get_Two_Cross_ImportFormatData, sortIdAsc } from "@/utils/import_calc";
@@ -387,22 +388,64 @@ const submitUpload = () => {
   upload.value!.submit();
 };
 
+function beforeFileUpload(file: any) {
+  if ("数据报表-十字.xls" != file.name && "数据报表-十字.xlsx" != file.name) {
+    ElMessage.error("确保文件名称正确：数据报表-十字");
+    return false;
+  }
+
+  return true;
+}
+
+let isSuccessUploadFile: any = false;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function uploadFileSuccess(response: any, file: any, fileList: any) {
+  let isRightFormat = await getCheckExcelFormat({ fileName: file.name });
+
+  if (isRightFormat.data) {
+    isSuccessUploadFile = true;
+    ElMessage.success("文件上传成功.");
+  } else {
+    ElMessage.error("文件格式错误.");
+  }
+}
+
 let Cal_WorkDayTableData: any = ref([]);
 let Cal_HoliDayTableData: any = ref([]);
 let Cal_Correct_WorkDayTableData: any = ref([]);
 let Cal_Correct_HoliDayTableData: any = ref([]);
 
 const submitCalcImport = async () => {
-  // 测试用表格数据
-  let testString =
-    '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 274.0,\n\t\t\t"east_mean" : 42.663299663299661,\n\t\t\t"east_min" : 1.0,\n\t\t\t"north_max" : 119.0,\n\t\t\t"north_mean" : 21.902439024390244,\n\t\t\t"north_min" : 1.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 58.0,\n\t\t\t"south_mean" : 3.8561151079136691,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 207.0,\n\t\t\t"west_mean" : 29.030716723549489,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 546.0,\n\t\t\t"east_mean" : 268.88102893890675,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 262.0,\n\t\t\t"north_mean" : 161.38943894389439,\n\t\t\t"north_min" : 41.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t],\n\t\t\t"south_max" : 181.0,\n\t\t\t"south_mean" : 40.148148148148145,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 633.0,\n\t\t\t"west_mean" : 235.14195583596214,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 831.0,\n\t\t\t"east_mean" : 371.11739130434785,\n\t\t\t"east_min" : 155.0,\n\t\t\t"north_max" : 303.0,\n\t\t\t"north_mean" : 177.36637931034483,\n\t\t\t"north_min" : 72.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"south_max" : 272.0,\n\t\t\t"south_mean" : 48.349137931034484,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 756.0,\n\t\t\t"west_mean" : 370.98706896551727,\n\t\t\t"west_min" : 140.0\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 181.0,\n\t\t\t"east_mean" : 27.483420593368237,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 107.0,\n\t\t\t"north_mean" : 16.751304347826085,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 55.0,\n\t\t\t"south_mean" : 2.0128205128205128,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 103.0,\n\t\t\t"west_mean" : 21.788756388415674,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 466.0,\n\t\t\t"east_mean" : 160.95412844036699,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 294.0,\n\t\t\t"north_mean" : 106.36529680365297,\n\t\t\t"north_min" : 25.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t80,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89\n\t\t\t],\n\t\t\t"south_max" : 148.0,\n\t\t\t"south_mean" : 19.95774647887324,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 247.0,\n\t\t\t"west_mean" : 117.74770642201835,\n\t\t\t"west_min" : 49.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 899.0,\n\t\t\t"east_mean" : 456.05134474327627,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 414.0,\n\t\t\t"north_mean" : 200.28423772609818,\n\t\t\t"north_min" : 51.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t],\n\t\t\t"south_max" : 219.0,\n\t\t\t"south_mean" : 39.661764705882355,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 859.0,\n\t\t\t"west_mean" : 443.92874692874693,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 691.0,\n\t\t\t"east_mean" : 278.7892503536068,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 290.0,\n\t\t\t"north_mean" : 158.70742358078601,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t81\n\t\t\t],\n\t\t\t"south_max" : 175.0,\n\t\t\t"south_mean" : 35.006906077348063,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 575.0,\n\t\t\t"west_mean" : 259.66810966810965,\n\t\t\t"west_min" : 0.0\n\t\t}\n\t]\n}\n';
+  // 数据正确性检测
+  ruleFormRef.value!.validate(async valid => {
+    if (!valid) {
+      ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
+      return;
+    }
 
-  // 流量值
-  let calcFlow = JSON.parse(testString);
+    if (!isSuccessUploadFile) {
+      ElMessage.error("请首先上传文件.");
+      return;
+    }
 
-  calcWorkdayDataTable(calcFlow.workday_result);
-  calcHolidayDataTable(calcFlow.holiday_result);
+    openDialog();
+  });
 };
+
+async function CloseDialog() {
+  try {
+    // 测试用表格数据
+    let testString =
+      '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 274.0,\n\t\t\t"east_mean" : 42.663299663299661,\n\t\t\t"east_min" : 1.0,\n\t\t\t"north_max" : 119.0,\n\t\t\t"north_mean" : 21.902439024390244,\n\t\t\t"north_min" : 1.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 58.0,\n\t\t\t"south_mean" : 3.8561151079136691,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 207.0,\n\t\t\t"west_mean" : 29.030716723549489,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 546.0,\n\t\t\t"east_mean" : 268.88102893890675,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 262.0,\n\t\t\t"north_mean" : 161.38943894389439,\n\t\t\t"north_min" : 41.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t],\n\t\t\t"south_max" : 181.0,\n\t\t\t"south_mean" : 40.148148148148145,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 633.0,\n\t\t\t"west_mean" : 235.14195583596214,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 831.0,\n\t\t\t"east_mean" : 371.11739130434785,\n\t\t\t"east_min" : 155.0,\n\t\t\t"north_max" : 303.0,\n\t\t\t"north_mean" : 177.36637931034483,\n\t\t\t"north_min" : 72.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"south_max" : 272.0,\n\t\t\t"south_mean" : 48.349137931034484,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 756.0,\n\t\t\t"west_mean" : 370.98706896551727,\n\t\t\t"west_min" : 140.0\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 181.0,\n\t\t\t"east_mean" : 27.483420593368237,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 107.0,\n\t\t\t"north_mean" : 16.751304347826085,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 55.0,\n\t\t\t"south_mean" : 2.0128205128205128,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 103.0,\n\t\t\t"west_mean" : 21.788756388415674,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 466.0,\n\t\t\t"east_mean" : 160.95412844036699,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 294.0,\n\t\t\t"north_mean" : 106.36529680365297,\n\t\t\t"north_min" : 25.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t80,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89\n\t\t\t],\n\t\t\t"south_max" : 148.0,\n\t\t\t"south_mean" : 19.95774647887324,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 247.0,\n\t\t\t"west_mean" : 117.74770642201835,\n\t\t\t"west_min" : 49.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 899.0,\n\t\t\t"east_mean" : 456.05134474327627,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 414.0,\n\t\t\t"north_mean" : 200.28423772609818,\n\t\t\t"north_min" : 51.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t],\n\t\t\t"south_max" : 219.0,\n\t\t\t"south_mean" : 39.661764705882355,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 859.0,\n\t\t\t"west_mean" : 443.92874692874693,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 691.0,\n\t\t\t"east_mean" : 278.7892503536068,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 290.0,\n\t\t\t"north_mean" : 158.70742358078601,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t81\n\t\t\t],\n\t\t\t"south_max" : 175.0,\n\t\t\t"south_mean" : 35.006906077348063,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 575.0,\n\t\t\t"west_mean" : 259.66810966810965,\n\t\t\t"west_min" : 0.0\n\t\t}\n\t]\n}\n';
+
+    // 流量值
+    let calcFlow = JSON.parse(testString);
+    calcWorkdayDataTable(calcFlow.workday_result);
+    calcHolidayDataTable(calcFlow.holiday_result);
+  } catch (error) {
+    console.log("计算 数据导入-两相位-十字 出现异常: " + error);
+  }
+}
 
 function calcWorkdayDataTable(workdayFlow: any): void {
   let workday_row: any[] = get_Two_Cross_ImportFormatData(workdayFlow);
@@ -897,13 +940,6 @@ async function InitParameters() {
         form_model.s_n_red_correct_Ref = outputObj.s_n_red_correct;
       }
     }
-  }
-}
-
-async function CloseDialog() {
-  try {
-  } catch (error) {
-    console.log("get_calc_stiminge 出现异常: " + error);
   }
 }
 
