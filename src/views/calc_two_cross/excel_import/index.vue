@@ -389,8 +389,8 @@ const submitUpload = () => {
 };
 
 function beforeFileUpload(file: any) {
-  if ("数据报表-十字.xls" != file.name && "数据报表-十字.xlsx" != file.name) {
-    ElMessage.error("确保文件名称正确：数据报表-十字");
+  if ("数据样表-十字.xls" != file.name && "数据样表-十字.xlsx" != file.name) {
+    ElMessage.error("确保文件名称正确：数据样表-十字");
     return false;
   }
 

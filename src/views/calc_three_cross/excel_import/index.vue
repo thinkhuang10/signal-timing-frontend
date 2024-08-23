@@ -428,8 +428,8 @@ const submitUpload = () => {
 };
 
 function beforeFileUpload(file: any) {
-  if ("数据报表-三相位.xls" != file.name && "数据报表-三相位.xlsx" != file.name) {
-    ElMessage.error("确保文件名称正确：数据报表-三相位");
+  if ("数据样表-三相位.xls" != file.name && "数据样表-三相位.xlsx" != file.name) {
+    ElMessage.error("确保文件名称正确：数据样表-三相位");
     return false;
   }
 
