@@ -481,18 +481,18 @@ function calcHolidayDataTable(holidayFlow: any): void {
 
   holiday_row.forEach(async element => {
     let input_infos_obj: any = getInputObjInfo(
-      element.east_max,
-      element.east_mean,
-      element.east_min,
-      element.south_max,
-      element.south_mean,
-      element.south_min,
-      element.west_max,
-      element.west_mean,
-      element.west_min,
-      element.north_max,
-      element.north_mean,
-      element.north_min
+      element.first_forward_max,
+      element.first_forward_mean,
+      element.first_forward_min,
+      element.first_backward_max,
+      element.first_backward_mean,
+      element.first_backward_min,
+      element.second_forward_max,
+      element.second_forward_mean,
+      element.second_forward_min,
+      element.second_backward_max,
+      element.second_backward_mean,
+      element.second_backward_min
     );
 
     try {
@@ -796,47 +796,6 @@ const rules = reactive({
 });
 
 const ruleFormRef = ref<FormInstance>();
-
-// const e_w_green_computed = computed(() => {
-//   return Math.round(form_model.e_w_green_Ref);
-// });
-
-// const e_w_yellow_computed = computed(() => {
-//   return Math.round(form_model.e_w_yellow_Ref);
-// });
-
-// const e_w_red_computed = computed(() => {
-//   if (CheckEndWithDotFive(form_model.e_w_red_Ref) && form_model.e_w_red_Ref > 1) {
-//     return Math.round(form_model.e_w_red_Ref - 1);
-//   }
-
-//   return Math.round(form_model.e_w_red_Ref);
-// });
-
-// const s_n_green_computed = computed(() => {
-//   return Math.round(form_model.s_n_green_Ref);
-// });
-
-// const s_n_yellow_computed = computed(() => {
-//   return Math.round(form_model.s_n_yellow_Ref);
-// });
-
-// const s_n_red_computed = computed(() => {
-//   if (CheckEndWithDotFive(form_model.s_n_red_Ref) && form_model.s_n_red_Ref > 1) {
-//     return Math.round(form_model.s_n_red_Ref - 1);
-//   }
-
-//   return Math.round(form_model.s_n_red_Ref);
-// });
-
-// 请输 0.5 的倍数的数字
-// function CheckEndWithDotFive(val: any) {
-//   let input: any = val.toString();
-
-//   if (input.endsWith(".5")) return true;
-
-//   return false;
-// }
 
 let isCalcButtonVisibleRef = ref(true);
 
