@@ -185,8 +185,6 @@
 
         <el-row>
           <el-form-item style="margin-left: 20px">
-            <!-- <el-button type="primary">数据上传</el-button>
-            <el-text style="margin-left: 15px" type="info">数据样表.xls</el-text> -->
             <el-upload
               ref="upload"
               action="/api/upload/list"
@@ -195,7 +193,7 @@
               :auto-upload="false"
               :before-upload="beforeFileUpload"
               :on-success="uploadFileSuccess"
-              accept=".xls,.xlsx"
+              accept=".xls"
             >
               <template #trigger>
                 <el-button type="primary">选择文件</el-button>
@@ -355,8 +353,8 @@ const submitUpload = () => {
 };
 
 function beforeFileUpload(file: any) {
-  if ("数据样表-T型.xls" != file.name && "数据样表-T型.xlsx" != file.name) {
-    ElMessage.error("确保文件名称正确：数据样表-T型");
+  if ("两相位-T型.xls" != file.name) {
+    ElMessage.error("确保文件名称正确：两相位-T型.xls");
     return false;
   }
 
