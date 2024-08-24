@@ -261,7 +261,7 @@
         <el-row>
           <el-form-item style="margin-left: 20px">
             <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="submitCalcImport">计算</el-button>
-            <!-- <el-button type="primary">保存</el-button> -->
+            <el-button type="primary" @click="SaveParametersToSQL">保存</el-button>
           </el-form-item>
         </el-row>
       </el-form>
@@ -396,7 +396,7 @@ import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code } from "@/api/modules/intersection";
 import { get_calc_ttiming } from "@/api/modules/calc";
-import { getCheckExcelFormat, getTraffic_data_preprocessing_v23 } from "@/api/modules/calc_import";
+import { getCheckExcelFormat, getTraffic_data_preprocessing_v23, set_import_detail_by_code } from "@/api/modules/calc_import";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { ElMessage, FormInstance } from "element-plus";
@@ -469,6 +469,7 @@ const submitCalcImport = async () => {
   });
 };
 
+let isCalcFinish: any = false;
 async function CloseDialog() {
   try {
     // // 测试用表格数据
@@ -481,6 +482,8 @@ async function CloseDialog() {
     let calcFlow = JSON.parse(excelString);
     calcWorkdayDataTable(calcFlow.workday_result);
     calcHolidayDataTable(calcFlow.holiday_result);
+
+    isCalcFinish = true;
   } catch (error) {
     console.log("计算 数据导入-三相位-十字 出现异常: " + error);
   }
@@ -960,7 +963,7 @@ onMounted(async () => {
   params.pageNum = 1;
   params.pageSize = 1000;
   params.type = 1;
-  params.calc_type = "两相位";
+  params.calc_type = "三相位";
   params.crossing_type = "十字路口";
 
   let result: any = await get_list(params);
@@ -1047,6 +1050,102 @@ async function InitParameters() {
       }
     }
   }
+}
+
+async function SaveParametersToSQL() {
+  // 数据正确性检测
+  ruleFormRef.value!.validate(async valid => {
+    if (!isCalcFinish) {
+      ElMessage.error({ message: "请先完成计算再保存！" });
+      return;
+    }
+
+    if (!valid) {
+      ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
+      return;
+    }
+
+    if ("" == selectedPositionRef.value) {
+      ElMessage.error({ message: "请选择位置！" });
+      return;
+    }
+
+    // 调用数据接口计算
+    let import_input_parameters_obj: any = getImportInputParameters();
+
+    // 保存数据到数据库
+    let import_input_parameters: any = JSON.stringify(import_input_parameters_obj);
+    let import_workday_calc_table: any = JSON.stringify(Cal_WorkDayTableData.value);
+    let import_holiday_calc_table: any = JSON.stringify(Cal_HoliDayTableData.value);
+    let import_workday_real_table: any = JSON.stringify(Cal_Correct_WorkDayTableData.value);
+    let import_holiday_real_table: any = JSON.stringify(Cal_Correct_HoliDayTableData.value);
+    await set_import_detail_by_code({
+      code: codeRef.value,
+      import_input_parameters: import_input_parameters,
+      import_workday_calc_table: import_workday_calc_table,
+      import_holiday_calc_table: import_holiday_calc_table,
+      import_workday_real_table: import_workday_real_table,
+      import_holiday_real_table: import_holiday_real_table
+    });
+
+    ElMessage.info({ message: "保存成功." });
+  });
+}
+
+function getImportInputParameters() {
+  return {
+    T: Number(form_model.TRef),
+    ptime: Number(form_model.ptimeRef),
+    tortime: Number(form_model.tortimeRef),
+    ytime: Number(form_model.ytimeRef),
+    mingtime: Number(form_model.mingtimeRef),
+    E_pathNS: Number(form_model.E_pathNSRef),
+    W_pathNS: Number(form_model.W_pathNSRef),
+    S_pathNS: Number(form_model.S_pathNSRef),
+    N_pathNS: Number(form_model.N_pathNSRef),
+
+    // f_fordflow: Number(first_forward_mean),
+    f_fordpathsN: Number(form_model.f_fordpathsNRef),
+    f_fordpathrN: Number(form_model.f_fordpathrNRef),
+    f_fordpathlen: Number(form_model.f_fordpathlenRef),
+    // f_fordflowM: Number(first_forward_max),
+    // f_fordflowN: Number(first_forward_min),
+
+    // f_oppflow: Number(first_backward_mean),
+    f_opppathsN: Number(form_model.f_opppathsNRef),
+    f_opppathrN: Number(form_model.f_opppathrNRef),
+    f_opppathlen: Number(form_model.f_opppathlenRef),
+    // f_oppflowM: Number(first_backward_max),
+    // f_oppflowN: Number(first_backward_min),
+
+    // s_fordflow: Number(second_forward_mean),
+    s_fordpathsN: Number(form_model.s_fordpathsNRef),
+    s_fordpathrN: Number(form_model.s_fordpathrNRef),
+    s_fordpathlen: Number(form_model.s_fordpathlenRef),
+    // s_fordflowM: Number(second_forward_max),
+    // s_fordflowN: Number(second_forward_min),
+
+    // s_oppflow: Number(second_backward_mean),
+    s_opppathsN: Number(form_model.s_opppathsNRef),
+    s_opppathrN: Number(form_model.s_opppathrNRef),
+    s_opppathlen: Number(form_model.s_opppathlenRef),
+    // s_oppflowM: Number(second_backward_max),
+    // s_oppflowN: Number(second_backward_min),
+
+    // t_fordflow: Number(third_forward_mean),
+    t_fordpathsN: Number(form_model.t_fordpathsNRef),
+    t_fordpathrN: Number(form_model.t_fordpathrNRef),
+    t_fordpathlen: Number(form_model.t_fordpathlenRef),
+    // t_fordflowM: Number(third_forward_max),
+    // t_fordflowN: Number(third_forward_min),
+
+    // t_oppflow: Number(third_backward_mean),
+    t_opppathsN: Number(form_model.t_opppathsNRef),
+    t_opppathrN: Number(form_model.t_opppathrNRef),
+    t_opppathlen: Number(form_model.t_opppathlenRef)
+    // t_oppflowM: Number(third_backward_max),
+    // t_oppflowN: Number(third_backward_min)
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

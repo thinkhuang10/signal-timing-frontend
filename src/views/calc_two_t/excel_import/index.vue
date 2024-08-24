@@ -205,7 +205,7 @@
         <el-row>
           <el-form-item style="margin-left: 20px">
             <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="submitCalcImport">计算</el-button>
-            <!-- <el-button type="primary">保存</el-button> -->
+            <el-button type="primary" @click="SaveParametersToSQL">保存</el-button>
           </el-form-item>
         </el-row>
       </el-form>
@@ -319,11 +319,11 @@
 import { onMounted, ref, reactive } from "vue";
 // import { computed} from "vue";
 import router from "@/routers";
-import { get_detail_by_code } from "@/api/modules/intersection";
 // import { set_detail_by_code } from "@/api/modules/intersection";
 // import { add_historian } from "@/api/modules/intersection_historian";
-import { get_calc_stimingf } from "@/api/modules/calc";
-import { getCheckExcelFormat, getTraffic_data_preprocessing_v22 } from "@/api/modules/calc_import";
+// import { get_calc_stimingf } from "@/api/modules/calc";
+import { getCheckExcelFormat, get_import_detail_by_code, set_import_detail_by_code } from "@/api/modules/calc_import";
+// import { getTraffic_data_preprocessing_v22 } from "@/api/modules/calc_import";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { ElMessage, FormInstance } from "element-plus";
@@ -396,18 +396,21 @@ const submitCalcImport = async () => {
   });
 };
 
+let isCalcFinish: any = false;
 async function CloseDialog() {
   try {
     // 测试用表格数据
-    // let excelString =
-    //   '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 207.0,\n\t\t\t"first_backward_mean" : 29.030716723549489,\n\t\t\t"first_backward_min" : 1.0,\n\t\t\t"first_forward_max" : 274.0,\n\t\t\t"first_forward_mean" : 42.663299663299661,\n\t\t\t"first_forward_min" : 1.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 90.0,\n\t\t\t"second_forward_mean" : 6.0036630036630036,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 633.0,\n\t\t\t"first_backward_mean" : 235.14195583596214,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 546.0,\n\t\t\t"first_forward_mean" : 268.88102893890675,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 266.0,\n\t\t\t"second_forward_mean" : 69.23456790123457,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 756.0,\n\t\t\t"first_backward_mean" : 370.98706896551727,\n\t\t\t"first_backward_min" : 140.0,\n\t\t\t"first_forward_max" : 831.0,\n\t\t\t"first_forward_mean" : 371.11739130434785,\n\t\t\t"first_forward_min" : 155.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 350.0,\n\t\t\t"second_forward_mean" : 87.311965811965806,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t]\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 103.0,\n\t\t\t"first_backward_mean" : 20.17049180327869,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 181.0,\n\t\t\t"first_forward_mean" : 25.813333333333333,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 76.0,\n\t\t\t"second_forward_mean" : 2.5790408525754884,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 247.0,\n\t\t\t"first_backward_mean" : 113.07929515418502,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 466.0,\n\t\t\t"first_forward_mean" : 153.76991150442478,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 188.0,\n\t\t\t"second_forward_mean" : 33.062222222222225,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t80,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 859.0,\n\t\t\t"first_backward_mean" : 433.27964205816556,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 899.0,\n\t\t\t"first_forward_mean" : 447.91928251121078,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 687.0,\n\t\t\t"second_forward_mean" : 63.032894736842103,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 575.0,\n\t\t\t"first_backward_mean" : 254.27426810477658,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 691.0,\n\t\t\t"first_forward_mean" : 273.85607196401799,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 487.0,\n\t\t\t"second_forward_mean" : 54.293943870014772,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t81\n\t\t\t]\n\t\t}\n\t]\n}\n';
+    let excelString =
+      '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 207.0,\n\t\t\t"first_backward_mean" : 29.030716723549489,\n\t\t\t"first_backward_min" : 1.0,\n\t\t\t"first_forward_max" : 274.0,\n\t\t\t"first_forward_mean" : 42.663299663299661,\n\t\t\t"first_forward_min" : 1.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 90.0,\n\t\t\t"second_forward_mean" : 6.0036630036630036,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 633.0,\n\t\t\t"first_backward_mean" : 235.14195583596214,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 546.0,\n\t\t\t"first_forward_mean" : 268.88102893890675,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 266.0,\n\t\t\t"second_forward_mean" : 69.23456790123457,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 756.0,\n\t\t\t"first_backward_mean" : 370.98706896551727,\n\t\t\t"first_backward_min" : 140.0,\n\t\t\t"first_forward_max" : 831.0,\n\t\t\t"first_forward_mean" : 371.11739130434785,\n\t\t\t"first_forward_min" : 155.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 350.0,\n\t\t\t"second_forward_mean" : 87.311965811965806,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t]\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 103.0,\n\t\t\t"first_backward_mean" : 20.17049180327869,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 181.0,\n\t\t\t"first_forward_mean" : 25.813333333333333,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 76.0,\n\t\t\t"second_forward_mean" : 2.5790408525754884,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 247.0,\n\t\t\t"first_backward_mean" : 113.07929515418502,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 466.0,\n\t\t\t"first_forward_mean" : 153.76991150442478,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 188.0,\n\t\t\t"second_forward_mean" : 33.062222222222225,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t80,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 859.0,\n\t\t\t"first_backward_mean" : 433.27964205816556,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 899.0,\n\t\t\t"first_forward_mean" : 447.91928251121078,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 687.0,\n\t\t\t"second_forward_mean" : 63.032894736842103,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74,\n\t\t\t\t75\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 575.0,\n\t\t\t"first_backward_mean" : 254.27426810477658,\n\t\t\t"first_backward_min" : 0.0,\n\t\t\t"first_forward_max" : 691.0,\n\t\t\t"first_forward_mean" : 273.85607196401799,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 2.2250738585072014e-308,\n\t\t\t"second_backward_mean" : 0.0,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 487.0,\n\t\t\t"second_forward_mean" : 54.293943870014772,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t81\n\t\t\t]\n\t\t}\n\t]\n}\n';
 
-    let excelString: any = (await getTraffic_data_preprocessing_v22({ fileName: "两相位-T型.xls" })).data;
+    // let excelString: any = (await getTraffic_data_preprocessing_v22({ fileName: "两相位-T型.xls" })).data;
 
     // 流量值
     let calcFlow = JSON.parse(excelString);
     calcWorkdayDataTable(calcFlow.workday_result);
     calcHolidayDataTable(calcFlow.holiday_result);
+
+    isCalcFinish = true;
   } catch (error) {
     console.log("计算 数据导入-两相位-T型 出现异常: " + error);
   }
@@ -435,9 +438,11 @@ function calcWorkdayDataTable(workdayFlow: any): void {
       element.second_backward_min
     );
 
+    console.log(input_infos_obj);
+
     try {
-      // let calc_result = "11.11,22.22,33.33,44.44\n";
-      let calc_result: any = (await get_calc_stimingf(input_infos_obj)).data;
+      let calc_result = "11.11,22.22,33.33,44.44\n";
+      // let calc_result: any = (await get_calc_stimingf(input_infos_obj)).data;
       calc_result = calc_result.replace(/\n$/, "");
       let calc_outputs: any = calc_result.split(",");
       if (calc_outputs.length >= 4) {
@@ -495,9 +500,11 @@ function calcHolidayDataTable(holidayFlow: any): void {
       element.second_backward_min
     );
 
+    console.log(input_infos_obj);
+
     try {
-      // let calc_result = "11.11,22.22,33.33,44.44\n";
-      let calc_result: any = (await get_calc_stimingf(input_infos_obj)).data;
+      let calc_result = "11.11,22.22,33.33,44.44\n";
+      // let calc_result: any = (await get_calc_stimingf(input_infos_obj)).data;
       calc_result = calc_result.replace(/\n$/, "");
       let calc_outputs: any = calc_result.split(",");
       if (calc_outputs.length >= 4) {
@@ -810,7 +817,7 @@ onMounted(async () => {
   params.pageSize = 1000;
   params.type = 1;
   params.calc_type = "两相位";
-  params.crossing_type = "十字路口";
+  params.crossing_type = "T型路口";
 
   let result: any = await get_list(params);
   for (let i = 0; i < result.data.list.length; i++) {
@@ -832,13 +839,13 @@ function positionRefChange(selectedVal: any) {
 }
 
 async function InitParameters() {
-  let detail_infos: any = await get_detail_by_code({ code: codeRef.value });
+  let detail_infos: any = await get_import_detail_by_code({ code: codeRef.value });
   let result: any = detail_infos.data[0];
   if (undefined != result) {
     positionRef.value = "位置: " + result.position;
 
-    if (null != result.input_parameters && "" != result.input_parameters) {
-      let inputObj: any = JSON.parse(result.input_parameters);
+    if (null != result.import_input_parameters && "" != result.import_input_parameters) {
+      let inputObj: any = JSON.parse(result.import_input_parameters);
       if (null != inputObj) {
         form_model.TRef = inputObj.T;
         form_model.ptimeRef = inputObj.ptime;
@@ -848,60 +855,66 @@ async function InitParameters() {
 
         pathNSRefChange(0);
 
-        // form_model.eastTotalRoadCountRef = inputObj.e_wpathNS;
-        // form_model.eastOutputRoadCountRef = inputObj.e_wpathsN;
-        // eastTotalRoadCountRefChange(form_model.eastTotalRoadCountRef);
-        // eastOutputRoadCountRefChange(form_model.eastOutputRoadCountRef);
-        // form_model.eastRightRoadCountRef = inputObj.e_wpathrN;
-        // form_model.eastNextDistanceRef = inputObj.e_wpathlen;
+        form_model.f_fordpathsNRef = inputObj.f_fordpathsN;
+        form_model.f_fordpathrNRef = inputObj.f_fordpathrN;
+        f_fordpathsNRefChange(form_model.f_fordpathrNRef);
+        form_model.f_fordpathlenRef = inputObj.f_fordpathlen;
 
-        // form_model.southTotalRoadCountRef = inputObj.s_npathNS;
-        // form_model.southOutputRoadCountRef = inputObj.s_npathsN;
-        // southTotalRoadCountRefChange(form_model.southTotalRoadCountRef);
-        // southOutputRoadCountRefChange(form_model.southOutputRoadCountRef);
-        // form_model.southRightRoadCountRef = inputObj.s_npathrN;
-        // form_model.southNextDistanceRef = inputObj.s_npathlen;
+        form_model.f_opppathsNRef = inputObj.f_opppathsN;
+        form_model.f_opppathrNRef = inputObj.f_opppathrN;
+        f_opppathsNRefChange(form_model.f_opppathrNRef);
+        form_model.f_opppathlenRef = inputObj.f_opppathlen;
 
-        // form_model.northTotalRoadCountRef = inputObj.n_spathNS;
-        // form_model.northOutputRoadCountRef = inputObj.n_spathsN;
-        // northTotalRoadCountRefChange(form_model.northTotalRoadCountRef);
-        // northOutputRoadCountRefChange(form_model.northOutputRoadCountRef);
-        // form_model.northRightRoadCountRef = inputObj.n_spathrN;
-        // form_model.northNextDistanceRef = inputObj.n_spathlen;
+        form_model.s_fordpathsNRef = inputObj.s_fordpathsN;
+        form_model.s_fordpathrNRef = inputObj.s_fordpathrN;
+        s_fordpathsNRefChange(form_model.s_fordpathrNRef);
+        form_model.s_fordpathlenRef = inputObj.s_fordpathlen;
 
-        // form_model.westTotalRoadCountRef = inputObj.w_epathNS;
-        // form_model.westOutputRoadCountRef = inputObj.w_epathsN;
-        // westTotalRoadCountRefChange(form_model.westTotalRoadCountRef);
-        // westOutputRoadCountRefChange(form_model.westOutputRoadCountRef);
-        // form_model.westRightRoadCountRef = inputObj.w_epathrN;
-        // form_model.westNextDistanceRef = inputObj.w_epathlen;
+        form_model.s_opppathsNRef = inputObj.s_opppathsN;
+        form_model.s_opppathrNRef = inputObj.s_opppathrN;
+        s_opppathsNRefChange(form_model.s_opppathrNRef);
+        form_model.s_opppathlenRef = inputObj.s_opppathlen;
       }
     }
 
-    if (null != result.output_parameters && "" != result.output_parameters) {
-      let outputObj: any = JSON.parse(result.output_parameters);
+    if (null != result.import_workday_calc_table && "" != result.import_workday_calc_table) {
+      let outputObj: any = JSON.parse(result.import_workday_calc_table);
       if (null != outputObj) {
-        // form_model.e_w_green_Ref = outputObj.e_w_green;
-        // form_model.e_w_yellow_Ref = outputObj.e_w_yellow;
-        // form_model.e_w_red_Ref = outputObj.e_w_red;
-        // form_model.s_n_green_Ref = outputObj.s_n_green;
-        // form_model.s_n_yellow_Ref = outputObj.s_n_yellow;
-        // form_model.s_n_red_Ref = outputObj.s_n_red;
-        // form_model.e_w_green_correct_Ref = outputObj.e_w_green_correct;
-        // form_model.e_w_yellow_correct_Ref = outputObj.e_w_yellow_correct;
-        // form_model.e_w_red_correct_Ref = outputObj.e_w_red_correct;
-        // form_model.s_n_green_correct_Ref = outputObj.s_n_green_correct;
-        // form_model.s_n_yellow_correct_Ref = outputObj.s_n_yellow_correct;
-        // form_model.s_n_red_correct_Ref = outputObj.s_n_red_correct;
+        Cal_WorkDayTableData.value = outputObj;
+      }
+    }
+
+    if (null != result.import_holiday_calc_table && "" != result.import_holiday_calc_table) {
+      let outputObj: any = JSON.parse(result.import_holiday_calc_table);
+      if (null != outputObj) {
+        Cal_HoliDayTableData.value = outputObj;
+      }
+    }
+
+    if (null != result.import_workday_real_table && "" != result.import_workday_real_table) {
+      let outputObj: any = JSON.parse(result.import_workday_real_table);
+      if (null != outputObj) {
+        Cal_Correct_WorkDayTableData.value = outputObj;
+      }
+    }
+
+    if (null != result.import_holiday_real_table && "" != result.import_holiday_real_table) {
+      let outputObj: any = JSON.parse(result.import_holiday_real_table);
+      if (null != outputObj) {
+        Cal_Correct_HoliDayTableData.value = outputObj;
       }
     }
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function SaveParametersToSQL() {
   // 数据正确性检测
   ruleFormRef.value!.validate(async valid => {
+    if (!isCalcFinish) {
+      ElMessage.error({ message: "请先完成计算再保存！" });
+      return;
+    }
+
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
@@ -912,35 +925,68 @@ async function SaveParametersToSQL() {
       return;
     }
 
-    // let isPTimeSuccess: any = CheckPTime();
-    // if (!isPTimeSuccess) return;
+    // 调用数据接口计算
+    let import_input_parameters_obj: any = getImportInputParameters();
 
-    // // 调用数据接口计算
-    // let input_infos_obj: any = GetInputObjInfo();
+    // 保存数据到数据库
+    let import_input_parameters: any = JSON.stringify(import_input_parameters_obj);
+    let import_workday_calc_table: any = JSON.stringify(Cal_WorkDayTableData.value);
+    let import_holiday_calc_table: any = JSON.stringify(Cal_HoliDayTableData.value);
+    let import_workday_real_table: any = JSON.stringify(Cal_Correct_WorkDayTableData.value);
+    let import_holiday_real_table: any = JSON.stringify(Cal_Correct_HoliDayTableData.value);
+    await set_import_detail_by_code({
+      code: codeRef.value,
+      import_input_parameters: import_input_parameters,
+      import_workday_calc_table: import_workday_calc_table,
+      import_holiday_calc_table: import_holiday_calc_table,
+      import_workday_real_table: import_workday_real_table,
+      import_holiday_real_table: import_holiday_real_table
+    });
 
-    // let output_infos_obj = {
-    //   e_w_red: Number(form_model.e_w_red_Ref),
-    //   e_w_yellow: Number(form_model.e_w_yellow_Ref),
-    //   e_w_green: Number(form_model.e_w_green_Ref),
-    //   s_n_red: Number(form_model.s_n_red_Ref),
-    //   s_n_yellow: Number(form_model.s_n_yellow_Ref),
-    //   s_n_green: Number(form_model.s_n_green_Ref),
-    //   e_w_red_correct: Number(form_model.e_w_red_correct_Ref),
-    //   e_w_yellow_correct: Number(form_model.e_w_yellow_correct_Ref),
-    //   e_w_green_correct: Number(form_model.e_w_green_correct_Ref),
-    //   s_n_red_correct: Number(form_model.s_n_red_correct_Ref),
-    //   s_n_yellow_correct: Number(form_model.s_n_yellow_correct_Ref),
-    //   s_n_green_correct: Number(form_model.s_n_green_correct_Ref)
-    // };
-
-    // 保存数据到数
-    // let input_infos_str: any = JSON.stringify(input_infos_obj);
-    // let output_infos_str: any = JSON.stringify(output_infos_obj);
-    // await set_detail_by_code({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
-    // await add_historian({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
-
-    // ElMessage.info({ message: "保存成功." });
+    ElMessage.info({ message: "保存成功." });
   });
+}
+
+function getImportInputParameters() {
+  return {
+    T: Number(form_model.TRef),
+    ptime: Number(form_model.ptimeRef),
+    tortime: Number(form_model.tortimeRef),
+    ytime: Number(form_model.ytimeRef),
+    mingtime: Number(form_model.mingtimeRef),
+    E_pathNS: Number(form_model.E_pathNSRef),
+    W_pathNS: Number(form_model.W_pathNSRef),
+    S_pathNS: Number(form_model.S_pathNSRef),
+    N_pathNS: Number(form_model.N_pathNSRef),
+
+    // f_fordflow: Number(first_forward_mean),
+    f_fordpathsN: Number(form_model.f_fordpathsNRef),
+    f_fordpathrN: Number(form_model.f_fordpathrNRef),
+    f_fordpathlen: Number(form_model.f_fordpathlenRef),
+    // f_fordflowM: Number(first_forward_max),
+    // f_fordflowN: Number(first_forward_min),
+
+    // f_oppflow: Number(first_backward_mean),
+    f_opppathsN: Number(form_model.f_opppathsNRef),
+    f_opppathrN: Number(form_model.f_opppathrNRef),
+    f_opppathlen: Number(form_model.f_opppathlenRef),
+    // f_oppflowM: Number(first_backward_max),
+    // f_oppflowN: Number(first_backward_min),
+
+    // s_fordflow: Number(second_forward_mean),
+    s_fordpathsN: Number(form_model.s_fordpathsNRef),
+    s_fordpathrN: Number(form_model.s_fordpathrNRef),
+    s_fordpathlen: Number(form_model.s_fordpathlenRef),
+    // s_fordflowM: Number(second_forward_max),
+    // s_fordflowN: Number(second_forward_min),
+
+    // s_oppflow: Number(second_backward_mean),
+    s_opppathsN: Number(form_model.s_opppathsNRef),
+    s_opppathrN: Number(form_model.s_opppathrNRef),
+    s_opppathlen: Number(form_model.s_opppathlenRef)
+    // s_oppflowM: Number(second_backward_max),
+    // s_oppflowN: Number(second_backward_min)
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
