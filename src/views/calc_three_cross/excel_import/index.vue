@@ -394,9 +394,13 @@
 <script setup lang="ts" name="map">
 import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
-import { get_detail_by_code } from "@/api/modules/intersection";
 import { get_calc_ttiming } from "@/api/modules/calc";
-import { getCheckExcelFormat, getTraffic_data_preprocessing_v23, set_import_detail_by_code } from "@/api/modules/calc_import";
+import {
+  get_import_detail_by_code,
+  getCheckExcelFormat,
+  getTraffic_data_preprocessing_v23,
+  set_import_detail_by_code
+} from "@/api/modules/calc_import";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { ElMessage, FormInstance } from "element-plus";
@@ -986,13 +990,13 @@ function positionRefChange(selectedVal: any) {
 }
 
 async function InitParameters() {
-  let detail_infos: any = await get_detail_by_code({ code: codeRef.value });
+  let detail_infos: any = await get_import_detail_by_code({ code: codeRef.value });
   let result: any = detail_infos.data[0];
   if (undefined != result) {
     positionRef.value = "位置: " + result.position;
 
-    if (null != result.input_parameters && "" != result.input_parameters) {
-      let inputObj: any = JSON.parse(result.input_parameters);
+    if (null != result.import_input_parameters && "" != result.import_input_parameters) {
+      let inputObj: any = JSON.parse(result.import_input_parameters);
       if (null != inputObj) {
         form_model.TRef = inputObj.T;
         form_model.ptimeRef = inputObj.ptime;
@@ -1002,51 +1006,63 @@ async function InitParameters() {
 
         pathNSRefChange(0);
 
-        // form_model.eastTotalRoadCountRef = inputObj.e_wpathNS;
-        // form_model.eastOutputRoadCountRef = inputObj.e_wpathsN;
-        // eastTotalRoadCountRefChange(form_model.eastTotalRoadCountRef);
-        // eastOutputRoadCountRefChange(form_model.eastOutputRoadCountRef);
-        // form_model.eastRightRoadCountRef = inputObj.e_wpathrN;
-        // form_model.eastNextDistanceRef = inputObj.e_wpathlen;
+        form_model.f_fordpathsNRef = inputObj.f_fordpathsN;
+        form_model.f_fordpathrNRef = inputObj.f_fordpathrN;
+        f_fordpathsNRefChange(form_model.f_fordpathrNRef);
+        form_model.f_fordpathlenRef = inputObj.f_fordpathlen;
 
-        // form_model.southTotalRoadCountRef = inputObj.s_npathNS;
-        // form_model.southOutputRoadCountRef = inputObj.s_npathsN;
-        // southTotalRoadCountRefChange(form_model.southTotalRoadCountRef);
-        // southOutputRoadCountRefChange(form_model.southOutputRoadCountRef);
-        // form_model.southRightRoadCountRef = inputObj.s_npathrN;
-        // form_model.southNextDistanceRef = inputObj.s_npathlen;
+        form_model.f_opppathsNRef = inputObj.f_opppathsN;
+        form_model.f_opppathrNRef = inputObj.f_opppathrN;
+        f_opppathsNRefChange(form_model.f_opppathrNRef);
+        form_model.f_opppathlenRef = inputObj.f_opppathlen;
 
-        // form_model.northTotalRoadCountRef = inputObj.n_spathNS;
-        // form_model.northOutputRoadCountRef = inputObj.n_spathsN;
-        // northTotalRoadCountRefChange(form_model.northTotalRoadCountRef);
-        // northOutputRoadCountRefChange(form_model.northOutputRoadCountRef);
-        // form_model.northRightRoadCountRef = inputObj.n_spathrN;
-        // form_model.northNextDistanceRef = inputObj.n_spathlen;
+        form_model.s_fordpathsNRef = inputObj.s_fordpathsN;
+        form_model.s_fordpathrNRef = inputObj.s_fordpathrN;
+        s_fordpathsNRefChange(form_model.s_fordpathrNRef);
+        form_model.s_fordpathlenRef = inputObj.s_fordpathlen;
 
-        // form_model.westTotalRoadCountRef = inputObj.w_epathNS;
-        // form_model.westOutputRoadCountRef = inputObj.w_epathsN;
-        // westTotalRoadCountRefChange(form_model.westTotalRoadCountRef);
-        // westOutputRoadCountRefChange(form_model.westOutputRoadCountRef);
-        // form_model.westRightRoadCountRef = inputObj.w_epathrN;
-        // form_model.westNextDistanceRef = inputObj.w_epathlen;
+        form_model.s_opppathsNRef = inputObj.s_opppathsN;
+        form_model.s_opppathrNRef = inputObj.s_opppathrN;
+        s_opppathsNRefChange(form_model.s_opppathrNRef);
+        form_model.s_opppathlenRef = inputObj.s_opppathlen;
+
+        form_model.t_fordpathsNRef = inputObj.t_fordpathsN;
+        form_model.t_fordpathrNRef = inputObj.t_fordpathrN;
+        t_fordpathsNRefChange(form_model.t_fordpathrNRef);
+        form_model.t_fordpathlenRef = inputObj.t_fordpathlen;
+
+        form_model.t_opppathsNRef = inputObj.t_opppathsN;
+        form_model.t_opppathrNRef = inputObj.t_opppathrN;
+        t_opppathsNRefChange(form_model.t_opppathrNRef);
+        form_model.t_opppathlenRef = inputObj.t_opppathlen;
       }
     }
 
-    if (null != result.output_parameters && "" != result.output_parameters) {
-      let outputObj: any = JSON.parse(result.output_parameters);
+    if (null != result.import_workday_calc_table && "" != result.import_workday_calc_table) {
+      let outputObj: any = JSON.parse(result.import_workday_calc_table);
       if (null != outputObj) {
-        // form_model.e_w_green_Ref = outputObj.e_w_green;
-        // form_model.e_w_yellow_Ref = outputObj.e_w_yellow;
-        // form_model.e_w_red_Ref = outputObj.e_w_red;
-        // form_model.s_n_green_Ref = outputObj.s_n_green;
-        // form_model.s_n_yellow_Ref = outputObj.s_n_yellow;
-        // form_model.s_n_red_Ref = outputObj.s_n_red;
-        // form_model.e_w_green_correct_Ref = outputObj.e_w_green_correct;
-        // form_model.e_w_yellow_correct_Ref = outputObj.e_w_yellow_correct;
-        // form_model.e_w_red_correct_Ref = outputObj.e_w_red_correct;
-        // form_model.s_n_green_correct_Ref = outputObj.s_n_green_correct;
-        // form_model.s_n_yellow_correct_Ref = outputObj.s_n_yellow_correct;
-        // form_model.s_n_red_correct_Ref = outputObj.s_n_red_correct;
+        Cal_WorkDayTableData.value = outputObj;
+      }
+    }
+
+    if (null != result.import_holiday_calc_table && "" != result.import_holiday_calc_table) {
+      let outputObj: any = JSON.parse(result.import_holiday_calc_table);
+      if (null != outputObj) {
+        Cal_HoliDayTableData.value = outputObj;
+      }
+    }
+
+    if (null != result.import_workday_real_table && "" != result.import_workday_real_table) {
+      let outputObj: any = JSON.parse(result.import_workday_real_table);
+      if (null != outputObj) {
+        Cal_Correct_WorkDayTableData.value = outputObj;
+      }
+    }
+
+    if (null != result.import_holiday_real_table && "" != result.import_holiday_real_table) {
+      let outputObj: any = JSON.parse(result.import_holiday_real_table);
+      if (null != outputObj) {
+        Cal_Correct_HoliDayTableData.value = outputObj;
       }
     }
   }

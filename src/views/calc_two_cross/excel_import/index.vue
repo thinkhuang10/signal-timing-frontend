@@ -358,9 +358,8 @@
 <script setup lang="ts" name="map">
 import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
-import { get_detail_by_code } from "@/api/modules/intersection";
 import { get_calc_stiminge } from "@/api/modules/calc";
-import { getCheckExcelFormat, set_import_detail_by_code } from "@/api/modules/calc_import";
+import { get_import_detail_by_code, getCheckExcelFormat, set_import_detail_by_code } from "@/api/modules/calc_import";
 import { getTraffic_data_preprocessing_v2 } from "@/api/modules/calc_import";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
@@ -882,13 +881,13 @@ function positionRefChange(selectedVal: any) {
 }
 
 async function InitParameters() {
-  let detail_infos: any = await get_detail_by_code({ code: codeRef.value });
+  let detail_infos: any = await get_import_detail_by_code({ code: codeRef.value });
   let result: any = detail_infos.data[0];
   if (undefined != result) {
     positionRef.value = "位置: " + result.position;
 
-    if (null != result.input_parameters && "" != result.input_parameters) {
-      let inputObj: any = JSON.parse(result.input_parameters);
+    if (null != result.import_input_parameters && "" != result.import_input_parameters) {
+      let inputObj: any = JSON.parse(result.import_input_parameters);
       if (null != inputObj) {
         form_model.TRef = inputObj.T;
         form_model.ptimeRef = inputObj.ptime;
@@ -926,24 +925,31 @@ async function InitParameters() {
       }
     }
 
-    if (null != result.output_parameters && "" != result.output_parameters) {
-      let outputObj: any = JSON.parse(result.output_parameters);
+    if (null != result.import_workday_calc_table && "" != result.import_workday_calc_table) {
+      let outputObj: any = JSON.parse(result.import_workday_calc_table);
       if (null != outputObj) {
-        form_model.e_w_green_Ref = outputObj.e_w_green;
-        form_model.e_w_yellow_Ref = outputObj.e_w_yellow;
-        form_model.e_w_red_Ref = outputObj.e_w_red;
+        Cal_WorkDayTableData.value = outputObj;
+      }
+    }
 
-        form_model.s_n_green_Ref = outputObj.s_n_green;
-        form_model.s_n_yellow_Ref = outputObj.s_n_yellow;
-        form_model.s_n_red_Ref = outputObj.s_n_red;
+    if (null != result.import_holiday_calc_table && "" != result.import_holiday_calc_table) {
+      let outputObj: any = JSON.parse(result.import_holiday_calc_table);
+      if (null != outputObj) {
+        Cal_HoliDayTableData.value = outputObj;
+      }
+    }
 
-        form_model.e_w_green_correct_Ref = outputObj.e_w_green_correct;
-        form_model.e_w_yellow_correct_Ref = outputObj.e_w_yellow_correct;
-        form_model.e_w_red_correct_Ref = outputObj.e_w_red_correct;
+    if (null != result.import_workday_real_table && "" != result.import_workday_real_table) {
+      let outputObj: any = JSON.parse(result.import_workday_real_table);
+      if (null != outputObj) {
+        Cal_Correct_WorkDayTableData.value = outputObj;
+      }
+    }
 
-        form_model.s_n_green_correct_Ref = outputObj.s_n_green_correct;
-        form_model.s_n_yellow_correct_Ref = outputObj.s_n_yellow_correct;
-        form_model.s_n_red_correct_Ref = outputObj.s_n_red_correct;
+    if (null != result.import_holiday_real_table && "" != result.import_holiday_real_table) {
+      let outputObj: any = JSON.parse(result.import_holiday_real_table);
+      if (null != outputObj) {
+        Cal_Correct_HoliDayTableData.value = outputObj;
       }
     }
   }
