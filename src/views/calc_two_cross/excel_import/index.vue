@@ -233,7 +233,7 @@
               :auto-upload="false"
               :before-upload="beforeFileUpload"
               :on-success="uploadFileSuccess"
-              accept=".xls,.xlsx"
+              accept=".xls"
             >
               <template #trigger>
                 <el-button type="primary" style="margin-right: 15px">选择文件</el-button>
