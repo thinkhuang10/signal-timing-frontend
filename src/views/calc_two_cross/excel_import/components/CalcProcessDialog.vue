@@ -56,8 +56,8 @@ function increase() {
 
 const dialogVisible = ref(false);
 const openDialog = async () => {
-  let min = 5;
-  let max = 12;
+  let min = 10;
+  let max = 24;
   let random = Math.floor(Math.random() * (max - min + 1)) + min;
 
   percentageInterval = 100 / random;
