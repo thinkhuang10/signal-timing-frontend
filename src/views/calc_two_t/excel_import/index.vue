@@ -862,68 +862,92 @@ async function InitParameters() {
         form_model.s_opppathrNRef = inputObj.s_opppathrN;
         s_opppathsNRefChange(form_model.s_opppathrNRef);
         form_model.s_opppathlenRef = inputObj.s_opppathlen;
+      } else {
+        restoreInputParameters();
       }
+    } else {
+      restoreInputParameters();
     }
 
     if (null != result.import_workday_calc_table && "" != result.import_workday_calc_table) {
       let outputObj: any = JSON.parse(result.import_workday_calc_table);
       if (null != outputObj) {
         Cal_WorkDayTableData.value = outputObj;
+      } else {
+        Cal_WorkDayTableData.value = [];
       }
+    } else {
+      Cal_WorkDayTableData.value = [];
     }
 
     if (null != result.import_holiday_calc_table && "" != result.import_holiday_calc_table) {
       let outputObj: any = JSON.parse(result.import_holiday_calc_table);
       if (null != outputObj) {
         Cal_HoliDayTableData.value = outputObj;
+      } else {
+        Cal_HoliDayTableData.value = [];
       }
+    } else {
+      Cal_HoliDayTableData.value = [];
     }
 
     if (null != result.import_workday_real_table && "" != result.import_workday_real_table) {
       let outputObj: any = JSON.parse(result.import_workday_real_table);
       if (null != outputObj) {
         Cal_Correct_WorkDayTableData.value = outputObj;
+      } else {
+        Cal_Correct_WorkDayTableData.value = [];
       }
+    } else {
+      Cal_Correct_WorkDayTableData.value = [];
     }
 
     if (null != result.import_holiday_real_table && "" != result.import_holiday_real_table) {
       let outputObj: any = JSON.parse(result.import_holiday_real_table);
       if (null != outputObj) {
         Cal_Correct_HoliDayTableData.value = outputObj;
+      } else {
+        Cal_Correct_HoliDayTableData.value = [];
       }
+    } else {
+      Cal_Correct_HoliDayTableData.value = [];
     }
   } else {
-    form_model.TRef = 120;
-    form_model.ptimeRef = 3;
-    form_model.tortimeRef = 2;
-    form_model.ytimeRef = 3;
-    form_model.mingtimeRef = 5;
-    form_model.E_pathNSRef = 4;
-    form_model.W_pathNSRef = 4;
-    form_model.S_pathNSRef = 4;
-    form_model.N_pathNSRef = 4;
-
-    form_model.f_fordpathsNRef = 2;
-    form_model.f_fordpathrNRef = 1;
-    form_model.f_fordpathlenRef = 500;
-
-    form_model.f_opppathsNRef = 2;
-    form_model.f_opppathrNRef = 1;
-    form_model.f_opppathlenRef = 500;
-
-    form_model.s_fordpathsNRef = 2;
-    form_model.s_fordpathrNRef = 1;
-    form_model.s_fordpathlenRef = 500;
-
-    form_model.s_opppathsNRef = 2;
-    form_model.s_opppathrNRef = 1;
-    form_model.s_opppathlenRef = 500;
+    restoreInputParameters();
 
     Cal_WorkDayTableData.value = [];
     Cal_HoliDayTableData.value = [];
     Cal_Correct_WorkDayTableData.value = [];
     Cal_Correct_HoliDayTableData.value = [];
   }
+}
+
+function restoreInputParameters() {
+  form_model.TRef = 120;
+  form_model.ptimeRef = 3;
+  form_model.tortimeRef = 2;
+  form_model.ytimeRef = 3;
+  form_model.mingtimeRef = 5;
+  form_model.E_pathNSRef = 4;
+  form_model.W_pathNSRef = 4;
+  form_model.S_pathNSRef = 4;
+  form_model.N_pathNSRef = 4;
+
+  form_model.f_fordpathsNRef = 2;
+  form_model.f_fordpathrNRef = 1;
+  form_model.f_fordpathlenRef = 500;
+
+  form_model.f_opppathsNRef = 2;
+  form_model.f_opppathrNRef = 1;
+  form_model.f_opppathlenRef = 500;
+
+  form_model.s_fordpathsNRef = 2;
+  form_model.s_fordpathrNRef = 1;
+  form_model.s_fordpathlenRef = 500;
+
+  form_model.s_opppathsNRef = 2;
+  form_model.s_opppathrNRef = 1;
+  form_model.s_opppathlenRef = 500;
 }
 
 async function SaveParametersToSQL() {

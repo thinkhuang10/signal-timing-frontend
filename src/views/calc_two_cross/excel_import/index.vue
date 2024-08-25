@@ -909,68 +909,92 @@ async function InitParameters() {
         westOutputRoadCountRefChange(form_model.westOutputRoadCountRef);
         form_model.westRightRoadCountRef = inputObj.w_epathrN;
         form_model.westNextDistanceRef = inputObj.w_epathlen;
+      } else {
+        restoreInputParameters();
       }
+    } else {
+      restoreInputParameters();
     }
 
     if (null != result.import_workday_calc_table && "" != result.import_workday_calc_table) {
       let outputObj: any = JSON.parse(result.import_workday_calc_table);
       if (null != outputObj) {
         Cal_WorkDayTableData.value = outputObj;
+      } else {
+        Cal_WorkDayTableData.value = [];
       }
+    } else {
+      Cal_WorkDayTableData.value = [];
     }
 
     if (null != result.import_holiday_calc_table && "" != result.import_holiday_calc_table) {
       let outputObj: any = JSON.parse(result.import_holiday_calc_table);
       if (null != outputObj) {
         Cal_HoliDayTableData.value = outputObj;
+      } else {
+        Cal_HoliDayTableData.value = [];
       }
+    } else {
+      Cal_HoliDayTableData.value = [];
     }
 
     if (null != result.import_workday_real_table && "" != result.import_workday_real_table) {
       let outputObj: any = JSON.parse(result.import_workday_real_table);
       if (null != outputObj) {
         Cal_Correct_WorkDayTableData.value = outputObj;
+      } else {
+        Cal_Correct_WorkDayTableData.value = [];
       }
+    } else {
+      Cal_Correct_WorkDayTableData.value = [];
     }
 
     if (null != result.import_holiday_real_table && "" != result.import_holiday_real_table) {
       let outputObj: any = JSON.parse(result.import_holiday_real_table);
       if (null != outputObj) {
         Cal_Correct_HoliDayTableData.value = outputObj;
+      } else {
+        Cal_Correct_HoliDayTableData.value = [];
       }
+    } else {
+      Cal_Correct_HoliDayTableData.value = [];
     }
   } else {
-    form_model.TRef = 120;
-    form_model.ptimeRef = 3;
-    form_model.tortimeRef = 2;
-    form_model.mingtimeRef = 5;
-    form_model.ytimeRef = 3;
-
-    form_model.eastTotalRoadCountRef = 4;
-    form_model.eastOutputRoadCountRef = 2;
-    form_model.eastRightRoadCountRef = 1;
-    form_model.eastNextDistanceRef = 500;
-
-    form_model.westTotalRoadCountRef = 4;
-    form_model.westOutputRoadCountRef = 2;
-    form_model.westRightRoadCountRef = 1;
-    form_model.westNextDistanceRef = 500;
-
-    form_model.southTotalRoadCountRef = 4;
-    form_model.southOutputRoadCountRef = 2;
-    form_model.southRightRoadCountRef = 1;
-    form_model.southNextDistanceRef = 500;
-
-    form_model.northTotalRoadCountRef = 4;
-    form_model.northOutputRoadCountRef = 2;
-    form_model.northRightRoadCountRef = 1;
-    form_model.northNextDistanceRef = 500;
+    restoreInputParameters();
 
     Cal_WorkDayTableData.value = [];
     Cal_HoliDayTableData.value = [];
     Cal_Correct_WorkDayTableData.value = [];
     Cal_Correct_HoliDayTableData.value = [];
   }
+}
+
+function restoreInputParameters() {
+  form_model.TRef = 120;
+  form_model.ptimeRef = 3;
+  form_model.tortimeRef = 2;
+  form_model.mingtimeRef = 5;
+  form_model.ytimeRef = 3;
+
+  form_model.eastTotalRoadCountRef = 4;
+  form_model.eastOutputRoadCountRef = 2;
+  form_model.eastRightRoadCountRef = 1;
+  form_model.eastNextDistanceRef = 500;
+
+  form_model.westTotalRoadCountRef = 4;
+  form_model.westOutputRoadCountRef = 2;
+  form_model.westRightRoadCountRef = 1;
+  form_model.westNextDistanceRef = 500;
+
+  form_model.southTotalRoadCountRef = 4;
+  form_model.southOutputRoadCountRef = 2;
+  form_model.southRightRoadCountRef = 1;
+  form_model.southNextDistanceRef = 500;
+
+  form_model.northTotalRoadCountRef = 4;
+  form_model.northOutputRoadCountRef = 2;
+  form_model.northRightRoadCountRef = 1;
+  form_model.northNextDistanceRef = 500;
 }
 
 async function SaveParametersToSQL() {
