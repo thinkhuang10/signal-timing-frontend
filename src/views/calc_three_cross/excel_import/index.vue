@@ -1003,6 +1003,10 @@ async function InitParameters() {
         form_model.tortimeRef = inputObj.tortime;
         form_model.ytimeRef = inputObj.ytime;
         form_model.mingtimeRef = inputObj.mingtime;
+        form_model.E_pathNSRef = inputObj.E_pathNSRef;
+        form_model.W_pathNSRef = inputObj.W_pathNSRef;
+        form_model.S_pathNSRef = inputObj.S_pathNSRef;
+        form_model.N_pathNSRef = inputObj.N_pathNSRef;
 
         pathNSRefChange(0);
 
@@ -1065,6 +1069,45 @@ async function InitParameters() {
         Cal_Correct_HoliDayTableData.value = outputObj;
       }
     }
+  } else {
+    form_model.TRef = 120;
+    form_model.ptimeRef = 3;
+    form_model.tortimeRef = 2;
+    form_model.ytimeRef = 3;
+    form_model.mingtimeRef = 5;
+    form_model.E_pathNSRef = 4;
+    form_model.W_pathNSRef = 4;
+    form_model.S_pathNSRef = 4;
+    form_model.N_pathNSRef = 4;
+
+    form_model.f_fordpathsNRef = 2;
+    form_model.f_fordpathrNRef = 1;
+    form_model.f_fordpathlenRef = 500;
+
+    form_model.f_opppathsNRef = 2;
+    form_model.f_opppathrNRef = 1;
+    form_model.f_opppathlenRef = 500;
+
+    form_model.s_fordpathsNRef = 2;
+    form_model.s_fordpathrNRef = 1;
+    form_model.s_fordpathlenRef = 500;
+
+    form_model.s_opppathsNRef = 2;
+    form_model.s_opppathrNRef = 1;
+    form_model.s_opppathlenRef = 500;
+
+    form_model.t_fordpathsNRef = 2;
+    form_model.t_fordpathrNRef = 1;
+    form_model.t_fordpathlenRef = 500;
+
+    form_model.t_opppathsNRef = 2;
+    form_model.t_opppathrNRef = 1;
+    form_model.t_opppathlenRef = 500;
+
+    Cal_WorkDayTableData.value = [];
+    Cal_HoliDayTableData.value = [];
+    Cal_Correct_WorkDayTableData.value = [];
+    Cal_Correct_HoliDayTableData.value = [];
   }
 }
 

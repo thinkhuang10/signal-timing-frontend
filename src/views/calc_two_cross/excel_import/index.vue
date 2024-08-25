@@ -752,20 +752,7 @@ let form_model = reactive({
   northTotalRoadCountRef: 4,
   northOutputRoadCountRef: 2,
   northRightRoadCountRef: 1,
-  northNextDistanceRef: 500,
-
-  e_w_green_Ref: 0.0,
-  e_w_yellow_Ref: 0.0,
-  e_w_red_Ref: 0.0,
-  s_n_green_Ref: 0.0,
-  s_n_yellow_Ref: 0.0,
-  s_n_red_Ref: 0.0,
-  e_w_green_correct_Ref: 0.0,
-  e_w_yellow_correct_Ref: 0.0,
-  e_w_red_correct_Ref: 0.0,
-  s_n_green_correct_Ref: 0.0,
-  s_n_yellow_correct_Ref: 0.0,
-  s_n_red_correct_Ref: 0.0
+  northNextDistanceRef: 500
 });
 
 /*
@@ -952,6 +939,37 @@ async function InitParameters() {
         Cal_Correct_HoliDayTableData.value = outputObj;
       }
     }
+  } else {
+    form_model.TRef = 120;
+    form_model.ptimeRef = 3;
+    form_model.tortimeRef = 2;
+    form_model.mingtimeRef = 5;
+    form_model.ytimeRef = 3;
+
+    form_model.eastTotalRoadCountRef = 4;
+    form_model.eastOutputRoadCountRef = 2;
+    form_model.eastRightRoadCountRef = 1;
+    form_model.eastNextDistanceRef = 500;
+
+    form_model.westTotalRoadCountRef = 4;
+    form_model.westOutputRoadCountRef = 2;
+    form_model.westRightRoadCountRef = 1;
+    form_model.westNextDistanceRef = 500;
+
+    form_model.southTotalRoadCountRef = 4;
+    form_model.southOutputRoadCountRef = 2;
+    form_model.southRightRoadCountRef = 1;
+    form_model.southNextDistanceRef = 500;
+
+    form_model.northTotalRoadCountRef = 4;
+    form_model.northOutputRoadCountRef = 2;
+    form_model.northRightRoadCountRef = 1;
+    form_model.northNextDistanceRef = 500;
+
+    Cal_WorkDayTableData.value = [];
+    Cal_HoliDayTableData.value = [];
+    Cal_Correct_WorkDayTableData.value = [];
+    Cal_Correct_HoliDayTableData.value = [];
   }
 }
 
@@ -1003,37 +1021,25 @@ function getImportInputParameters() {
     ytime: Number(form_model.ytimeRef),
     mingtime: Number(form_model.mingtimeRef),
 
-    // w_eflow: Number(west_mean),
     w_epathNS: Number(form_model.westTotalRoadCountRef),
     w_epathsN: Number(form_model.westOutputRoadCountRef),
     w_epathrN: Number(form_model.westRightRoadCountRef),
     w_epathlen: Number(form_model.westNextDistanceRef),
-    // w_eflowM: Number(west_max),
-    // w_eflowN: Number(west_min),
 
-    // e_wflow: Number(east_mean),
     e_wpathNS: Number(form_model.eastTotalRoadCountRef),
     e_wpathsN: Number(form_model.eastOutputRoadCountRef),
     e_wpathrN: Number(form_model.eastRightRoadCountRef),
     e_wpathlen: Number(form_model.eastNextDistanceRef),
-    // e_wflowM: Number(east_max),
-    // e_wflowN: Number(east_min),
 
-    // n_sflow: Number(north_mean),
     n_spathNS: Number(form_model.northTotalRoadCountRef),
     n_spathsN: Number(form_model.northOutputRoadCountRef),
     n_spathrN: Number(form_model.northRightRoadCountRef),
     n_spathlen: Number(form_model.northNextDistanceRef),
-    // n_sflowM: Number(north_max),
-    // n_sflowN: Number(north_min),
 
-    // s_nflow: Number(south_mean),
     s_npathNS: Number(form_model.southTotalRoadCountRef),
     s_npathsN: Number(form_model.southOutputRoadCountRef),
     s_npathrN: Number(form_model.southRightRoadCountRef),
     s_npathlen: Number(form_model.southNextDistanceRef)
-    // s_nflowM: Number(south_max),
-    // s_nflowN: Number(south_min)
   };
 }
 
