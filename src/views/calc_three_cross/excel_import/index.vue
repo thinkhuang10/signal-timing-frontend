@@ -1003,10 +1003,10 @@ async function InitParameters() {
         form_model.tortimeRef = inputObj.tortime;
         form_model.ytimeRef = inputObj.ytime;
         form_model.mingtimeRef = inputObj.mingtime;
-        form_model.E_pathNSRef = inputObj.E_pathNSRef;
-        form_model.W_pathNSRef = inputObj.W_pathNSRef;
-        form_model.S_pathNSRef = inputObj.S_pathNSRef;
-        form_model.N_pathNSRef = inputObj.N_pathNSRef;
+        form_model.E_pathNSRef = inputObj.E_pathNS;
+        form_model.W_pathNSRef = inputObj.W_pathNS;
+        form_model.S_pathNSRef = inputObj.S_pathNS;
+        form_model.N_pathNSRef = inputObj.N_pathNS;
 
         pathNSRefChange(0);
 

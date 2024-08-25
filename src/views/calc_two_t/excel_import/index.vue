@@ -836,10 +836,10 @@ async function InitParameters() {
         form_model.tortimeRef = inputObj.tortime;
         form_model.ytimeRef = inputObj.ytime;
         form_model.mingtimeRef = inputObj.mingtime;
-        form_model.E_pathNSRef = inputObj.E_pathNSRef;
-        form_model.W_pathNSRef = inputObj.W_pathNSRef;
-        form_model.S_pathNSRef = inputObj.S_pathNSRef;
-        form_model.N_pathNSRef = inputObj.N_pathNSRef;
+        form_model.E_pathNSRef = inputObj.E_pathNS;
+        form_model.W_pathNSRef = inputObj.W_pathNS;
+        form_model.S_pathNSRef = inputObj.S_pathNS;
+        form_model.N_pathNSRef = inputObj.N_pathNS;
 
         pathNSRefChange(0);
 
@@ -1002,33 +1002,21 @@ function getImportInputParameters() {
     S_pathNS: Number(form_model.S_pathNSRef),
     N_pathNS: Number(form_model.N_pathNSRef),
 
-    // f_fordflow: Number(first_forward_mean),
     f_fordpathsN: Number(form_model.f_fordpathsNRef),
     f_fordpathrN: Number(form_model.f_fordpathrNRef),
     f_fordpathlen: Number(form_model.f_fordpathlenRef),
-    // f_fordflowM: Number(first_forward_max),
-    // f_fordflowN: Number(first_forward_min),
 
-    // f_oppflow: Number(first_backward_mean),
     f_opppathsN: Number(form_model.f_opppathsNRef),
     f_opppathrN: Number(form_model.f_opppathrNRef),
     f_opppathlen: Number(form_model.f_opppathlenRef),
-    // f_oppflowM: Number(first_backward_max),
-    // f_oppflowN: Number(first_backward_min),
 
-    // s_fordflow: Number(second_forward_mean),
     s_fordpathsN: Number(form_model.s_fordpathsNRef),
     s_fordpathrN: Number(form_model.s_fordpathrNRef),
     s_fordpathlen: Number(form_model.s_fordpathlenRef),
-    // s_fordflowM: Number(second_forward_max),
-    // s_fordflowN: Number(second_forward_min),
 
-    // s_oppflow: Number(second_backward_mean),
     s_opppathsN: Number(form_model.s_opppathsNRef),
     s_opppathrN: Number(form_model.s_opppathrNRef),
     s_opppathlen: Number(form_model.s_opppathlenRef)
-    // s_oppflowM: Number(second_backward_max),
-    // s_oppflowN: Number(second_backward_min)
   };
 }
 
