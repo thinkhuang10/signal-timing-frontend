@@ -19,7 +19,7 @@
         <el-input v-model="drawerProps.row!.coordinate" placeholder="请填写经纬度" clearable></el-input>
       </el-form-item>
       <el-form-item label="区域" prop="group_type">
-        <el-select v-model="drawerProps.row!.group_type" :disabled="isGroupDisabled" placeholder="请选择区域" clearable>
+        <el-select v-model="drawerProps.row!.group_type" :disabled="isGroupRegionDisabled" placeholder="请选择区域" clearable>
           <el-option v-for="item in groupType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
@@ -82,9 +82,15 @@ const drawerProps = ref<DrawerProps>({
 
 let userStore = useUserStore();
 let role = computed(() => userStore.userInfo.role);
+let currentGroupType = computed(() => userStore.userInfo.group_type);
 let isGroupDisabled = ref(false);
+let isGroupRegionDisabled = ref(false);
 onMounted(() => {
   if (role.value == "区域管理员") {
+    isGroupRegionDisabled.value = true;
+  }
+
+  if (role.value == "普通用户") {
     isGroupDisabled.value = true;
   }
 });
@@ -102,6 +108,12 @@ function calcTypeChange(selectedVal: any) {
 // 接收父组件传过来的参数
 const acceptParams = (params: DrawerProps) => {
   drawerProps.value = params;
+
+  // 特殊处理，处理区域管理员
+  if (role.value == "区域管理员") {
+    drawerProps.value.row.group_type = currentGroupType.value;
+  }
+
   drawerVisible.value = true;
 };
 
@@ -112,7 +124,7 @@ const handleSubmit = () => {
     if (!valid) return;
     try {
       await drawerProps.value.api!(drawerProps.value.row);
-      ElMessage.success({ message: `${drawerProps.value.title}路口成功！` });
+      ElMessage.success({ message: `${drawerProps.value.title} 路口成功！` });
       drawerProps.value.getTableList!();
       drawerVisible.value = false;
     } catch (error) {

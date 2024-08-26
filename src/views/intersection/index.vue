@@ -76,7 +76,7 @@ const dataCallback = (data: any) => {
 };
 
 onMounted(() => {
-  if (role.value != "系统管理员") {
+  if (role.value == "普通用户") {
     is_show_add_new.value = false;
   }
 });
@@ -179,6 +179,7 @@ const openDrawer = (title: string, row: Partial<ResIntersection> = {}) => {
     api: title === "新增" ? add_item : title === "编辑" ? edit_item : undefined,
     getTableList: proTable.value?.getTableList
   };
+
   drawerRef.value?.acceptParams(params);
 };
 
