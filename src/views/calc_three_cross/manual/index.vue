@@ -11,6 +11,9 @@
     <!-- 绘制图形 -->
     <el-col id="canvas_container" :span="10">
       <canvas></canvas>
+      <el-row style="margin: 10px">
+        <el-button type="primary" @click="CreateRoad()" style="margin-right: 50px">绘制图形</el-button>
+      </el-row>
     </el-col>
 
     <!-- 填写表单 --->
