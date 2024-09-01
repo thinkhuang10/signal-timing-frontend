@@ -86,14 +86,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="f_fordpathrNRef">
+            <el-form-item label="右转专有车道" prop="f_fordpathrNRef">
               <el-select v-model="form_model.f_fordpathrNRef" style="width: 60px">
                 <el-option v-for="item in f_fordpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="f_fordpathlenRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="f_fordpathlenRef">
               <el-input v-model="form_model.f_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -114,14 +114,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="f_opppathrNRef">
+            <el-form-item label="右转专有车道" prop="f_opppathrNRef">
               <el-select v-model="form_model.f_opppathrNRef" style="width: 60px">
                 <el-option v-for="item in f_opppathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="f_opppathlenRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="f_opppathlenRef">
               <el-input v-model="form_model.f_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -142,14 +142,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="s_fordpathrNRef">
+            <el-form-item label="右转专有车道" prop="s_fordpathrNRef">
               <el-select v-model="form_model.s_fordpathrNRef" style="width: 60px">
                 <el-option v-for="item in s_fordpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="s_fordpathlenRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="s_fordpathlenRef">
               <el-input v-model="form_model.s_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -170,14 +170,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="s_opppathrNRef">
+            <el-form-item label="右转专有车道" prop="s_opppathrNRef">
               <el-select v-model="form_model.s_opppathrNRef" style="width: 60px">
                 <el-option v-for="item in s_opppathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="s_opppathlenRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="s_opppathlenRef">
               <el-input v-model="form_model.s_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>

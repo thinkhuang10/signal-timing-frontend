@@ -70,7 +70,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="westRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="westRightRoadCountRef">
               <el-select v-model="form_model.westRightRoadCountRef" style="width: 60px">
                 <el-option
                   v-for="item in roadWestRightNumberArrayRef"
@@ -82,7 +82,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="westNextDistanceRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="westNextDistanceRef">
               <el-input v-model="form_model.westNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -115,7 +115,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="eastRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="eastRightRoadCountRef">
               <el-select v-model="form_model.eastRightRoadCountRef" style="width: 60px">
                 <el-option
                   v-for="item in roadEastRightNumberArrayRef"
@@ -127,7 +127,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="eastNextDistanceRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="eastNextDistanceRef">
               <el-input v-model="form_model.eastNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -160,7 +160,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="northRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="northRightRoadCountRef">
               <el-select v-model="form_model.northRightRoadCountRef" style="width: 60px">
                 <el-option
                   v-for="item in roadNorthRightNumberArrayRef"
@@ -172,7 +172,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="northNextDistanceRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="northNextDistanceRef">
               <el-input v-model="form_model.northNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -205,7 +205,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转车道数" prop="southRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="southRightRoadCountRef">
               <el-select v-model="form_model.southRightRoadCountRef" style="width: 60px">
                 <el-option
                   v-for="item in roadSouthRightNumberArrayRef"
@@ -217,7 +217,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距前路口距离(米)" prop="southNextDistanceRef">
+            <el-form-item label="距离前一个路口距离(米)" prop="southNextDistanceRef">
               <el-input v-model="form_model.southNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
