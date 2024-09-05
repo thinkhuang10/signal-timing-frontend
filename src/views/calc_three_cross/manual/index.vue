@@ -11,8 +11,153 @@
     <!-- 绘制图形 -->
     <el-col id="canvas_container" :span="10">
       <canvas></canvas>
+
+      <el-form :model="form_paint_model" ref="rulePaintFormRef">
+        <el-row style="margin-right: 20px; margin-left: 20px">
+          <el-divider content-position="left">
+            <span style="color: #409eff">绘制参数</span>
+          </el-divider>
+
+          <!-- 西路口 -->
+          <el-col :span="2">
+            <el-form-item label="西路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="westTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.westTotalRoadCountRef"
+                style="width: 60px"
+                @change="westTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="westOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.westOutputRoadCountRef"
+                style="width: 60px"
+                @change="westOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="westRightRoadCountRef">
+              <el-select v-model="form_paint_model.westRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <!-- 东路口 -->
+          <el-col :span="2">
+            <el-form-item label="东路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="eastTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.eastTotalRoadCountRef"
+                style="width: 60px"
+                @change="eastTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="eastOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.eastOutputRoadCountRef"
+                style="width: 60px"
+                @change="eastOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="eastRightRoadCountRef">
+              <el-select v-model="form_paint_model.eastRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <!-- 北路口 -->
+          <el-col :span="2">
+            <el-form-item label="北路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="northTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.northTotalRoadCountRef"
+                style="width: 60px"
+                @change="northTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="northOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.northOutputRoadCountRef"
+                style="width: 60px"
+                @change="northOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="northRightRoadCountRef">
+              <el-select v-model="form_paint_model.northRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <!-- 南路口 -->
+          <el-col :span="2">
+            <el-form-item label="南路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="southTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.southTotalRoadCountRef"
+                style="width: 60px"
+                @change="southTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="southOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.southOutputRoadCountRef"
+                style="width: 60px"
+                @change="southOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="southRightRoadCountRef">
+              <el-select v-model="form_paint_model.southRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+
       <el-row style="margin: 10px">
-        <el-button type="primary" @click="CreateRoad()" style="margin-right: 50px">绘制图形</el-button>
+        <el-button type="primary" @click="DrawRoad()" style="margin-right: 50px">绘制图形</el-button>
       </el-row>
     </el-col>
 
@@ -616,6 +761,56 @@ let t_opppathrNArrayRef: any = ref([
   { value: "2", label: "2" }
 ]);
 
+let roadEastOutputNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let roadWestOutputNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let roadSouthOutputNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let roadNorthOutputNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+
+let roadEastRightNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let roadWestRightNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let roadSouthRightNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let roadNorthRightNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+
 let form_model = reactive({
   TRef: 120,
   ptimeRef: 3,
@@ -694,6 +889,24 @@ let form_model = reactive({
   three_green_correct_Ref: 0.0,
   three_yellow_correct_Ref: 0.0,
   three_red_correct_Ref: 0.0
+});
+
+let form_paint_model = reactive({
+  eastTotalRoadCountRef: 0,
+  eastOutputRoadCountRef: 0,
+  eastRightRoadCountRef: 0,
+
+  westTotalRoadCountRef: 4,
+  westOutputRoadCountRef: 2,
+  westRightRoadCountRef: 1,
+
+  southTotalRoadCountRef: 4,
+  southOutputRoadCountRef: 2,
+  southRightRoadCountRef: 1,
+
+  northTotalRoadCountRef: 4,
+  northOutputRoadCountRef: 2,
+  northRightRoadCountRef: 1
 });
 
 /*
@@ -1138,6 +1351,10 @@ async function InitParameters() {
   CreateRoad();
 }
 
+function DrawRoad() {
+  CreateRoad();
+}
+
 async function ExecuteCalc() {
   // 数据正确性检测
   ruleFormRef.value!.validate(async valid => {
@@ -1420,14 +1637,14 @@ function CreateRoad() {
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, w, h);
 
-  let E_pathNS: any = form_model.E_pathNSRef;
-  let f_fordpathsN: any = form_model.f_fordpathsNRef;
-  let W_pathNS: any = form_model.W_pathNSRef;
-  let f_opppathsN: any = form_model.f_opppathsNRef;
-  let S_pathNS: any = form_model.S_pathNSRef;
-  let s_fordpathsN: any = form_model.s_fordpathsNRef;
-  let N_pathNS: any = form_model.N_pathNSRef;
-  let s_opppathsN: any = form_model.s_opppathsNRef;
+  let eastTotalRoadCount: any = form_paint_model.eastTotalRoadCountRef;
+  let eastOutputRoadCount: any = form_paint_model.eastOutputRoadCountRef;
+  let westTotalRoadCount: any = form_paint_model.westTotalRoadCountRef;
+  let westOutputRoadCount: any = form_paint_model.westOutputRoadCountRef;
+  let southTotalRoadCount: any = form_paint_model.southTotalRoadCountRef;
+  let southOutputRoadCount: any = form_paint_model.southOutputRoadCountRef;
+  let northTotalRoadCount: any = form_paint_model.northTotalRoadCountRef;
+  let northOutputRoadCount: any = form_paint_model.northOutputRoadCountRef;
 
   // 绘制位置
   // ctx.beginPath();
@@ -1438,10 +1655,10 @@ function CreateRoad() {
   // ctx.closePath();
 
   // 绘制道路
-  draw_road_west(W_pathNS, f_opppathsN, S_pathNS, s_opppathsN, s_fordpathsN);
-  draw_road_east(E_pathNS, f_fordpathsN, N_pathNS, s_opppathsN, s_fordpathsN);
-  draw_road_north(N_pathNS, s_opppathsN, W_pathNS, f_opppathsN, f_fordpathsN);
-  draw_road_south(S_pathNS, s_fordpathsN, E_pathNS, f_opppathsN, f_fordpathsN);
+  draw_road_west(westTotalRoadCount, westOutputRoadCount, southTotalRoadCount, northOutputRoadCount, southOutputRoadCount);
+  draw_road_east(eastTotalRoadCount, eastOutputRoadCount, northTotalRoadCount, northOutputRoadCount, southOutputRoadCount);
+  draw_road_north(northTotalRoadCount, northOutputRoadCount, westTotalRoadCount, westOutputRoadCount, eastOutputRoadCount);
+  draw_road_south(southTotalRoadCount, southOutputRoadCount, eastTotalRoadCount, westOutputRoadCount, eastOutputRoadCount);
 
   GetCompassIcon(10, 10);
 }
@@ -1453,6 +1670,8 @@ function draw_road_west(
   northOutputRoadCount: any,
   southOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let southOffsetDistance = northOutputRoadCount * roadWidth;
@@ -1537,7 +1756,7 @@ function draw_road_west(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.f_fordpathrNRef > 0) {
+      if (form_paint_model.westRightRoadCountRef > 0) {
         GetYZLaneIcon("right", w / 2 - offsetDistance - zebraCrossingWidth - laneLength - laneOffsetWidth, h / 2 + i * roadWidth);
       } else {
         GetZX_YZLaneIcon(
@@ -1547,7 +1766,7 @@ function draw_road_west(
         );
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.f_fordpathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.westRightRoadCountRef) {
         GetZXLaneIcon("right", w / 2 - offsetDistance - zebraCrossingWidth - laneLength - laneOffsetWidth, h / 2 + i * roadWidth);
       } else {
         GetYZLaneIcon("right", w / 2 - offsetDistance - zebraCrossingWidth - laneLength - laneOffsetWidth, h / 2 + i * roadWidth);
@@ -1569,6 +1788,8 @@ function draw_road_east(
   northOutputRoadCount: any,
   southOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let xStart = w / 2;
@@ -1654,13 +1875,13 @@ function draw_road_east(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.f_opppathrNRef > 0) {
+      if (form_paint_model.eastRightRoadCountRef > 0) {
         GetYZLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
       } else {
         GetZX_YZLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.f_opppathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.eastRightRoadCountRef) {
         GetZXLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
       } else {
         GetYZLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
@@ -1679,6 +1900,8 @@ function draw_road_north(
   westOutputRoadCount: any,
   eastOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let eastOffsetDistance = (westTotalRoadCount - westOutputRoadCount) * roadWidth;
@@ -1763,7 +1986,7 @@ function draw_road_north(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.s_fordpathrNRef > 0) {
+      if (form_paint_model.northRightRoadCountRef > 0) {
         GetYZLaneIcon(
           "down",
           w / 2 - (i + 1) * roadWidth,
@@ -1777,7 +2000,7 @@ function draw_road_north(
         );
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.s_fordpathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.northRightRoadCountRef) {
         GetZXLaneIcon(
           "down",
           w / 2 - (i + 1) * roadWidth,
@@ -1801,6 +2024,8 @@ function draw_road_south(
   westOutputRoadCount: any,
   eastOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let yStart = h / 2;
@@ -1892,13 +2117,13 @@ function draw_road_south(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.s_opppathrNRef > 0) {
+      if (form_paint_model.southRightRoadCountRef > 0) {
         GetYZLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
       } else {
         GetZX_YZLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.s_opppathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.southRightRoadCountRef) {
         GetZXLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
       } else {
         GetYZLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
@@ -2066,6 +2291,99 @@ function t_opppathsNRefChange(selectedVal: any) {
   t_opppathrNArrayRef.value = temp_array;
   if (selectedVal < form_model.t_opppathrNRef) {
     form_model.t_opppathrNRef = selectedVal;
+  }
+}
+
+// Paint 参数
+function eastTotalRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadEastOutputNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.eastOutputRoadCountRef) {
+    form_paint_model.eastOutputRoadCountRef = selectedVal;
+    eastOutputRoadCountRefChange(selectedVal);
+  }
+}
+
+function westTotalRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadWestOutputNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.westOutputRoadCountRef) {
+    form_paint_model.westOutputRoadCountRef = selectedVal;
+    westOutputRoadCountRefChange(selectedVal);
+  }
+}
+
+function southTotalRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadSouthOutputNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.southOutputRoadCountRef) {
+    form_paint_model.southOutputRoadCountRef = selectedVal;
+    southOutputRoadCountRefChange(selectedVal);
+  }
+}
+
+function northTotalRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadNorthOutputNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.northOutputRoadCountRef) {
+    form_paint_model.northOutputRoadCountRef = selectedVal;
+    northOutputRoadCountRefChange(selectedVal);
+  }
+}
+
+function eastOutputRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadEastRightNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.eastRightRoadCountRef) {
+    form_paint_model.eastRightRoadCountRef = selectedVal;
+  }
+}
+
+function westOutputRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadWestRightNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.westRightRoadCountRef) {
+    form_paint_model.westRightRoadCountRef = selectedVal;
+  }
+}
+
+function southOutputRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadSouthRightNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.southRightRoadCountRef) {
+    form_paint_model.southRightRoadCountRef = selectedVal;
+  }
+}
+
+function northOutputRoadCountRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  roadNorthRightNumberArrayRef.value = temp_array;
+  if (selectedVal < form_paint_model.northRightRoadCountRef) {
+    form_paint_model.northRightRoadCountRef = selectedVal;
   }
 }
 

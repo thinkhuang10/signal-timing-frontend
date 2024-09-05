@@ -1103,6 +1103,8 @@ function draw_road_west(
   northOutputRoadCount: any,
   southOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let southOffsetDistance = northOutputRoadCount * roadWidth;
@@ -1219,6 +1221,8 @@ function draw_road_east(
   northOutputRoadCount: any,
   southOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let xStart = w / 2;
@@ -1329,6 +1333,8 @@ function draw_road_north(
   westOutputRoadCount: any,
   eastOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let eastOffsetDistance = (westTotalRoadCount - westOutputRoadCount) * roadWidth;
@@ -1451,6 +1457,8 @@ function draw_road_south(
   westOutputRoadCount: any,
   eastOutputRoadCount: any
 ) {
+  if (0 == totalRoadCount) return;
+
   let inputRoadCount = totalRoadCount - outputRoadCount;
 
   let yStart = h / 2;
