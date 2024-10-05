@@ -600,7 +600,8 @@ import { add_historian } from "@/api/modules/intersection_historian";
 import { get_calc_ttimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
-import { ElMessage, FormInstance } from "element-plus";
+import { FormInstance } from "element-plus/es/components/form";
+import { ElMessage } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 

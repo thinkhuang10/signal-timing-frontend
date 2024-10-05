@@ -407,7 +407,8 @@ import { add_historian } from "@/api/modules/intersection_historian";
 import { get_calc_stiminge } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
-import { ElMessage, FormInstance } from "element-plus";
+import { FormInstance } from "element-plus/es/components/form";
+import { ElMessage } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 
@@ -799,7 +800,7 @@ async function InitParameters() {
 
 async function ExecuteCalc() {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
@@ -846,7 +847,7 @@ async function CloseDialog() {
 
 async function SaveParametersToSQL() {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
