@@ -90,7 +90,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="westNextDistanceRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="westNextDistanceRef">
               <el-input v-model="form_model.westNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -152,7 +152,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="eastNextDistanceRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="eastNextDistanceRef">
               <el-input v-model="form_model.eastNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -214,7 +214,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="northNextDistanceRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="northNextDistanceRef">
               <el-input v-model="form_model.northNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -276,7 +276,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="southNextDistanceRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="southNextDistanceRef">
               <el-input v-model="form_model.southNextDistanceRef" style="width: 60px" />
             </el-form-item>
           </el-col>

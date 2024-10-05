@@ -93,7 +93,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="f_fordpathlenRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="f_fordpathlenRef">
               <el-input v-model="form_model.f_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -121,7 +121,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="f_opppathlenRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="f_opppathlenRef">
               <el-input v-model="form_model.f_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -149,7 +149,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="s_fordpathlenRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="s_fordpathlenRef">
               <el-input v-model="form_model.s_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -177,7 +177,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="s_opppathlenRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="s_opppathlenRef">
               <el-input v-model="form_model.s_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -205,7 +205,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="t_fordpathlenRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="t_fordpathlenRef">
               <el-input v-model="form_model.t_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
@@ -233,7 +233,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="距离前一个路口距离(米)" prop="t_opppathlenRef">
+            <el-form-item label="距离上一个路口距离(米)" prop="t_opppathlenRef">
               <el-input v-model="form_model.t_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
