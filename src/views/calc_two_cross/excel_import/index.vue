@@ -41,6 +41,34 @@
               <el-input v-model="form_model.mingtimeRef" style="width: 60px" />
             </el-form-item>
           </el-col>
+          <!-- <el-col :span="6"> -->
+          <!-- <el-form-item label="西路口车道数" prop="W_pathNSRef">
+              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="东路口车道数" prop="E_pathNSRef">
+              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="北路口车道数" prop="N_pathNSRef">
+              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="南路口车道数" prop="S_pathNSRef">
+              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col> -->
         </el-row>
 
         <!-- 西出口 -->
@@ -589,6 +617,10 @@ const getInputObjInfo = (
     tortime: Number(form_model.tortimeRef),
     ytime: Number(form_model.ytimeRef),
     mingtime: Number(form_model.mingtimeRef),
+    // E_pathNS: Number(form_model.e_pathNSRef),
+    // W_pathNS: Number(form_model.w_pathNSRef),
+    // S_pathNS: Number(form_model.s_pathNSRef),
+    // N_pathNS: Number(form_model.n_pathNSRef),
 
     w_eflow: Number(west_mean),
     w_epathNS: Number(form_model.westTotalRoadCountRef),
@@ -733,6 +765,10 @@ let form_model = reactive({
   tortimeRef: 2,
   mingtimeRef: 5,
   ytimeRef: 3,
+  // E_pathNSRef: 4,
+  // W_pathNSRef: 4,
+  // S_pathNSRef: 4,
+  // N_pathNSRef: 4,
 
   eastTotalRoadCountRef: 4,
   eastOutputRoadCountRef: 2,

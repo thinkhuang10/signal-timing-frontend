@@ -232,6 +232,11 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
+            <el-form-item label="流量" prop="f_fordflowRef">
+              <el-input v-model="form_model.f_fordflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item label="出口车道数" prop="f_fordpathsNRef">
               <el-select v-model="form_model.f_fordpathsNRef" style="width: 60px" @change="f_fordpathsNRefChange">
                 <el-option v-for="item in f_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
@@ -245,26 +250,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="f_fordpathlenRef">
-              <el-input v-model="form_model.f_fordpathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="f_fordflowRef">
-              <el-input v-model="form_model.f_fordflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="f_fordflowNRef">
-              <el-input v-model="form_model.f_fordflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="f_fordflowMRef">
-              <el-input v-model="form_model.f_fordflowMRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="f_fordpathlenRef">
+              <el-input v-model="form_model.f_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -276,6 +266,11 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="f_oppflowRef">
+              <el-input v-model="form_model.f_oppflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道数" prop="f_opppathsNRef">
               <el-select v-model="form_model.f_opppathsNRef" style="width: 60px" @change="f_opppathsNRefChange">
@@ -290,26 +285,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="f_opppathlenRef">
-              <el-input v-model="form_model.f_opppathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="f_oppflowRef">
-              <el-input v-model="form_model.f_oppflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="f_oppflowNRef">
-              <el-input v-model="form_model.f_oppflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="f_oppflowMRef">
-              <el-input v-model="form_model.f_oppflowMRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="f_opppathlenRef">
+              <el-input v-model="form_model.f_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -321,6 +301,11 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="s_fordflowRef">
+              <el-input v-model="form_model.s_fordflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道数" prop="s_fordpathsNRef">
               <el-select v-model="form_model.s_fordpathsNRef" style="width: 60px" @change="s_fordpathsNRefChange">
@@ -335,26 +320,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="s_fordpathlenRef">
-              <el-input v-model="form_model.s_fordpathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="s_fordflowRef">
-              <el-input v-model="form_model.s_fordflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="s_fordflowNRef">
-              <el-input v-model="form_model.s_fordflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="s_fordflowMRef">
-              <el-input v-model="form_model.s_fordflowMRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="s_fordpathlenRef">
+              <el-input v-model="form_model.s_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -366,6 +336,11 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="s_oppflowRef">
+              <el-input v-model="form_model.s_oppflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道数" prop="s_opppathsNRef">
               <el-select v-model="form_model.s_opppathsNRef" style="width: 60px" @change="s_opppathsNRefChange">
@@ -380,26 +355,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="s_opppathlenRef">
-              <el-input v-model="form_model.s_opppathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="s_oppflowRef">
-              <el-input v-model="form_model.s_oppflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="s_oppflowNRef">
-              <el-input v-model="form_model.s_oppflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="s_oppflowMRef">
-              <el-input v-model="form_model.s_oppflowMRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="s_opppathlenRef">
+              <el-input v-model="form_model.s_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -411,6 +371,11 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="t_fordflowRef">
+              <el-input v-model="form_model.t_fordflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道数" prop="t_fordpathsNRef">
               <el-select v-model="form_model.t_fordpathsNRef" style="width: 60px" @change="t_fordpathsNRefChange">
@@ -425,26 +390,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="t_fordpathlenRef">
-              <el-input v-model="form_model.t_fordpathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="t_fordflowRef">
-              <el-input v-model="form_model.t_fordflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="t_fordflowNRef">
-              <el-input v-model="form_model.t_fordflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="t_fordflowMRef">
-              <el-input v-model="form_model.t_fordflowMRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="t_fordpathlenRef">
+              <el-input v-model="form_model.t_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -456,6 +406,11 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="t_oppflowRef">
+              <el-input v-model="form_model.t_oppflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道数" prop="t_opppathsNRef">
               <el-select v-model="form_model.t_opppathsNRef" style="width: 60px" @change="t_opppathsNRefChange">
@@ -470,26 +425,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="t_opppathlenRef">
-              <el-input v-model="form_model.t_opppathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="t_oppflowRef">
-              <el-input v-model="form_model.t_oppflowRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最小值" prop="t_oppflowNRef">
-              <el-input v-model="form_model.t_oppflowNRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="流量最大值" prop="t_oppflowMRef">
-              <el-input v-model="form_model.t_oppflowMRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="t_opppathlenRef">
+              <el-input v-model="form_model.t_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -657,7 +597,7 @@ import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
-import { get_calc_ttiming } from "@/api/modules/calc";
+import { get_calc_ttimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { ElMessage, FormInstance } from "element-plus";
@@ -826,43 +766,31 @@ let form_model = reactive({
   f_fordpathsNRef: 2,
   f_fordpathrNRef: 1,
   f_fordpathlenRef: 500,
-  f_fordflowMRef: 500,
-  f_fordflowNRef: 100,
 
   f_oppflowRef: 300,
   f_opppathsNRef: 2,
   f_opppathrNRef: 1,
   f_opppathlenRef: 500,
-  f_oppflowMRef: 500,
-  f_oppflowNRef: 100,
 
   s_fordflowRef: 300,
   s_fordpathsNRef: 2,
   s_fordpathrNRef: 1,
   s_fordpathlenRef: 500,
-  s_fordflowMRef: 500,
-  s_fordflowNRef: 100,
 
   s_oppflowRef: 300,
   s_opppathsNRef: 2,
   s_opppathrNRef: 1,
   s_opppathlenRef: 500,
-  s_oppflowMRef: 500,
-  s_oppflowNRef: 100,
 
   t_fordflowRef: 300,
   t_fordpathsNRef: 2,
   t_fordpathrNRef: 1,
   t_fordpathlenRef: 500,
-  t_fordflowMRef: 500,
-  t_fordflowNRef: 100,
 
   t_oppflowRef: 300,
   t_opppathsNRef: 2,
   t_opppathrNRef: 1,
   t_opppathlenRef: 500,
-  t_oppflowMRef: 500,
-  t_oppflowNRef: 100,
 
   first_green_Ref: 0.0,
   first_yellow_Ref: 0.0,
@@ -953,14 +881,6 @@ const rules = reactive({
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  f_fordflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_fordflowNRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
 
   // 一相位 反向
   f_oppflowRef: [
@@ -968,14 +888,6 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
   f_opppathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_oppflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  f_oppflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
@@ -989,14 +901,6 @@ const rules = reactive({
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  s_fordflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_fordflowNRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
 
   // 二相位 反向
   s_oppflowRef: [
@@ -1004,14 +908,6 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
   s_opppathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_oppflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  s_oppflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
@@ -1025,14 +921,6 @@ const rules = reactive({
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  t_fordflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_fordflowNRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
 
   // 三相位 反向
   t_oppflowRef: [
@@ -1040,14 +928,6 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
   t_opppathlenRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_oppflowMRef: [
-    { required: true, message: "请填写" },
-    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
-  ],
-  t_oppflowNRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
@@ -1271,48 +1151,36 @@ async function InitParameters() {
         form_model.f_fordpathrNRef = inputObj.f_fordpathrN;
         f_fordpathsNRefChange(form_model.f_fordpathrNRef);
         form_model.f_fordpathlenRef = inputObj.f_fordpathlen;
-        form_model.f_fordflowMRef = inputObj.f_fordflowM;
-        form_model.f_fordflowNRef = inputObj.f_fordflowN;
 
         form_model.f_oppflowRef = inputObj.f_oppflow;
         form_model.f_opppathsNRef = inputObj.f_opppathsN;
         form_model.f_opppathrNRef = inputObj.f_opppathrN;
         f_opppathsNRefChange(form_model.f_opppathrNRef);
         form_model.f_opppathlenRef = inputObj.f_opppathlen;
-        form_model.f_oppflowMRef = inputObj.f_oppflowM;
-        form_model.f_oppflowNRef = inputObj.f_oppflowN;
 
         form_model.s_fordflowRef = inputObj.s_fordflow;
         form_model.s_fordpathsNRef = inputObj.s_fordpathsN;
         form_model.s_fordpathrNRef = inputObj.s_fordpathrN;
         s_fordpathsNRefChange(form_model.s_fordpathrNRef);
         form_model.s_fordpathlenRef = inputObj.s_fordpathlen;
-        form_model.s_fordflowMRef = inputObj.s_fordflowM;
-        form_model.s_fordflowNRef = inputObj.s_fordflowN;
 
         form_model.s_oppflowRef = inputObj.s_oppflow;
         form_model.s_opppathsNRef = inputObj.s_opppathsN;
         form_model.s_opppathrNRef = inputObj.s_opppathrN;
         s_opppathsNRefChange(form_model.s_opppathrNRef);
         form_model.s_opppathlenRef = inputObj.s_opppathlen;
-        form_model.s_oppflowMRef = inputObj.s_oppflowM;
-        form_model.s_oppflowNRef = inputObj.s_oppflowN;
 
         form_model.t_fordflowRef = inputObj.t_fordflow;
         form_model.t_fordpathsNRef = inputObj.t_fordpathsN;
         form_model.t_fordpathrNRef = inputObj.t_fordpathrN;
         t_fordpathsNRefChange(form_model.t_fordpathrNRef);
         form_model.t_fordpathlenRef = inputObj.t_fordpathlen;
-        form_model.t_fordflowMRef = inputObj.t_fordflowM;
-        form_model.t_fordflowNRef = inputObj.t_fordflowN;
 
         form_model.t_oppflowRef = inputObj.t_oppflow;
         form_model.t_opppathsNRef = inputObj.t_opppathsN;
         form_model.t_opppathrNRef = inputObj.t_opppathrN;
         t_opppathsNRefChange(form_model.t_opppathrNRef);
         form_model.t_opppathlenRef = inputObj.t_opppathlen;
-        form_model.t_oppflowMRef = inputObj.t_oppflowM;
-        form_model.t_oppflowNRef = inputObj.t_oppflowN;
       }
     }
 
@@ -1357,69 +1225,14 @@ function DrawRoad() {
 
 async function ExecuteCalc() {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
     }
 
-    let isSuccess: any = CheckFlow();
-    if (!isSuccess) return;
-
     openDialog();
   });
-}
-
-function CheckFlow() {
-  if (
-    Number(form_model.f_fordflowRef) < Number(form_model.f_fordflowNRef) ||
-    Number(form_model.f_fordflowRef) > Number(form_model.f_fordflowMRef)
-  ) {
-    ElMessage.error({ message: "一相位正向流量不在流量最小值与最大值之间！" });
-    return false;
-  }
-
-  if (
-    Number(form_model.f_oppflowRef) < Number(form_model.f_oppflowNRef) ||
-    Number(form_model.f_oppflowRef) > Number(form_model.f_oppflowMRef)
-  ) {
-    ElMessage.error({ message: "一相位逆向流量不在流量最小值与最大值之间！" });
-    return false;
-  }
-
-  if (
-    Number(form_model.s_fordflowRef) < Number(form_model.s_fordflowNRef) ||
-    Number(form_model.s_fordflowRef) > Number(form_model.s_fordflowMRef)
-  ) {
-    ElMessage.error({ message: "二相位正向流量不在流量最小值与最大值之间！" });
-    return false;
-  }
-
-  if (
-    Number(form_model.s_oppflowRef) < Number(form_model.s_oppflowNRef) ||
-    Number(form_model.s_oppflowRef) > Number(form_model.s_oppflowMRef)
-  ) {
-    ElMessage.error({ message: "二相位逆向流量不在流量最小值与最大值之间！" });
-    return false;
-  }
-
-  if (
-    Number(form_model.t_fordflowRef) < Number(form_model.t_fordflowNRef) ||
-    Number(form_model.t_fordflowRef) > Number(form_model.t_fordflowMRef)
-  ) {
-    ElMessage.error({ message: "三相位正向流量不在流量最小值与最大值之间！" });
-    return false;
-  }
-
-  if (
-    Number(form_model.t_oppflowRef) < Number(form_model.t_oppflowNRef) ||
-    Number(form_model.t_oppflowRef) > Number(form_model.t_oppflowMRef)
-  ) {
-    ElMessage.error({ message: "三相位逆向流量不在流量最小值与最大值之间！" });
-    return false;
-  }
-
-  return true;
 }
 
 async function CloseDialog() {
@@ -1433,7 +1246,7 @@ async function CloseDialog() {
 
   try {
     // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
-    let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
+    let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
     calc_result = calc_result.replace(/\n$/, "");
     let calc_outputs: any = calc_result.split(",");
     if (calc_outputs.length >= 6) {
@@ -1471,7 +1284,7 @@ async function CloseDialog() {
 
 async function SaveParametersToSQL() {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
@@ -1481,9 +1294,6 @@ async function SaveParametersToSQL() {
       ElMessage.error({ message: "请选择位置！" });
       return;
     }
-
-    let isSuccess: any = CheckFlow();
-    if (!isSuccess) return;
 
     let isPTimeSuccess: any = CheckPTime();
     if (!isPTimeSuccess) return;
@@ -1579,43 +1389,31 @@ function GetInputObjInfo() {
     f_fordpathsN: Number(form_model.f_fordpathsNRef),
     f_fordpathrN: Number(form_model.f_fordpathrNRef),
     f_fordpathlen: Number(form_model.f_fordpathlenRef),
-    f_fordflowM: Number(form_model.f_fordflowMRef),
-    f_fordflowN: Number(form_model.f_fordflowNRef),
 
     f_oppflow: Number(form_model.f_oppflowRef),
     f_opppathsN: Number(form_model.f_opppathsNRef),
     f_opppathrN: Number(form_model.f_opppathrNRef),
     f_opppathlen: Number(form_model.f_opppathlenRef),
-    f_oppflowM: Number(form_model.f_oppflowMRef),
-    f_oppflowN: Number(form_model.f_oppflowNRef),
 
     s_fordflow: Number(form_model.s_fordflowRef),
     s_fordpathsN: Number(form_model.s_fordpathsNRef),
     s_fordpathrN: Number(form_model.s_fordpathrNRef),
     s_fordpathlen: Number(form_model.s_fordpathlenRef),
-    s_fordflowM: Number(form_model.s_fordflowMRef),
-    s_fordflowN: Number(form_model.s_fordflowNRef),
 
     s_oppflow: Number(form_model.s_oppflowRef),
     s_opppathsN: Number(form_model.s_opppathsNRef),
     s_opppathrN: Number(form_model.s_opppathrNRef),
     s_opppathlen: Number(form_model.s_opppathlenRef),
-    s_oppflowM: Number(form_model.s_oppflowMRef),
-    s_oppflowN: Number(form_model.s_oppflowNRef),
 
     t_fordflow: Number(form_model.t_fordflowRef),
     t_fordpathsN: Number(form_model.t_fordpathsNRef),
     t_fordpathrN: Number(form_model.t_fordpathrNRef),
     t_fordpathlen: Number(form_model.t_fordpathlenRef),
-    t_fordflowM: Number(form_model.t_fordflowMRef),
-    t_fordflowN: Number(form_model.t_fordflowNRef),
 
     t_oppflow: Number(form_model.t_oppflowRef),
     t_opppathsN: Number(form_model.t_opppathsNRef),
     t_opppathrN: Number(form_model.t_opppathrNRef),
-    t_opppathlen: Number(form_model.t_opppathlenRef),
-    t_oppflowM: Number(form_model.t_oppflowMRef),
-    t_oppflowN: Number(form_model.t_oppflowNRef)
+    t_opppathlen: Number(form_model.t_opppathlenRef)
   };
 }
 

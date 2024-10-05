@@ -394,7 +394,7 @@
 <script setup lang="ts" name="map">
 import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
-import { get_calc_ttiming } from "@/api/modules/calc";
+import { get_calc_ttiminge } from "@/api/modules/calc";
 import {
   get_import_detail_by_code,
   getCheckExcelFormat,
@@ -523,7 +523,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
 
     try {
       // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
-      let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
+      let calc_result: any = (await get_calc_ttiminge(input_infos_obj)).data;
       calc_result = calc_result.replace(/\n$/, "");
       let calc_outputs: any = calc_result.split(",");
       if (calc_outputs.length >= 6) {
@@ -560,7 +560,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
         Cal_Correct_WorkDayTableData.value.sort(sortIdAsc);
       }
     } catch (error) {
-      console.log("get_calc_stimingf出现异常: " + error);
+      console.log("get_calc_stiminge出现异常: " + error);
     }
   });
 }
@@ -595,7 +595,7 @@ function calcHolidayDataTable(holidayFlow: any): void {
 
     try {
       // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
-      let calc_result: any = (await get_calc_ttiming(input_infos_obj)).data;
+      let calc_result: any = (await get_calc_ttiminge(input_infos_obj)).data;
       calc_result = calc_result.replace(/\n$/, "");
       let calc_outputs: any = calc_result.split(",");
       if (calc_outputs.length >= 6) {
@@ -632,7 +632,7 @@ function calcHolidayDataTable(holidayFlow: any): void {
         Cal_Correct_HoliDayTableData.value.sort(sortIdAsc);
       }
     } catch (error) {
-      console.log("get_calc_stimingf出现异常: " + error);
+      console.log("get_calc_stiminge出现异常: " + error);
     }
   });
 }
