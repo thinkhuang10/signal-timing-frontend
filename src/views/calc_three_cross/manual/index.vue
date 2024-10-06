@@ -1,8 +1,9 @@
 <template>
   <el-row style="margin: 10px">
     <el-button type="primary" @click="goBack()" style="margin-right: 50px">返回</el-button>
-    <el-text style="margin-right: 30px; font-size: 20px">三相位配时计算 - 十字路口</el-text>
-    <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange">
+    <el-text style="margin-right: 30px; font-size: 20px">三相位配时计算 - 手动输入</el-text>
+    <el-text style="margin-left: 30px">路口位置</el-text>
+    <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange" style="margin-left: 10px">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
   </el-row>
@@ -1105,7 +1106,8 @@ onMounted(async () => {
   params.pageSize = 1000;
   params.type = 1;
   params.calc_type = "三相位";
-  params.crossing_type = "十字路口";
+  // crossing_type如果不定义, 为undefined,则查询所有路口类型
+  // params.crossing_type = "十字路口";
 
   let result: any = await get_list(params);
   for (let i = 0; i < result.data.list.length; i++) {
