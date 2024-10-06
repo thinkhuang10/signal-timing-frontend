@@ -16,116 +16,148 @@
       }
     },
     {
-      "path": "/calc_two_cross/manual/index",
-      "name": "calc_two_cross_manual",
-      "component": "/calc_two_cross/manual/index",
+      "path": "/calc/manual",
+      "name": "calc_manual",
+      "redirect": "/calc/manual",
       "meta": {
         "icon": "HelpFilled",
-        "title": "两相位配时计算",
+        "title": "手动输入",
         "isLink": "",
         "isHide": false,
-        "isFull": true,
+        "isFull": false,
         "isAffix": false,
         "isKeepAlive": true
-      }
+      },
+      "children": [
+        {
+          "path": "/calc_two_cross/manual/index",
+          "name": "calc_two_cross_manual",
+          "component": "/calc_two_cross/manual/index",
+          "meta": {
+            "icon": "HelpFilled",
+            "title": "两相位配时计算",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_three_cross/manual/index",
+          "name": "calc_three_cross_manual",
+          "component": "/calc_three_cross/manual/index",
+          "meta": {
+            "icon": "HelpFilled",
+            "title": "三相位配时计算",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_four_cross/manual/index",
+          "name": "calc_four_cross_manual",
+          "component": "/calc_four_cross/manual/index",
+          "meta": {
+            "icon": "HelpFilled",
+            "title": "四相位配时计算",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_five_cross/manual/index",
+          "name": "calc_five_cross_manual",
+          "component": "/calc_five_cross/manual/index",
+          "meta": {
+            "icon": "HelpFilled",
+            "title": "五相位配时计算",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
     },
     {
-      "path": "/calc_three_cross/manual/index",
-      "name": "calc_three_cross_manual",
-      "component": "/calc_three_cross/manual/index",
-      "meta": {
-        "icon": "HelpFilled",
-        "title": "三相位配时计算",
-        "isLink": "",
-        "isHide": false,
-        "isFull": true,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
-    },
-    {
-      "path": "/calc_four_cross/manual/index",
-      "name": "calc_four_cross_manual",
-      "component": "/calc_four_cross/manual/index",
-      "meta": {
-        "icon": "HelpFilled",
-        "title": "四相位配时计算",
-        "isLink": "",
-        "isHide": false,
-        "isFull": true,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
-    },
-    {
-      "path": "/calc_five_cross/manual/index",
-      "name": "calc_five_cross_manual",
-      "component": "/calc_five_cross/manual/index",
-      "meta": {
-        "icon": "HelpFilled",
-        "title": "五相位配时计算",
-        "isLink": "",
-        "isHide": false,
-        "isFull": true,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
-    },
-    {
-      "path": "/calc_two_cross/excel_import/index",
-      "name": "calc_two_cross_excel_import",
-      "component": "/calc_two_cross/excel_import/index",
-      "meta": {
-        "icon": "ChromeFilled",
-        "title": "两相位数据导入",
-        "isLink": "",
-        "isHide": false,
-        "isFull": true,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
-    },
-    {
-      "path": "/calc_three_cross/excel_import/index",
-      "name": "calc_three_cross_excel_import",
-      "component": "/calc_three_cross/excel_import/index",
-      "meta": {
-        "icon": "ChromeFilled",
-        "title": "三相位数据导入",
-        "isLink": "",
-        "isHide": false,
-        "isFull": true,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
-    },
-    {
-      "path": "/calc_four_cross/excel_import/index",
-      "name": "calc_four_cross_excel_import",
-      "component": "/calc_four_cross/excel_import/index",
+      "path": "/calc/export",
+      "name": "calc_export",
+      "redirect": "/calc/export",
       "meta": {
         "icon": "ChromeFilled",
-        "title": "四相位数据导入",
+        "title": "数据导入",
         "isLink": "",
         "isHide": false,
-        "isFull": true,
+        "isFull": false,
         "isAffix": false,
         "isKeepAlive": true
-      }
-    },
-    {
-      "path": "/calc_five_cross/excel_import/index",
-      "name": "calc_five_cross_excel_import",
-      "component": "/calc_five_cross/excel_import/index",
-      "meta": {
-        "icon": "ChromeFilled",
-        "title": "五相位数据导入",
-        "isLink": "",
-        "isHide": false,
-        "isFull": true,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
+      },
+      "children": [
+        {
+          "path": "/calc_two_cross/excel_import/index",
+          "name": "calc_two_cross_excel_import",
+          "component": "/calc_two_cross/excel_import/index",
+          "meta": {
+            "icon": "ChromeFilled",
+            "title": "两相位数据导入",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_three_cross/excel_import/index",
+          "name": "calc_three_cross_excel_import",
+          "component": "/calc_three_cross/excel_import/index",
+          "meta": {
+            "icon": "ChromeFilled",
+            "title": "三相位数据导入",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_four_cross/excel_import/index",
+          "name": "calc_four_cross_excel_import",
+          "component": "/calc_four_cross/excel_import/index",
+          "meta": {
+            "icon": "ChromeFilled",
+            "title": "四相位数据导入",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/calc_five_cross/excel_import/index",
+          "name": "calc_five_cross_excel_import",
+          "component": "/calc_five_cross/excel_import/index",
+          "meta": {
+            "icon": "ChromeFilled",
+            "title": "五相位数据导入",
+            "isLink": "",
+            "isHide": false,
+            "isFull": true,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
     },
     {
       "path": "/intersection/index",
