@@ -87,14 +87,12 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="路口车道数" prop="W_pathNSRef">
-              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="W_pathNSRefChange">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
+            <el-form-item label="流量" prop="w_eflowRef">
+              <el-input v-model="form_model.w_eflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="w_epathsN">
+            <el-form-item label="出口车道数" prop="w_epathsNRef">
               <el-select v-model="form_model.w_epathsNRef" style="width: 60px" @change="westOutputRoadCountRefChange">
                 <el-option
                   v-for="item in roadWestOutputNumberArrayRef"
@@ -106,7 +104,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="w_epathrN">
+            <el-form-item label="右转专有车道" prop="w_epathrNRef">
               <el-select v-model="form_model.w_epathrNRef" style="width: 60px">
                 <el-option
                   v-for="item in roadWestRightNumberArrayRef"
@@ -117,16 +115,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="w_epathlen">
-              <el-input v-model="form_model.w_epathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="w_eflow">
-              <el-input v-model="form_model.w_eflowRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="w_epathlenRef">
+              <el-input v-model="form_model.w_epathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -139,14 +132,12 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="路口车道数" prop="E_pathNSRef">
-              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="E_pathNSRefChange">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
+            <el-form-item label="流量" prop="e_wflowRef">
+              <el-input v-model="form_model.e_wflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="e_wpathsN">
+            <el-form-item label="出口车道数" prop="e_wpathsNRef">
               <el-select v-model="form_model.e_wpathsNRef" style="width: 60px" @change="eastOutputRoadCountRefChange">
                 <el-option
                   v-for="item in roadEastOutputNumberArrayRef"
@@ -158,7 +149,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="e_wpathrN">
+            <el-form-item label="右转专有车道" prop="e_wpathrNRef">
               <el-select v-model="form_model.e_wpathrNRef" style="width: 60px">
                 <el-option
                   v-for="item in roadEastRightNumberArrayRef"
@@ -169,16 +160,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="e_wpathlen">
-              <el-input v-model="form_model.e_wpathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="e_wflow">
-              <el-input v-model="form_model.e_wflowRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="e_wpathlenRef">
+              <el-input v-model="form_model.e_wpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -191,14 +177,12 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="路口车道数" prop="N_pathNSRef">
-              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="northTotalRoadCountRefChange">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
+            <el-form-item label="流量" prop="n_sflowRef">
+              <el-input v-model="form_model.n_sflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="n_spathsN">
+            <el-form-item label="出口车道数" prop="n_spathsNRef">
               <el-select v-model="form_model.n_spathsNRef" style="width: 60px" @change="northOutputRoadCountRefChange">
                 <el-option
                   v-for="item in roadNorthOutputNumberArrayRef"
@@ -210,7 +194,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="n_spathrN">
+            <el-form-item label="右转专有车道" prop="n_spathrNRef">
               <el-select v-model="form_model.n_spathrNRef" style="width: 60px">
                 <el-option
                   v-for="item in roadNorthRightNumberArrayRef"
@@ -221,16 +205,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="n_spathlen">
-              <el-input v-model="form_model.n_spathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="n_sflowRef">
-              <el-input v-model="form_model.n_sflowRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="n_spathlenRef">
+              <el-input v-model="form_model.n_spathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -243,14 +222,12 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="路口车道数" prop="S_pathNSRef">
-              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="S_pathNSRefChange">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
+            <el-form-item label="流量" prop="s_nflowRef">
+              <el-input v-model="form_model.s_nflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="s_npathsN">
+            <el-form-item label="出口车道数" prop="s_npathsNRef">
               <el-select v-model="form_model.s_npathsNRef" style="width: 60px" @change="southOutputRoadCountRefChange">
                 <el-option
                   v-for="item in roadSouthOutputNumberArrayRef"
@@ -262,7 +239,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="s_npathrN">
+            <el-form-item label="右转专有车道" prop="s_npathrNRef">
               <el-select v-model="form_model.s_npathrNRef" style="width: 60px">
                 <el-option
                   v-for="item in roadSouthRightNumberArrayRef"
@@ -273,16 +250,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="距离上一个路口距离(米)" prop="s_npathlen">
-              <el-input v-model="form_model.s_npathlenRef" style="width: 60px" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
-            <el-form-item label="流量" prop="s_nflow">
-              <el-input v-model="form_model.s_nflowRef" style="width: 60px" />
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="s_npathlenRef">
+              <el-input v-model="form_model.s_npathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -404,7 +376,7 @@ import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
-import { get_calc_stiminge } from "@/api/modules/calc";
+import { get_calc_stimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
@@ -821,7 +793,7 @@ async function CloseDialog() {
 
   try {
     // let calc_result = "11.5,22.5,33.5,44.5\n";
-    let calc_result: any = (await get_calc_stiminge(input_infos_obj)).data;
+    let calc_result: any = (await get_calc_stimingh(input_infos_obj)).data;
     calc_result = calc_result.replace(/\n$/, "");
     let calc_outputs: any = calc_result.split(",");
     if (calc_outputs.length >= 4) {
@@ -841,7 +813,7 @@ async function CloseDialog() {
       form_model.s_n_red_correct_Ref = s_n_red_computed.value;
     }
   } catch (error) {
-    console.log("get_calc_stiminge 出现异常: " + error);
+    console.log("get_calc_stimingh 出现异常: " + error);
   }
 }
 
