@@ -6,6 +6,10 @@
     <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange" style="margin-left: 10px">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
+    <el-text style="margin-left: 30px">方案名称</el-text>
+    <el-select v-model="selectedSchemeRef" placeholder="请选择" @change="schemeRefChange" style="margin-left: 10px">
+      <el-option v-for="item in schemesRef" :key="item.value" :label="item.label" :value="item.value" />
+    </el-select>
   </el-row>
 
   <el-row>
@@ -438,7 +442,10 @@
         <!-- Create Road -->
         <el-form-item style="margin-left: 20px">
           <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="ExecuteCalc()">计算</el-button>
-          <el-button type="primary" @click="SaveParametersToSQL()" style="margin-right: 30px">保存</el-button>
+
+          <el-text style="margin-left: 30px">方案名称</el-text>
+          <el-input v-model="saveSchemeRef" style="width: 160px; margin-left: 10px" />
+          <el-button type="primary" @click="SaveParametersToSQL()" style="margin-left: 10px">保存</el-button>
         </el-form-item>
 
         <!-- 计算输出结果 -->
@@ -598,7 +605,7 @@ import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
-import { get_calc_ttimingh } from "@/api/modules/calc";
+// import { get_calc_ttimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
@@ -628,6 +635,12 @@ let roadNumberArrayRef: any = ref([
 
 let selectedPositionRef: any = ref("");
 let positionsRef: any = ref([]);
+
+let selectedSchemeRef: any = ref("");
+let saveSchemeRef: any = ref("");
+let schemesRef: any = ref([]);
+
+let selectedInputParameters: any = [];
 
 let f_fordpathsNArrayRef: any = ref([
   { value: "0", label: "0" },
@@ -1128,6 +1141,67 @@ function positionRefChange(selectedVal: any) {
   InitParameters();
 }
 
+function schemeRefChange(selectedVal: any) {
+  for (let i = 0; i < selectedInputParameters.length; i++) {
+    let schemeName: any = selectedInputParameters[i].schemeName;
+    if (schemeName != selectedVal) continue;
+
+    // 获取参数
+    GetInputParameters(selectedInputParameters[i]);
+  }
+}
+
+function GetInputParameters(inputObj: any) {
+  // 获取参数
+  form_model.TRef = inputObj.T;
+  form_model.ptimeRef = inputObj.ptime;
+  form_model.tortimeRef = inputObj.tortime;
+  form_model.ytimeRef = inputObj.ytime;
+  form_model.mingtimeRef = inputObj.mingtime;
+  form_model.E_pathNSRef = inputObj.E_pathNS;
+  form_model.W_pathNSRef = inputObj.W_pathNS;
+  form_model.S_pathNSRef = inputObj.S_pathNS;
+  form_model.N_pathNSRef = inputObj.N_pathNS;
+
+  pathNSRefChange(0);
+
+  form_model.f_fordflowRef = inputObj.f_fordflow;
+  form_model.f_fordpathsNRef = inputObj.f_fordpathsN;
+  form_model.f_fordpathrNRef = inputObj.f_fordpathrN;
+  f_fordpathsNRefChange(form_model.f_fordpathrNRef);
+  form_model.f_fordpathlenRef = inputObj.f_fordpathlen;
+
+  form_model.f_oppflowRef = inputObj.f_oppflow;
+  form_model.f_opppathsNRef = inputObj.f_opppathsN;
+  form_model.f_opppathrNRef = inputObj.f_opppathrN;
+  f_opppathsNRefChange(form_model.f_opppathrNRef);
+  form_model.f_opppathlenRef = inputObj.f_opppathlen;
+
+  form_model.s_fordflowRef = inputObj.s_fordflow;
+  form_model.s_fordpathsNRef = inputObj.s_fordpathsN;
+  form_model.s_fordpathrNRef = inputObj.s_fordpathrN;
+  s_fordpathsNRefChange(form_model.s_fordpathrNRef);
+  form_model.s_fordpathlenRef = inputObj.s_fordpathlen;
+
+  form_model.s_oppflowRef = inputObj.s_oppflow;
+  form_model.s_opppathsNRef = inputObj.s_opppathsN;
+  form_model.s_opppathrNRef = inputObj.s_opppathrN;
+  s_opppathsNRefChange(form_model.s_opppathrNRef);
+  form_model.s_opppathlenRef = inputObj.s_opppathlen;
+
+  form_model.t_fordflowRef = inputObj.t_fordflow;
+  form_model.t_fordpathsNRef = inputObj.t_fordpathsN;
+  form_model.t_fordpathrNRef = inputObj.t_fordpathrN;
+  t_fordpathsNRefChange(form_model.t_fordpathrNRef);
+  form_model.t_fordpathlenRef = inputObj.t_fordpathlen;
+
+  form_model.t_oppflowRef = inputObj.t_oppflow;
+  form_model.t_opppathsNRef = inputObj.t_opppathsN;
+  form_model.t_opppathrNRef = inputObj.t_opppathrN;
+  t_opppathsNRefChange(form_model.t_opppathrNRef);
+  form_model.t_opppathlenRef = inputObj.t_opppathlen;
+}
+
 async function InitParameters() {
   let detail_infos: any = await get_detail_by_code({ code: codeRef.value });
   let result: any = detail_infos.data[0];
@@ -1135,55 +1209,21 @@ async function InitParameters() {
     positionRef.value = "位置: " + result.position;
 
     if (null != result.input_parameters && "" != result.input_parameters) {
-      let inputObj: any = JSON.parse(result.input_parameters);
-      if (null != inputObj) {
-        form_model.TRef = inputObj.T;
-        form_model.ptimeRef = inputObj.ptime;
-        form_model.tortimeRef = inputObj.tortime;
-        form_model.ytimeRef = inputObj.ytime;
-        form_model.mingtimeRef = inputObj.mingtime;
-        form_model.E_pathNSRef = inputObj.E_pathNS;
-        form_model.W_pathNSRef = inputObj.W_pathNS;
-        form_model.S_pathNSRef = inputObj.S_pathNS;
-        form_model.N_pathNSRef = inputObj.N_pathNS;
+      selectedInputParameters = JSON.parse(result.input_parameters);
+      if (null != selectedInputParameters) {
+        schemesRef.value = [];
+        for (let i = 0; i < selectedInputParameters.length; i++) {
+          // 获取方案
+          let schemeName: any = selectedInputParameters[i].schemeName;
+          if (undefined == schemeName) continue;
+          schemesRef.value.push({ value: schemeName, label: schemeName });
 
-        pathNSRefChange(0);
-
-        form_model.f_fordflowRef = inputObj.f_fordflow;
-        form_model.f_fordpathsNRef = inputObj.f_fordpathsN;
-        form_model.f_fordpathrNRef = inputObj.f_fordpathrN;
-        f_fordpathsNRefChange(form_model.f_fordpathrNRef);
-        form_model.f_fordpathlenRef = inputObj.f_fordpathlen;
-
-        form_model.f_oppflowRef = inputObj.f_oppflow;
-        form_model.f_opppathsNRef = inputObj.f_opppathsN;
-        form_model.f_opppathrNRef = inputObj.f_opppathrN;
-        f_opppathsNRefChange(form_model.f_opppathrNRef);
-        form_model.f_opppathlenRef = inputObj.f_opppathlen;
-
-        form_model.s_fordflowRef = inputObj.s_fordflow;
-        form_model.s_fordpathsNRef = inputObj.s_fordpathsN;
-        form_model.s_fordpathrNRef = inputObj.s_fordpathrN;
-        s_fordpathsNRefChange(form_model.s_fordpathrNRef);
-        form_model.s_fordpathlenRef = inputObj.s_fordpathlen;
-
-        form_model.s_oppflowRef = inputObj.s_oppflow;
-        form_model.s_opppathsNRef = inputObj.s_opppathsN;
-        form_model.s_opppathrNRef = inputObj.s_opppathrN;
-        s_opppathsNRefChange(form_model.s_opppathrNRef);
-        form_model.s_opppathlenRef = inputObj.s_opppathlen;
-
-        form_model.t_fordflowRef = inputObj.t_fordflow;
-        form_model.t_fordpathsNRef = inputObj.t_fordpathsN;
-        form_model.t_fordpathrNRef = inputObj.t_fordpathrN;
-        t_fordpathsNRefChange(form_model.t_fordpathrNRef);
-        form_model.t_fordpathlenRef = inputObj.t_fordpathlen;
-
-        form_model.t_oppflowRef = inputObj.t_oppflow;
-        form_model.t_opppathsNRef = inputObj.t_opppathsN;
-        form_model.t_opppathrNRef = inputObj.t_opppathrN;
-        t_opppathsNRefChange(form_model.t_opppathrNRef);
-        form_model.t_opppathlenRef = inputObj.t_opppathlen;
+          if (0 == i) {
+            selectedSchemeRef.value = schemeName;
+            // 获取参数
+            GetInputParameters(selectedInputParameters[0]);
+          }
+        }
       }
     }
 
@@ -1248,8 +1288,8 @@ async function CloseDialog() {
   console.log(input_infos_obj);
 
   try {
-    // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
-    let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
+    let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
+    // let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
     calc_result = calc_result.replace(/\n$/, "");
     let calc_outputs: any = calc_result.split(",");
     if (calc_outputs.length >= 6) {
@@ -1298,13 +1338,19 @@ async function SaveParametersToSQL() {
       return;
     }
 
-    let isPTimeSuccess: any = CheckPTime();
-    if (!isPTimeSuccess) return;
+    if ("" == saveSchemeRef.value) {
+      ElMessage.error({ message: "请填写保存方案名称！" });
+      return;
+    }
+
+    // let isPTimeSuccess: any = CheckPTime();
+    // if (!isPTimeSuccess) return;
 
     // 调用数据接口计算
     let input_infos_obj: any = GetInputObjInfo();
 
     let output_infos_obj = {
+      schemeName: selectedSchemeRef.value,
       first_red: Number(form_model.first_red_Ref),
       first_yellow: Number(form_model.first_yellow_Ref),
       first_green: Number(form_model.first_green_Ref),
@@ -1332,16 +1378,28 @@ async function SaveParametersToSQL() {
       three_green_correct: Number(form_model.three_green_correct_Ref)
     };
 
-    // 保存数据到数
+    // 保存数据到数据库
     let input_infos_str: any = JSON.stringify(input_infos_obj);
     let output_infos_str: any = JSON.stringify(output_infos_obj);
-    await set_detail_by_code({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
     await add_historian({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
+
+    selectedInputParameters = selectedInputParameters.filter(function (item: any) {
+      return item !== saveSchemeRef.value;
+    });
+    selectedInputParameters.push(input_infos_obj);
+    let input_infos_str_scheme: any = JSON.stringify(selectedInputParameters);
+    let output_infos_str_scheme: any = JSON.stringify(output_infos_obj);
+    await set_detail_by_code({
+      code: codeRef.value,
+      input_parameters: input_infos_str_scheme,
+      output_parameters: output_infos_str_scheme
+    });
 
     ElMessage.info({ message: "保存成功." });
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function CheckPTime() {
   if (
     Number(form_model.TRef) !=
@@ -1378,6 +1436,7 @@ function CheckPTime() {
 
 function GetInputObjInfo() {
   return {
+    schemeName: saveSchemeRef.value,
     T: Number(form_model.TRef),
     ptime: Number(form_model.ptimeRef),
     tortime: Number(form_model.tortimeRef),
