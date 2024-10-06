@@ -641,6 +641,7 @@ let saveSchemeRef: any = ref("");
 let schemesRef: any = ref([]);
 
 let selectedInputParameters: any = [];
+let selectedOutputParameters: any = [];
 
 let f_fordpathsNArrayRef: any = ref([
   { value: "0", label: "0" },
@@ -1149,6 +1150,14 @@ function schemeRefChange(selectedVal: any) {
     // 获取参数
     GetInputParameters(selectedInputParameters[i]);
   }
+
+  for (let i = 0; i < selectedOutputParameters.length; i++) {
+    let schemeName: any = selectedOutputParameters[i].schemeName;
+    if (schemeName != selectedVal) continue;
+
+    // 获取参数
+    GetOutputParameters(selectedInputParameters[i]);
+  }
 }
 
 function GetInputParameters(inputObj: any) {
@@ -1202,6 +1211,35 @@ function GetInputParameters(inputObj: any) {
   form_model.t_opppathlenRef = inputObj.t_opppathlen;
 }
 
+function GetOutputParameters(outputObj: any) {
+  // 获取参数
+  form_model.first_green_Ref = outputObj.first_green;
+  form_model.first_yellow_Ref = outputObj.first_yellow;
+  form_model.first_red_Ref = outputObj.first_red;
+
+  form_model.second_green_Ref = outputObj.second_green;
+  form_model.second_yellow_Ref = outputObj.second_yellow;
+  form_model.second_red_Ref = outputObj.second_red;
+
+  form_model.three_green_Ref = outputObj.three_green;
+  form_model.three_yellow_Ref = outputObj.three_yellow;
+  form_model.three_red_Ref = outputObj.three_red;
+
+  form_model.is_show_warning_Ref = outputObj.is_show_warning_Ref;
+
+  form_model.first_green_correct_Ref = outputObj.first_green_correct;
+  form_model.first_yellow_correct_Ref = outputObj.first_yellow_correct;
+  form_model.first_red_correct_Ref = outputObj.first_red_correct;
+
+  form_model.second_green_correct_Ref = outputObj.second_green_correct;
+  form_model.second_yellow_correct_Ref = outputObj.second_yellow_correct;
+  form_model.second_red_correct_Ref = outputObj.second_red_correct;
+
+  form_model.three_green_correct_Ref = outputObj.three_green_correct;
+  form_model.three_yellow_correct_Ref = outputObj.three_yellow_correct;
+  form_model.three_red_correct_Ref = outputObj.three_red_correct;
+}
+
 async function InitParameters() {
   let detail_infos: any = await get_detail_by_code({ code: codeRef.value });
   let result: any = detail_infos.data[0];
@@ -1228,33 +1266,14 @@ async function InitParameters() {
     }
 
     if (null != result.output_parameters && "" != result.output_parameters) {
-      let outputObj: any = JSON.parse(result.output_parameters);
-      if (null != outputObj) {
-        form_model.first_green_Ref = outputObj.first_green;
-        form_model.first_yellow_Ref = outputObj.first_yellow;
-        form_model.first_red_Ref = outputObj.first_red;
-
-        form_model.second_green_Ref = outputObj.second_green;
-        form_model.second_yellow_Ref = outputObj.second_yellow;
-        form_model.second_red_Ref = outputObj.second_red;
-
-        form_model.three_green_Ref = outputObj.three_green;
-        form_model.three_yellow_Ref = outputObj.three_yellow;
-        form_model.three_red_Ref = outputObj.three_red;
-
-        form_model.is_show_warning_Ref = outputObj.is_show_warning_Ref;
-
-        form_model.first_green_correct_Ref = outputObj.first_green_correct;
-        form_model.first_yellow_correct_Ref = outputObj.first_yellow_correct;
-        form_model.first_red_correct_Ref = outputObj.first_red_correct;
-
-        form_model.second_green_correct_Ref = outputObj.second_green_correct;
-        form_model.second_yellow_correct_Ref = outputObj.second_yellow_correct;
-        form_model.second_red_correct_Ref = outputObj.second_red_correct;
-
-        form_model.three_green_correct_Ref = outputObj.three_green_correct;
-        form_model.three_yellow_correct_Ref = outputObj.three_yellow_correct;
-        form_model.three_red_correct_Ref = outputObj.three_red_correct;
+      selectedOutputParameters = JSON.parse(result.output_parameters);
+      if (null != selectedOutputParameters) {
+        for (let i = 0; i < selectedOutputParameters.length; i++) {
+          if (0 == i) {
+            // 获取参数
+            GetInputParameters(selectedOutputParameters[0]);
+          }
+        }
       }
     }
   }
@@ -1388,7 +1407,12 @@ async function SaveParametersToSQL() {
     });
     selectedInputParameters.push(input_infos_obj);
     let input_infos_str_scheme: any = JSON.stringify(selectedInputParameters);
-    let output_infos_str_scheme: any = JSON.stringify(output_infos_obj);
+
+    selectedOutputParameters = selectedInputParameters.filter(function (item: any) {
+      return item !== saveSchemeRef.value;
+    });
+    selectedOutputParameters.push(input_infos_obj);
+    let output_infos_str_scheme: any = JSON.stringify(selectedOutputParameters);
     await set_detail_by_code({
       code: codeRef.value,
       input_parameters: input_infos_str_scheme,
