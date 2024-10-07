@@ -1354,7 +1354,7 @@ function delScheme() {
   ElMessageBox.confirm("是否删除方案?", "提示", {
     confirmButtonText: "是",
     cancelButtonText: "否",
-    type: "提示"
+    type: "warning"
   })
     .then(async () => {
       selectedInputParameters = selectedInputParameters.filter(function (item: any) {
@@ -1429,7 +1429,7 @@ async function ValidateAndSaveParametersToSQL() {
       ElMessageBox.confirm("方案名称重复, 是否继续?", "提示", {
         confirmButtonText: "是",
         cancelButtonText: "否",
-        type: "提示"
+        type: "warning"
       })
         .then(async () => {
           await SaveParametersToSQL();
