@@ -174,20 +174,6 @@
       }
     },
     {
-      "path": "/intersection_scheme/index",
-      "name": "intersection_scheme",
-      "component": "/intersection_scheme/index",
-      "meta": {
-        "icon": "Management",
-        "title": "路口方案管理",
-        "isLink": "",
-        "isHide": false,
-        "isFull": false,
-        "isAffix": false,
-        "isKeepAlive": true
-      }
-    },
-    {
       "path": "/intersection_historian/index",
       "name": "intersection_historian",
       "component": "/intersection_historian/index",
