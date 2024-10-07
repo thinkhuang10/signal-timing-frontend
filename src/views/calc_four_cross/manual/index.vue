@@ -1,7 +1,7 @@
 <template>
   <el-row style="margin: 10px">
     <el-button type="primary" @click="goBack()" style="margin-right: 50px">返回</el-button>
-    <el-text style="margin-right: 30px; font-size: 20px">两相位 - 智能计算</el-text>
+    <el-text style="margin-right: 20px; font-size: 20px">三相位 - 智能计算</el-text>
     <el-text style="margin-left: 20px">路口位置</el-text>
     <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange" style="margin-left: 10px">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
@@ -17,8 +17,153 @@
     <!-- 绘制图形 -->
     <el-col id="canvas_container" :span="10">
       <canvas></canvas>
+
+      <el-form :model="form_paint_model" ref="rulePaintFormRef">
+        <el-row style="margin-right: 20px; margin-left: 20px">
+          <el-divider content-position="left">
+            <span style="color: #409eff">绘制参数</span>
+          </el-divider>
+
+          <!-- 西路口 -->
+          <el-col :span="2">
+            <el-form-item label="西路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="westTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.westTotalRoadCountRef"
+                style="width: 60px"
+                @change="westTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="westOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.westOutputRoadCountRef"
+                style="width: 60px"
+                @change="westOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="westRightRoadCountRef">
+              <el-select v-model="form_paint_model.westRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <!-- 东路口 -->
+          <el-col :span="2">
+            <el-form-item label="东路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="eastTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.eastTotalRoadCountRef"
+                style="width: 60px"
+                @change="eastTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="eastOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.eastOutputRoadCountRef"
+                style="width: 60px"
+                @change="eastOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="eastRightRoadCountRef">
+              <el-select v-model="form_paint_model.eastRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <!-- 北路口 -->
+          <el-col :span="2">
+            <el-form-item label="北路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="northTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.northTotalRoadCountRef"
+                style="width: 60px"
+                @change="northTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="northOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.northOutputRoadCountRef"
+                style="width: 60px"
+                @change="northOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="northRightRoadCountRef">
+              <el-select v-model="form_paint_model.northRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <!-- 南路口 -->
+          <el-col :span="2">
+            <el-form-item label="南路口"></el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="车道数" prop="southTotalRoadCountRef">
+              <el-select
+                v-model="form_paint_model.southTotalRoadCountRef"
+                style="width: 60px"
+                @change="southTotalRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出口车道数" prop="southOutputRoadCountRef">
+              <el-select
+                v-model="form_paint_model.southOutputRoadCountRef"
+                style="width: 60px"
+                @change="southOutputRoadCountRefChange"
+              >
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="右转专有车道数" prop="southRightRoadCountRef">
+              <el-select v-model="form_paint_model.southRightRoadCountRef" style="width: 60px">
+                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+
       <el-row style="margin: 10px">
-        <el-button type="primary" @click="CreateRoad()" style="margin-right: 50px">绘制图形</el-button>
+        <el-button type="primary" @click="DrawRoad()" style="margin-right: 50px">绘制图形</el-button>
       </el-row>
     </el-col>
 
@@ -57,210 +202,240 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="西路口车道数" prop="W_pathNSRef">
-              <el-select v-model="form_model.W_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="东路口车道数" prop="E_pathNSRef">
-              <el-select v-model="form_model.E_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="北路口车道数" prop="N_pathNSRef">
-              <el-select v-model="form_model.N_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="南路口车道数" prop="S_pathNSRef">
-              <el-select v-model="form_model.S_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 西出口 -->
+        <!-- 一相位 正向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
           <el-divider content-position="left">
-            <span style="color: #409eff">西出口</span>
+            <span style="color: #409eff">一相位 正向</span>
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="流量" prop="w_eflowRef">
-              <el-input v-model="form_model.w_eflowRef" style="width: 60px" />
+            <el-form-item label="流量" prop="f_fordflowRef">
+              <el-input v-model="form_model.f_fordflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="w_epathsNRef">
-              <el-select v-model="form_model.w_epathsNRef" style="width: 60px" @change="westOutputRoadCountRefChange">
-                <el-option
-                  v-for="item in roadWestOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="出口车道数" prop="f_fordpathsNRef">
+              <el-select v-model="form_model.f_fordpathsNRef" style="width: 60px" @change="f_fordpathsNRefChange">
+                <el-option v-for="item in f_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="w_epathrNRef">
-              <el-select v-model="form_model.w_epathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadWestRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="右转专有车道" prop="f_fordpathrNRef">
+              <el-select v-model="form_model.f_fordpathrNRef" style="width: 60px">
+                <el-option v-for="item in f_fordpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="8">
-            <el-form-item label="距离上一个路口距离(米)" prop="w_epathlenRef">
-              <el-input v-model="form_model.w_epathlenRef" style="width: 60px" />
+            <el-form-item label="距离上一个路口距离(米)" prop="f_fordpathlenRef">
+              <el-input v-model="form_model.f_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 东出口 -->
+        <!-- 一相位 逆向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
           <el-divider content-position="left">
-            <span style="color: #409eff">东出口</span>
+            <span style="color: #409eff">一相位 逆向</span>
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="流量" prop="e_wflowRef">
-              <el-input v-model="form_model.e_wflowRef" style="width: 60px" />
+            <el-form-item label="流量" prop="f_oppflowRef">
+              <el-input v-model="form_model.f_oppflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="e_wpathsNRef">
-              <el-select v-model="form_model.e_wpathsNRef" style="width: 60px" @change="eastOutputRoadCountRefChange">
-                <el-option
-                  v-for="item in roadEastOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="出口车道数" prop="f_opppathsNRef">
+              <el-select v-model="form_model.f_opppathsNRef" style="width: 60px" @change="f_opppathsNRefChange">
+                <el-option v-for="item in f_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="e_wpathrNRef">
-              <el-select v-model="form_model.e_wpathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadEastRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="右转专有车道" prop="f_opppathrNRef">
+              <el-select v-model="form_model.f_opppathrNRef" style="width: 60px">
+                <el-option v-for="item in f_opppathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="8">
-            <el-form-item label="距离上一个路口距离(米)" prop="e_wpathlenRef">
-              <el-input v-model="form_model.e_wpathlenRef" style="width: 60px" />
+            <el-form-item label="距离上一个路口距离(米)" prop="f_opppathlenRef">
+              <el-input v-model="form_model.f_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 北出口 -->
+        <!-- 二相位 正向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
           <el-divider content-position="left">
-            <span style="color: #409eff">北出口</span>
+            <span style="color: #409eff">二相位 正向</span>
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="流量" prop="n_sflowRef">
-              <el-input v-model="form_model.n_sflowRef" style="width: 60px" />
+            <el-form-item label="流量" prop="s_fordflowRef">
+              <el-input v-model="form_model.s_fordflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="n_spathsNRef">
-              <el-select v-model="form_model.n_spathsNRef" style="width: 60px" @change="northOutputRoadCountRefChange">
-                <el-option
-                  v-for="item in roadNorthOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="出口车道数" prop="s_fordpathsNRef">
+              <el-select v-model="form_model.s_fordpathsNRef" style="width: 60px" @change="s_fordpathsNRefChange">
+                <el-option v-for="item in s_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="n_spathrNRef">
-              <el-select v-model="form_model.n_spathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadNorthRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="右转专有车道" prop="s_fordpathrNRef">
+              <el-select v-model="form_model.s_fordpathrNRef" style="width: 60px">
+                <el-option v-for="item in s_fordpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="8">
-            <el-form-item label="距离上一个路口距离(米)" prop="n_spathlenRef">
-              <el-input v-model="form_model.n_spathlenRef" style="width: 60px" />
+            <el-form-item label="距离上一个路口距离(米)" prop="s_fordpathlenRef">
+              <el-input v-model="form_model.s_fordpathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 南出口 -->
+        <!-- 二相位 逆向 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
           <el-divider content-position="left">
-            <span style="color: #409eff">南出口</span>
+            <span style="color: #409eff">二相位 逆向</span>
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="流量" prop="s_nflowRef">
-              <el-input v-model="form_model.s_nflowRef" style="width: 60px" />
+            <el-form-item label="流量" prop="s_oppflowRef">
+              <el-input v-model="form_model.s_oppflowRef" style="width: 60px" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="s_npathsNRef">
-              <el-select v-model="form_model.s_npathsNRef" style="width: 60px" @change="southOutputRoadCountRefChange">
-                <el-option
-                  v-for="item in roadSouthOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="出口车道数" prop="s_opppathsNRef">
+              <el-select v-model="form_model.s_opppathsNRef" style="width: 60px" @change="s_opppathsNRefChange">
+                <el-option v-for="item in s_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="右转专有车道" prop="s_npathrNRef">
-              <el-select v-model="form_model.s_npathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadSouthRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+            <el-form-item label="右转专有车道" prop="s_opppathrNRef">
+              <el-select v-model="form_model.s_opppathrNRef" style="width: 60px">
+                <el-option v-for="item in s_opppathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="8">
-            <el-form-item label="距离上一个路口距离(米)" prop="s_npathlenRef">
-              <el-input v-model="form_model.s_npathlenRef" style="width: 60px" />
+            <el-form-item label="距离上一个路口距离(米)" prop="s_opppathlenRef">
+              <el-input v-model="form_model.s_opppathlenRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 三相位 正向 -->
+        <el-row style="margin-right: 20px; margin-left: 20px">
+          <el-divider content-position="left">
+            <span style="color: #409eff">三相位 正向</span>
+          </el-divider>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="t_fordflowRef">
+              <el-input v-model="form_model.t_fordflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="出口车道数" prop="t_fordpathsNRef">
+              <el-select v-model="form_model.t_fordpathsNRef" style="width: 60px" @change="t_fordpathsNRefChange">
+                <el-option v-for="item in t_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="右转专有车道" prop="t_fordpathrNRef">
+              <el-select v-model="form_model.t_fordpathrNRef" style="width: 60px">
+                <el-option v-for="item in t_fordpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="t_fordpathlenRef">
+              <el-input v-model="form_model.t_fordpathlenRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 三相位 逆向 -->
+        <el-row style="margin-right: 20px; margin-left: 20px">
+          <el-divider content-position="left">
+            <span style="color: #409eff">三相位 逆向</span>
+          </el-divider>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="t_oppflowRef">
+              <el-input v-model="form_model.t_oppflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="出口车道数" prop="t_opppathsNRef">
+              <el-select v-model="form_model.t_opppathsNRef" style="width: 60px" @change="t_opppathsNRefChange">
+                <el-option v-for="item in t_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="右转专有车道" prop="t_opppathrNRef">
+              <el-select v-model="form_model.t_opppathrNRef" style="width: 60px">
+                <el-option v-for="item in t_opppathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="t_opppathlenRef">
+              <el-input v-model="form_model.t_opppathlenRef" style="width: 60px" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -268,7 +443,10 @@
         <!-- Create Road -->
         <el-form-item style="margin-left: 20px">
           <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="ExecuteCalc()">计算</el-button>
-          <el-button type="primary" @click="ValidateAndSaveParametersToSQL()" style="margin-right: 30px">保存</el-button>
+
+          <el-text style="margin-left: 30px">方案名称</el-text>
+          <el-input v-model="saveSchemeRef" style="width: 160px; margin-left: 10px" />
+          <el-button type="primary" @click="ValidateAndSaveParametersToSQL()" style="margin-left: 10px">保存</el-button>
         </el-form-item>
 
         <!-- 计算输出结果 -->
@@ -277,96 +455,142 @@
             <span style="color: #409eff">计算输出结果</span>
           </el-divider>
         </el-row>
-        <!-- 东-西 -->
+        <!-- 一相位 -->
         <el-row style="margin-left: 20px">
           <el-col :span="2">
-            <el-form-item label="东-西"></el-form-item>
+            <el-form-item label="一相位"></el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="绿灯时长(秒)">
-              <el-text style="width: 100px">{{ e_w_green_computed }}</el-text>
+              <el-text style="width: 100px">{{ first_green_computed }}</el-text>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="黄灯时长(秒)">
-              <el-text style="width: 100px">{{ e_w_yellow_computed }}</el-text>
+              <el-text style="width: 100px">{{ first_yellow_computed }}</el-text>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="红灯时长(秒)">
-              <el-text style="width: 100px">{{ e_w_red_computed }}</el-text>
+              <el-text style="width: 100px">{{ first_red_computed }}</el-text>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 南-北 -->
+        <!-- 二相位 -->
         <el-row style="margin-left: 20px">
           <el-col :span="2">
-            <el-form-item label="南-北"></el-form-item>
+            <el-form-item label="二相位"></el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="绿灯时长(秒)">
-              <el-text style="width: 100px">{{ s_n_green_computed }}</el-text>
+              <el-text style="width: 100px">{{ second_green_computed }}</el-text>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="黄灯时长(秒)">
-              <el-text style="width: 100px">{{ s_n_yellow_computed }}</el-text>
+              <el-text style="width: 100px">{{ second_yellow_computed }}</el-text>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="红灯时长(秒)">
-              <el-text style="width: 100px">{{ s_n_red_computed }}</el-text>
+              <el-text style="width: 100px">{{ second_red_computed }}</el-text>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 实际输出结果 -->
+        <!-- 三相位 -->
+        <el-row style="margin-left: 20px">
+          <el-col :span="2">
+            <el-form-item label="三相位"></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="绿灯时长(秒)">
+              <el-text style="width: 100px">{{ three_green_computed }}</el-text>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="黄灯时长(秒)">
+              <el-text style="width: 100px">{{ three_yellow_computed }}</el-text>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="红灯时长(秒)">
+              <el-text style="width: 100px">{{ three_red_computed }}</el-text>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row style="margin-left: 20px; color: red" v-if="form_model.is_show_warning_Ref">警告信息：注意人行过路口时间</el-row>
+
+        <!--实际输出结果 -->
         <el-row style="margin-right: 20px; margin-left: 20px">
           <el-divider content-position="left">
             <span style="color: #409eff">实际输出结果</span>
           </el-divider>
         </el-row>
-        <!-- 东-西 -->
+        <!-- 一相位 -->
         <el-row style="margin-left: 20px">
           <el-col :span="2">
-            <el-form-item label="东-西"></el-form-item>
+            <el-form-item label="一相位"></el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="绿灯时长(秒)" prop="e_w_green_correct_Ref">
-              <el-input v-model="form_model.e_w_green_correct_Ref" style="width: 60px"></el-input>
+            <el-form-item label="绿灯时长(秒)" prop="first_green_correct_Ref">
+              <el-input v-model="form_model.first_green_correct_Ref" style="width: 60px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="黄灯时长(秒)" prop="e_w_yellow_correct_Ref">
-              <el-input v-model="form_model.e_w_yellow_correct_Ref" style="width: 60px"></el-input>
+            <el-form-item label="黄灯时长(秒)" prop="first_yellow_correct_Ref">
+              <el-input v-model="form_model.first_yellow_correct_Ref" style="width: 60px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="红灯时长(秒)" prop="e_w_red_correct_Ref">
-              <el-input v-model="form_model.e_w_red_correct_Ref" style="width: 60px"></el-input>
+            <el-form-item label="红灯时长(秒)" prop="first_red_correct_Ref">
+              <el-input v-model="form_model.first_red_correct_Ref" style="width: 60px"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <!-- 南-北 -->
+        <!-- 二相位 -->
         <el-row style="margin-left: 20px">
           <el-col :span="2">
-            <el-form-item label="南-北"></el-form-item>
+            <el-form-item label="二相位"></el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="绿灯时长(秒)" prop="s_n_green_correct_Ref">
-              <el-input v-model="form_model.s_n_green_correct_Ref" style="width: 60px"></el-input>
+            <el-form-item label="绿灯时长(秒)" prop="second_green_correct_Ref">
+              <el-input v-model="form_model.second_green_correct_Ref" style="width: 60px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="黄灯时长(秒)" prop="s_n_yellow_correct_Ref">
-              <el-input v-model="form_model.s_n_yellow_correct_Ref" style="width: 60px"></el-input>
+            <el-form-item label="黄灯时长(秒)" prop="second_yellow_correct_Ref">
+              <el-input v-model="form_model.second_yellow_correct_Ref" style="width: 60px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="红灯时长(秒)" prop="s_n_red_correct_Ref">
-              <el-input v-model="form_model.s_n_red_correct_Ref" style="width: 60px"></el-input>
+            <el-form-item label="红灯时长(秒)" prop="second_red_correct_Ref">
+              <el-input v-model="form_model.second_red_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 三相位 -->
+        <el-row style="margin-left: 20px">
+          <el-col :span="2">
+            <el-form-item label="三相位"></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="绿灯时长(秒)" prop="three_green_correct_Ref">
+              <el-input v-model="form_model.three_green_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="黄灯时长(秒)" prop="three_yellow_correct_Ref">
+              <el-input v-model="form_model.three_yellow_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="红灯时长(秒)" prop="three_red_correct_Ref">
+              <el-input v-model="form_model.three_red_correct_Ref" style="width: 60px"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -382,7 +606,7 @@ import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
-import { get_calc_stimingh } from "@/api/modules/calc";
+// import { get_calc_ttimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
@@ -397,6 +621,7 @@ let codeRef: any = ref("");
 let positionRef: any = ref("");
 
 let roadNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
   { value: "1", label: "1" },
   { value: "2", label: "2" },
   { value: "3", label: "3" },
@@ -418,6 +643,80 @@ let schemesRef: any = ref([]);
 
 let selectedInputParameters: any = [];
 let selectedOutputParameters: any = [];
+
+let f_fordpathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let f_opppathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let s_fordpathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let s_opppathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let t_fordpathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let t_opppathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+
+let f_fordpathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let f_opppathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let s_fordpathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let s_opppathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let t_fordpathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let t_opppathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
 
 let roadEastOutputNumberArrayRef: any = ref([
   { value: "0", label: "0" },
@@ -473,45 +772,86 @@ let form_model = reactive({
   TRef: 120,
   ptimeRef: 3,
   tortimeRef: 2,
-  mingtimeRef: 5,
   ytimeRef: 3,
-  E_pathNSRef: 0,
+  mingtimeRef: 5,
+  E_pathNSRef: 4,
   W_pathNSRef: 4,
   S_pathNSRef: 4,
   N_pathNSRef: 4,
 
-  e_wpathsNRef: 2,
-  e_wpathrNRef: 1,
-  e_wflowRef: 300,
-  e_wpathlenRef: 500,
+  f_fordflowRef: 300,
+  f_fordpathsNRef: 2,
+  f_fordpathrNRef: 1,
+  f_fordpathlenRef: 500,
 
-  w_epathsNRef: 2,
-  w_epathrNRef: 1,
-  w_eflowRef: 300,
-  w_epathlenRef: 500,
+  f_oppflowRef: 300,
+  f_opppathsNRef: 2,
+  f_opppathrNRef: 1,
+  f_opppathlenRef: 500,
 
-  s_npathsNRef: 2,
-  s_npathrNRef: 1,
-  s_nflowRef: 300,
-  s_npathlenRef: 500,
+  s_fordflowRef: 300,
+  s_fordpathsNRef: 2,
+  s_fordpathrNRef: 1,
+  s_fordpathlenRef: 500,
 
-  n_spathsNRef: 2,
-  n_spathrNRef: 1,
-  n_sflowRef: 300,
-  n_spathlenRef: 500,
+  s_oppflowRef: 300,
+  s_opppathsNRef: 2,
+  s_opppathrNRef: 1,
+  s_opppathlenRef: 500,
 
-  e_w_green_Ref: 0.0,
-  e_w_yellow_Ref: 0.0,
-  e_w_red_Ref: 0.0,
-  s_n_green_Ref: 0.0,
-  s_n_yellow_Ref: 0.0,
-  s_n_red_Ref: 0.0,
-  e_w_green_correct_Ref: 0.0,
-  e_w_yellow_correct_Ref: 0.0,
-  e_w_red_correct_Ref: 0.0,
-  s_n_green_correct_Ref: 0.0,
-  s_n_yellow_correct_Ref: 0.0,
-  s_n_red_correct_Ref: 0.0
+  t_fordflowRef: 300,
+  t_fordpathsNRef: 2,
+  t_fordpathrNRef: 1,
+  t_fordpathlenRef: 500,
+
+  t_oppflowRef: 300,
+  t_opppathsNRef: 2,
+  t_opppathrNRef: 1,
+  t_opppathlenRef: 500,
+
+  first_green_Ref: 0.0,
+  first_yellow_Ref: 0.0,
+  first_red_Ref: 0.0,
+
+  second_green_Ref: 0.0,
+  second_yellow_Ref: 0.0,
+  second_red_Ref: 0.0,
+
+  three_green_Ref: 0.0,
+  three_yellow_Ref: 0.0,
+  three_red_Ref: 0.0,
+
+  is_show_warning_Ref: false,
+
+  first_green_correct_Ref: 0.0,
+  first_yellow_correct_Ref: 0.0,
+  first_red_correct_Ref: 0.0,
+
+  second_green_correct_Ref: 0.0,
+  second_yellow_correct_Ref: 0.0,
+  second_red_correct_Ref: 0.0,
+
+  three_green_correct_Ref: 0.0,
+  three_yellow_correct_Ref: 0.0,
+  three_red_correct_Ref: 0.0
+});
+
+let form_paint_model = reactive({
+  eastTotalRoadCountRef: 0,
+  eastOutputRoadCountRef: 0,
+  eastRightRoadCountRef: 0,
+
+  westTotalRoadCountRef: 4,
+  westOutputRoadCountRef: 2,
+  westRightRoadCountRef: 1,
+
+  southTotalRoadCountRef: 4,
+  southOutputRoadCountRef: 2,
+  southRightRoadCountRef: 1,
+
+  northTotalRoadCountRef: 4,
+  northOutputRoadCountRef: 2,
+  northRightRoadCountRef: 1
 });
 
 /*
@@ -548,59 +888,136 @@ const rules = reactive({
     { required: true, message: "请填写" },
     { pattern: /^([1-9]|10)$/, message: "范围在1-10" }
   ],
-  e_wflow: [
+
+  // 一相位 正向
+  f_fordflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  e_wpathlen: [
+  f_fordpathlenRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  w_eflow: [
+
+  // 一相位 反向
+  f_oppflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  w_epathlen: [
+  f_opppathlenRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  s_nflow: [
+
+  // 二相位 正向
+  s_fordflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  s_npathlen: [
+  s_fordpathlenRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  n_sflowRef: [
+
+  // 二相位 反向
+  s_oppflowRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  n_spathlen: [
+  s_opppathlenRef: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
-  e_w_green_correct_Ref: [
+
+  // 三相位 正向
+  t_fordflowRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+  t_fordpathlenRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+
+  // 三相位 反向
+  t_oppflowRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+  t_opppathlenRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+
+  first_green_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
-  e_w_yellow_correct_Ref: [
+  first_yellow_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
-  e_w_red_correct_Ref: [
+  first_red_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
-  s_n_green_correct_Ref: [
+  second_green_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
-  s_n_yellow_correct_Ref: [
+  second_yellow_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
-  s_n_red_correct_Ref: [
+  second_red_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  three_green_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  three_yellow_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  three_red_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  first_green_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  first_yellow_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  first_red_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  second_green_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  second_yellow_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  second_red_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  three_green_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  three_yellow_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  three_red_correct_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ]
@@ -608,36 +1025,52 @@ const rules = reactive({
 
 const ruleFormRef = ref<FormInstance>();
 
-const e_w_green_computed = computed(() => {
-  return Math.round(form_model.e_w_green_Ref);
+const first_green_computed = computed(() => {
+  return Math.round(form_model.first_green_Ref);
 });
 
-const e_w_yellow_computed = computed(() => {
-  return Math.round(form_model.e_w_yellow_Ref);
+const first_yellow_computed = computed(() => {
+  return Math.round(form_model.first_yellow_Ref);
 });
 
-const e_w_red_computed = computed(() => {
-  if (CheckEndWithDotFive(form_model.e_w_red_Ref) && form_model.e_w_red_Ref > 1) {
-    return Math.round(form_model.e_w_red_Ref - 1);
+const first_red_computed = computed(() => {
+  if (CheckEndWithDotFive(form_model.first_red_Ref) && form_model.first_red_Ref > 1) {
+    return Math.round(form_model.first_red_Ref - 1);
   }
 
-  return Math.round(form_model.e_w_red_Ref);
+  return Math.round(form_model.first_red_Ref);
 });
 
-const s_n_green_computed = computed(() => {
-  return Math.round(form_model.s_n_green_Ref);
+const second_green_computed = computed(() => {
+  return Math.round(form_model.second_green_Ref);
 });
 
-const s_n_yellow_computed = computed(() => {
-  return Math.round(form_model.s_n_yellow_Ref);
+const second_yellow_computed = computed(() => {
+  return Math.round(form_model.second_yellow_Ref);
 });
 
-const s_n_red_computed = computed(() => {
-  if (CheckEndWithDotFive(form_model.s_n_red_Ref) && form_model.s_n_red_Ref > 1) {
-    return Math.round(form_model.s_n_red_Ref - 1);
+const second_red_computed = computed(() => {
+  if (CheckEndWithDotFive(form_model.second_red_Ref) && form_model.second_red_Ref > 1) {
+    return Math.round(form_model.second_red_Ref - 1);
   }
 
-  return Math.round(form_model.s_n_red_Ref);
+  return Math.round(form_model.second_red_Ref);
+});
+
+const three_green_computed = computed(() => {
+  return Math.round(form_model.three_green_Ref);
+});
+
+const three_yellow_computed = computed(() => {
+  return Math.round(form_model.three_yellow_Ref);
+});
+
+const three_red_computed = computed(() => {
+  if (CheckEndWithDotFive(form_model.three_red_Ref) && form_model.three_red_Ref > 1) {
+    return Math.round(form_model.three_red_Ref - 1);
+  }
+
+  return Math.round(form_model.three_red_Ref);
 });
 
 // 请输 0.5 的倍数的数字
@@ -687,7 +1120,7 @@ onMounted(async () => {
   params.pageNum = 1;
   params.pageSize = 1000;
   params.type = 1;
-  params.calc_type = "两相位";
+  params.calc_type = "三相位";
   // crossing_type如果不定义, 为undefined,则查询所有路口类型
   // params.crossing_type = "十字路口";
 
@@ -696,10 +1129,6 @@ onMounted(async () => {
     let code = result.data.list[i].code;
     let position = result.data.list[i].position;
     positionsRef.value.push({ value: code, label: position });
-
-    if (codeRef.value == code) {
-      selectedPositionRef.value = position;
-    }
   }
 
   InitParameters();
@@ -729,61 +1158,83 @@ function schemeRefChange(selectedVal: any) {
 }
 
 function GetInputParameters(inputObj: any) {
+  // 获取参数
   form_model.TRef = inputObj.T;
   form_model.ptimeRef = inputObj.ptime;
   form_model.tortimeRef = inputObj.tortime;
   form_model.ytimeRef = inputObj.ytime;
   form_model.mingtimeRef = inputObj.mingtime;
+  form_model.E_pathNSRef = inputObj.E_pathNS;
+  form_model.W_pathNSRef = inputObj.W_pathNS;
+  form_model.S_pathNSRef = inputObj.S_pathNS;
+  form_model.N_pathNSRef = inputObj.N_pathNS;
 
-  form_model.e_wflowRef = inputObj.e_wflow;
-  form_model.E_pathNSRef = inputObj.e_wpathNS;
-  form_model.e_wpathsNRef = inputObj.e_wpathsN;
-  E_pathNSRefChange(form_model.E_pathNSRef);
-  eastOutputRoadCountRefChange(form_model.e_wpathsNRef);
-  form_model.e_wpathrNRef = inputObj.e_wpathrN;
-  form_model.e_wpathlenRef = inputObj.e_wpathlen;
+  pathNSRefChange(0);
 
-  form_model.s_nflowRef = inputObj.s_nflow;
-  form_model.S_pathNSRef = inputObj.s_npathNS;
-  form_model.s_npathsNRef = inputObj.s_npathsN;
-  S_pathNSRefChange(form_model.S_pathNSRef);
-  southOutputRoadCountRefChange(form_model.s_npathsNRef);
-  form_model.s_npathrNRef = inputObj.s_npathrN;
-  form_model.s_npathlenRef = inputObj.s_npathlen;
+  form_model.f_fordflowRef = inputObj.f_fordflow;
+  form_model.f_fordpathsNRef = inputObj.f_fordpathsN;
+  form_model.f_fordpathrNRef = inputObj.f_fordpathrN;
+  f_fordpathsNRefChange(form_model.f_fordpathrNRef);
+  form_model.f_fordpathlenRef = inputObj.f_fordpathlen;
 
-  form_model.n_sflowRef = inputObj.n_sflow;
-  form_model.N_pathNSRef = inputObj.n_spathNS;
-  form_model.n_spathsNRef = inputObj.n_spathsN;
-  northTotalRoadCountRefChange(form_model.N_pathNSRef);
-  northOutputRoadCountRefChange(form_model.n_spathsNRef);
-  form_model.n_spathrNRef = inputObj.n_spathrN;
-  form_model.n_spathlenRef = inputObj.n_spathlen;
+  form_model.f_oppflowRef = inputObj.f_oppflow;
+  form_model.f_opppathsNRef = inputObj.f_opppathsN;
+  form_model.f_opppathrNRef = inputObj.f_opppathrN;
+  f_opppathsNRefChange(form_model.f_opppathrNRef);
+  form_model.f_opppathlenRef = inputObj.f_opppathlen;
 
-  form_model.w_eflowRef = inputObj.w_eflow;
-  form_model.W_pathNSRef = inputObj.w_epathNS;
-  form_model.w_epathsNRef = inputObj.w_epathsN;
-  W_pathNSRefChange(form_model.W_pathNSRef);
-  westOutputRoadCountRefChange(form_model.w_epathsNRef);
-  form_model.w_epathrNRef = inputObj.w_epathrN;
-  form_model.w_epathlenRef = inputObj.w_epathlen;
+  form_model.s_fordflowRef = inputObj.s_fordflow;
+  form_model.s_fordpathsNRef = inputObj.s_fordpathsN;
+  form_model.s_fordpathrNRef = inputObj.s_fordpathrN;
+  s_fordpathsNRefChange(form_model.s_fordpathrNRef);
+  form_model.s_fordpathlenRef = inputObj.s_fordpathlen;
+
+  form_model.s_oppflowRef = inputObj.s_oppflow;
+  form_model.s_opppathsNRef = inputObj.s_opppathsN;
+  form_model.s_opppathrNRef = inputObj.s_opppathrN;
+  s_opppathsNRefChange(form_model.s_opppathrNRef);
+  form_model.s_opppathlenRef = inputObj.s_opppathlen;
+
+  form_model.t_fordflowRef = inputObj.t_fordflow;
+  form_model.t_fordpathsNRef = inputObj.t_fordpathsN;
+  form_model.t_fordpathrNRef = inputObj.t_fordpathrN;
+  t_fordpathsNRefChange(form_model.t_fordpathrNRef);
+  form_model.t_fordpathlenRef = inputObj.t_fordpathlen;
+
+  form_model.t_oppflowRef = inputObj.t_oppflow;
+  form_model.t_opppathsNRef = inputObj.t_opppathsN;
+  form_model.t_opppathrNRef = inputObj.t_opppathrN;
+  t_opppathsNRefChange(form_model.t_opppathrNRef);
+  form_model.t_opppathlenRef = inputObj.t_opppathlen;
 }
 
 function GetOutputParameters(outputObj: any) {
-  form_model.e_w_green_Ref = outputObj.e_w_green;
-  form_model.e_w_yellow_Ref = outputObj.e_w_yellow;
-  form_model.e_w_red_Ref = outputObj.e_w_red;
+  // 获取参数
+  form_model.first_green_Ref = outputObj.first_green;
+  form_model.first_yellow_Ref = outputObj.first_yellow;
+  form_model.first_red_Ref = outputObj.first_red;
 
-  form_model.s_n_green_Ref = outputObj.s_n_green;
-  form_model.s_n_yellow_Ref = outputObj.s_n_yellow;
-  form_model.s_n_red_Ref = outputObj.s_n_red;
+  form_model.second_green_Ref = outputObj.second_green;
+  form_model.second_yellow_Ref = outputObj.second_yellow;
+  form_model.second_red_Ref = outputObj.second_red;
 
-  form_model.e_w_green_correct_Ref = outputObj.e_w_green_correct;
-  form_model.e_w_yellow_correct_Ref = outputObj.e_w_yellow_correct;
-  form_model.e_w_red_correct_Ref = outputObj.e_w_red_correct;
+  form_model.three_green_Ref = outputObj.three_green;
+  form_model.three_yellow_Ref = outputObj.three_yellow;
+  form_model.three_red_Ref = outputObj.three_red;
 
-  form_model.s_n_green_correct_Ref = outputObj.s_n_green_correct;
-  form_model.s_n_yellow_correct_Ref = outputObj.s_n_yellow_correct;
-  form_model.s_n_red_correct_Ref = outputObj.s_n_red_correct;
+  form_model.is_show_warning_Ref = outputObj.is_show_warning_Ref;
+
+  form_model.first_green_correct_Ref = outputObj.first_green_correct;
+  form_model.first_yellow_correct_Ref = outputObj.first_yellow_correct;
+  form_model.first_red_correct_Ref = outputObj.first_red_correct;
+
+  form_model.second_green_correct_Ref = outputObj.second_green_correct;
+  form_model.second_yellow_correct_Ref = outputObj.second_yellow_correct;
+  form_model.second_red_correct_Ref = outputObj.second_red_correct;
+
+  form_model.three_green_correct_Ref = outputObj.three_green_correct;
+  form_model.three_yellow_correct_Ref = outputObj.three_yellow_correct;
+  form_model.three_red_correct_Ref = outputObj.three_red_correct;
 }
 
 async function InitParameters() {
@@ -827,6 +1278,10 @@ async function InitParameters() {
   CreateRoad();
 }
 
+function DrawRoad() {
+  CreateRoad();
+}
+
 async function ExecuteCalc() {
   // 数据正确性检测
   ruleFormRef.value!.validate(async (valid: any) => {
@@ -849,28 +1304,40 @@ async function CloseDialog() {
   console.log(input_infos_obj);
 
   try {
-    // let calc_result = "11.5,22.5,33.5,44.5\n";
-    let calc_result: any = (await get_calc_stimingh(input_infos_obj)).data;
+    let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
+    // let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
     calc_result = calc_result.replace(/\n$/, "");
     let calc_outputs: any = calc_result.split(",");
-    if (calc_outputs.length >= 4) {
-      form_model.e_w_green_Ref = calc_outputs[0];
-      form_model.e_w_yellow_Ref = form_model.ytimeRef;
-      form_model.e_w_red_Ref = calc_outputs[1];
+    if (calc_outputs.length >= 6) {
+      form_model.first_green_Ref = calc_outputs[0];
+      form_model.first_yellow_Ref = form_model.ytimeRef;
+      form_model.first_red_Ref = calc_outputs[1];
 
-      form_model.s_n_green_Ref = calc_outputs[2];
-      form_model.s_n_yellow_Ref = form_model.ytimeRef;
-      form_model.s_n_red_Ref = calc_outputs[3];
+      form_model.second_green_Ref = calc_outputs[2];
+      form_model.second_yellow_Ref = form_model.ytimeRef;
+      form_model.second_red_Ref = calc_outputs[3];
 
-      form_model.e_w_green_correct_Ref = e_w_green_computed.value;
-      form_model.e_w_yellow_correct_Ref = e_w_yellow_computed.value;
-      form_model.e_w_red_correct_Ref = e_w_red_computed.value;
-      form_model.s_n_green_correct_Ref = s_n_green_computed.value;
-      form_model.s_n_yellow_correct_Ref = s_n_yellow_computed.value;
-      form_model.s_n_red_correct_Ref = s_n_red_computed.value;
+      form_model.three_green_Ref = calc_outputs[4];
+      form_model.three_yellow_Ref = form_model.ytimeRef;
+      form_model.three_red_Ref = calc_outputs[5];
+
+      if (calc_outputs[6] > 0) form_model.is_show_warning_Ref = true;
+      else form_model.is_show_warning_Ref = false;
+
+      form_model.first_green_correct_Ref = first_green_computed.value;
+      form_model.first_yellow_correct_Ref = first_yellow_computed.value;
+      form_model.first_red_correct_Ref = first_red_computed.value;
+
+      form_model.second_green_correct_Ref = second_green_computed.value;
+      form_model.second_yellow_correct_Ref = second_yellow_computed.value;
+      form_model.second_red_correct_Ref = second_red_computed.value;
+
+      form_model.three_green_correct_Ref = three_green_computed.value;
+      form_model.three_yellow_correct_Ref = three_yellow_computed.value;
+      form_model.three_red_correct_Ref = three_red_computed.value;
     }
   } catch (error) {
-    console.log("get_calc_stimingh 出现异常: " + error);
+    console.log("get_calc_stiminge出现异常: " + error);
   }
 }
 
@@ -980,18 +1447,32 @@ async function SaveParametersToSQL() {
   let input_infos_obj: any = GetInputObjInfo();
 
   let output_infos_obj = {
-    e_w_red: Number(form_model.e_w_red_Ref),
-    e_w_yellow: Number(form_model.e_w_yellow_Ref),
-    e_w_green: Number(form_model.e_w_green_Ref),
-    s_n_red: Number(form_model.s_n_red_Ref),
-    s_n_yellow: Number(form_model.s_n_yellow_Ref),
-    s_n_green: Number(form_model.s_n_green_Ref),
-    e_w_red_correct: Number(form_model.e_w_red_correct_Ref),
-    e_w_yellow_correct: Number(form_model.e_w_yellow_correct_Ref),
-    e_w_green_correct: Number(form_model.e_w_green_correct_Ref),
-    s_n_red_correct: Number(form_model.s_n_red_correct_Ref),
-    s_n_yellow_correct: Number(form_model.s_n_yellow_correct_Ref),
-    s_n_green_correct: Number(form_model.s_n_green_correct_Ref)
+    schemeName: saveSchemeRef.value,
+    first_red: Number(form_model.first_red_Ref),
+    first_yellow: Number(form_model.first_yellow_Ref),
+    first_green: Number(form_model.first_green_Ref),
+
+    second_red: Number(form_model.second_red_Ref),
+    second_yellow: Number(form_model.second_yellow_Ref),
+    second_green: Number(form_model.second_green_Ref),
+
+    three_red: Number(form_model.three_red_Ref),
+    three_yellow: Number(form_model.three_yellow_Ref),
+    three_green: Number(form_model.three_green_Ref),
+
+    is_show_warning_Ref: Boolean(form_model.is_show_warning_Ref),
+
+    first_red_correct: Number(form_model.first_red_correct_Ref),
+    first_yellow_correct: Number(form_model.first_yellow_correct_Ref),
+    first_green_correct: Number(form_model.first_green_correct_Ref),
+
+    second_red_correct: Number(form_model.second_red_correct_Ref),
+    second_yellow_correct: Number(form_model.second_yellow_correct_Ref),
+    second_green_correct: Number(form_model.second_green_correct_Ref),
+
+    three_red_correct: Number(form_model.three_red_correct_Ref),
+    three_yellow_correct: Number(form_model.three_yellow_correct_Ref),
+    three_green_correct: Number(form_model.three_green_correct_Ref)
   };
 
   // 保存数据到数据库
@@ -1035,17 +1516,31 @@ async function SaveParametersToSQL() {
 function CheckPTime() {
   if (
     Number(form_model.TRef) !=
-    Number(form_model.e_w_red_correct_Ref) + Number(form_model.e_w_yellow_correct_Ref) + Number(form_model.e_w_green_correct_Ref)
+    Number(form_model.first_green_correct_Ref) +
+      Number(form_model.first_yellow_correct_Ref) +
+      Number(form_model.first_red_correct_Ref)
   ) {
-    ElMessage.error({ message: "东西实际输出结果之和不等于协同周期！" });
+    ElMessage.error({ message: "一相位实际输出结果之和不等于协同周期！" });
     return false;
   }
 
   if (
     Number(form_model.TRef) !=
-    Number(form_model.s_n_red_correct_Ref) + Number(form_model.s_n_yellow_correct_Ref) + Number(form_model.s_n_green_correct_Ref)
+    Number(form_model.second_green_correct_Ref) +
+      Number(form_model.second_yellow_correct_Ref) +
+      Number(form_model.second_red_correct_Ref)
   ) {
-    ElMessage.error({ message: "南北实际输出结果之和不等于协同周期！" });
+    ElMessage.error({ message: "二相位实际输出结果之和不等于协同周期！" });
+    return false;
+  }
+
+  if (
+    Number(form_model.TRef) !=
+    Number(form_model.three_green_correct_Ref) +
+      Number(form_model.three_yellow_correct_Ref) +
+      Number(form_model.three_red_correct_Ref)
+  ) {
+    ElMessage.error({ message: "三相位实际输出结果之和不等于协同周期！" });
     return false;
   }
 
@@ -1065,25 +1560,35 @@ function GetInputObjInfo() {
     S_pathNS: Number(form_model.S_pathNSRef),
     N_pathNS: Number(form_model.N_pathNSRef),
 
-    e_wflow: Number(form_model.e_wflowRef),
-    e_wpathsN: Number(form_model.e_wpathsNRef),
-    e_wpathrN: Number(form_model.e_wpathrNRef),
-    e_wpathlen: Number(form_model.e_wpathlenRef),
+    f_fordflow: Number(form_model.f_fordflowRef),
+    f_fordpathsN: Number(form_model.f_fordpathsNRef),
+    f_fordpathrN: Number(form_model.f_fordpathrNRef),
+    f_fordpathlen: Number(form_model.f_fordpathlenRef),
 
-    w_eflow: Number(form_model.w_eflowRef),
-    w_epathsN: Number(form_model.w_epathsNRef),
-    w_epathrN: Number(form_model.w_epathrNRef),
-    w_epathlen: Number(form_model.w_epathlenRef),
+    f_oppflow: Number(form_model.f_oppflowRef),
+    f_opppathsN: Number(form_model.f_opppathsNRef),
+    f_opppathrN: Number(form_model.f_opppathrNRef),
+    f_opppathlen: Number(form_model.f_opppathlenRef),
 
-    s_nflow: Number(form_model.s_nflowRef),
-    s_npathsN: Number(form_model.s_npathsNRef),
-    s_npathrN: Number(form_model.s_npathrNRef),
-    s_npathlen: Number(form_model.s_npathlenRef),
+    s_fordflow: Number(form_model.s_fordflowRef),
+    s_fordpathsN: Number(form_model.s_fordpathsNRef),
+    s_fordpathrN: Number(form_model.s_fordpathrNRef),
+    s_fordpathlen: Number(form_model.s_fordpathlenRef),
 
-    n_sflow: Number(form_model.n_sflowRef),
-    n_spathsN: Number(form_model.n_spathsNRef),
-    n_spathrN: Number(form_model.n_spathrNRef),
-    n_spathlen: Number(form_model.n_spathlenRef)
+    s_oppflow: Number(form_model.s_oppflowRef),
+    s_opppathsN: Number(form_model.s_opppathsNRef),
+    s_opppathrN: Number(form_model.s_opppathrNRef),
+    s_opppathlen: Number(form_model.s_opppathlenRef),
+
+    t_fordflow: Number(form_model.t_fordflowRef),
+    t_fordpathsN: Number(form_model.t_fordpathsNRef),
+    t_fordpathrN: Number(form_model.t_fordpathrNRef),
+    t_fordpathlen: Number(form_model.t_fordpathlenRef),
+
+    t_oppflow: Number(form_model.t_oppflowRef),
+    t_opppathsN: Number(form_model.t_opppathsNRef),
+    t_opppathrN: Number(form_model.t_opppathrNRef),
+    t_opppathlen: Number(form_model.t_opppathlenRef)
   };
 }
 
@@ -1105,14 +1610,14 @@ function CreateRoad() {
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, w, h);
 
-  let eastTotalRoadCount: any = form_model.E_pathNSRef;
-  let eastOutputRoadCount: any = form_model.e_wpathsNRef;
-  let westTotalRoadCount: any = form_model.W_pathNSRef;
-  let westOutputRoadCount: any = form_model.w_epathsNRef;
-  let southTotalRoadCount: any = form_model.S_pathNSRef;
-  let southOutputRoadCount: any = form_model.s_npathsNRef;
-  let northTotalRoadCount: any = form_model.N_pathNSRef;
-  let northOutputRoadCount: any = form_model.n_spathsNRef;
+  let eastTotalRoadCount: any = form_paint_model.eastTotalRoadCountRef;
+  let eastOutputRoadCount: any = form_paint_model.eastOutputRoadCountRef;
+  let westTotalRoadCount: any = form_paint_model.westTotalRoadCountRef;
+  let westOutputRoadCount: any = form_paint_model.westOutputRoadCountRef;
+  let southTotalRoadCount: any = form_paint_model.southTotalRoadCountRef;
+  let southOutputRoadCount: any = form_paint_model.southOutputRoadCountRef;
+  let northTotalRoadCount: any = form_paint_model.northTotalRoadCountRef;
+  let northOutputRoadCount: any = form_paint_model.northOutputRoadCountRef;
 
   // 绘制位置
   // ctx.beginPath();
@@ -1224,7 +1729,7 @@ function draw_road_west(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.w_epathrNRef > 0) {
+      if (form_paint_model.westRightRoadCountRef > 0) {
         GetYZLaneIcon("right", w / 2 - offsetDistance - zebraCrossingWidth - laneLength - laneOffsetWidth, h / 2 + i * roadWidth);
       } else {
         GetZX_YZLaneIcon(
@@ -1234,7 +1739,7 @@ function draw_road_west(
         );
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.w_epathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.westRightRoadCountRef) {
         GetZXLaneIcon("right", w / 2 - offsetDistance - zebraCrossingWidth - laneLength - laneOffsetWidth, h / 2 + i * roadWidth);
       } else {
         GetYZLaneIcon("right", w / 2 - offsetDistance - zebraCrossingWidth - laneLength - laneOffsetWidth, h / 2 + i * roadWidth);
@@ -1343,13 +1848,13 @@ function draw_road_east(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.e_wpathrNRef > 0) {
+      if (form_paint_model.eastRightRoadCountRef > 0) {
         GetYZLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
       } else {
         GetZX_YZLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.e_wpathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.eastRightRoadCountRef) {
         GetZXLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
       } else {
         GetYZLaneIcon("left", w / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth, h / 2 - (i + 1) * roadWidth);
@@ -1454,7 +1959,7 @@ function draw_road_north(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.n_spathrNRef > 0) {
+      if (form_paint_model.northRightRoadCountRef > 0) {
         GetYZLaneIcon(
           "down",
           w / 2 - (i + 1) * roadWidth,
@@ -1468,7 +1973,7 @@ function draw_road_north(
         );
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.n_spathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.northRightRoadCountRef) {
         GetZXLaneIcon(
           "down",
           w / 2 - (i + 1) * roadWidth,
@@ -1585,13 +2090,13 @@ function draw_road_south(
   // Lane icon
   for (let i = 0; i < outputRoadCount; i++) {
     if (outputRoadCount - 1 == i) {
-      if (form_model.s_npathrNRef > 0) {
+      if (form_paint_model.southRightRoadCountRef > 0) {
         GetYZLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
       } else {
         GetZX_YZLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
       }
     } else {
-      if (outputRoadCount - i - 1 >= form_model.s_npathrNRef) {
+      if (outputRoadCount - i - 1 >= form_paint_model.southRightRoadCountRef) {
         GetZXLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
       } else {
         GetYZLaneIcon("up", w / 2 + i * roadWidth, h / 2 + offsetDistance + zebraCrossingWidth + laneOffsetWidth);
@@ -1644,38 +2149,157 @@ function GetCompassIcon(x: any, y: any) {
   };
 }
 
-function E_pathNSRefChange(selectedVal: any) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function pathNSRefChange(selectedVal: any) {
+  let maxTotalRoadCount = Math.max(
+    form_model.E_pathNSRef,
+    form_model.W_pathNSRef,
+    form_model.S_pathNSRef,
+    form_model.N_pathNSRef
+  );
+
+  let temp_array = [];
+  for (let i = 0; i <= maxTotalRoadCount; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+
+  f_fordpathsNArrayRef.value = temp_array;
+  f_opppathsNArrayRef.value = temp_array;
+  s_fordpathsNArrayRef.value = temp_array;
+  s_opppathsNArrayRef.value = temp_array;
+  t_fordpathsNArrayRef.value = temp_array;
+  t_opppathsNArrayRef.value = temp_array;
+
+  if (maxTotalRoadCount < form_model.f_fordpathsNRef) {
+    form_model.f_fordpathsNRef = maxTotalRoadCount;
+    f_fordpathsNRefChange(maxTotalRoadCount);
+  }
+
+  if (maxTotalRoadCount < form_model.f_opppathsNRef) {
+    form_model.f_opppathsNRef = maxTotalRoadCount;
+    f_opppathsNRefChange(maxTotalRoadCount);
+  }
+
+  if (maxTotalRoadCount < form_model.s_fordpathsNRef) {
+    form_model.s_fordpathsNRef = maxTotalRoadCount;
+    s_fordpathsNRefChange(maxTotalRoadCount);
+  }
+
+  if (maxTotalRoadCount < form_model.s_opppathsNRef) {
+    form_model.s_opppathsNRef = maxTotalRoadCount;
+    s_opppathsNRefChange(maxTotalRoadCount);
+  }
+
+  if (maxTotalRoadCount < form_model.t_fordpathsNRef) {
+    form_model.t_fordpathsNRef = maxTotalRoadCount;
+    t_fordpathsNRefChange(maxTotalRoadCount);
+  }
+
+  if (maxTotalRoadCount < form_model.t_opppathsNRef) {
+    form_model.t_opppathsNRef = maxTotalRoadCount;
+    t_opppathsNRefChange(maxTotalRoadCount);
+  }
+}
+
+function f_fordpathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  f_fordpathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.f_fordpathrNRef) {
+    form_model.f_fordpathrNRef = selectedVal;
+  }
+}
+
+function f_opppathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  f_opppathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.f_opppathrNRef) {
+    form_model.f_opppathrNRef = selectedVal;
+  }
+}
+
+function s_fordpathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  s_fordpathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.s_fordpathrNRef) {
+    form_model.s_fordpathrNRef = selectedVal;
+  }
+}
+
+function s_opppathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  s_opppathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.s_opppathrNRef) {
+    form_model.s_opppathrNRef = selectedVal;
+  }
+}
+
+function t_fordpathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  t_fordpathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.t_fordpathrNRef) {
+    form_model.t_fordpathrNRef = selectedVal;
+  }
+}
+
+function t_opppathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  t_opppathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.t_opppathrNRef) {
+    form_model.t_opppathrNRef = selectedVal;
+  }
+}
+
+// Paint 参数
+function eastTotalRoadCountRefChange(selectedVal: any) {
   let temp_array = [];
   for (let i = 0; i <= selectedVal; i++) {
     temp_array.push({ value: i, label: i });
   }
   roadEastOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.e_wpathsNRef) {
-    form_model.e_wpathsNRef = selectedVal;
+  if (selectedVal < form_paint_model.eastOutputRoadCountRef) {
+    form_paint_model.eastOutputRoadCountRef = selectedVal;
     eastOutputRoadCountRefChange(selectedVal);
   }
 }
 
-function W_pathNSRefChange(selectedVal: any) {
+function westTotalRoadCountRefChange(selectedVal: any) {
   let temp_array = [];
   for (let i = 0; i <= selectedVal; i++) {
     temp_array.push({ value: i, label: i });
   }
   roadWestOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.w_epathsNRef) {
-    form_model.w_epathsNRef = selectedVal;
+  if (selectedVal < form_paint_model.westOutputRoadCountRef) {
+    form_paint_model.westOutputRoadCountRef = selectedVal;
     westOutputRoadCountRefChange(selectedVal);
   }
 }
 
-function S_pathNSRefChange(selectedVal: any) {
+function southTotalRoadCountRefChange(selectedVal: any) {
   let temp_array = [];
   for (let i = 0; i <= selectedVal; i++) {
     temp_array.push({ value: i, label: i });
   }
   roadSouthOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.s_npathsNRef) {
-    form_model.s_npathsNRef = selectedVal;
+  if (selectedVal < form_paint_model.southOutputRoadCountRef) {
+    form_paint_model.southOutputRoadCountRef = selectedVal;
     southOutputRoadCountRefChange(selectedVal);
   }
 }
@@ -1686,8 +2310,8 @@ function northTotalRoadCountRefChange(selectedVal: any) {
     temp_array.push({ value: i, label: i });
   }
   roadNorthOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.n_spathsNRef) {
-    form_model.n_spathsNRef = selectedVal;
+  if (selectedVal < form_paint_model.northOutputRoadCountRef) {
+    form_paint_model.northOutputRoadCountRef = selectedVal;
     northOutputRoadCountRefChange(selectedVal);
   }
 }
@@ -1698,8 +2322,8 @@ function eastOutputRoadCountRefChange(selectedVal: any) {
     temp_array.push({ value: i, label: i });
   }
   roadEastRightNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.e_wpathrNRef) {
-    form_model.e_wpathrNRef = selectedVal;
+  if (selectedVal < form_paint_model.eastRightRoadCountRef) {
+    form_paint_model.eastRightRoadCountRef = selectedVal;
   }
 }
 
@@ -1709,8 +2333,8 @@ function westOutputRoadCountRefChange(selectedVal: any) {
     temp_array.push({ value: i, label: i });
   }
   roadWestRightNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.w_epathrNRef) {
-    form_model.w_epathrNRef = selectedVal;
+  if (selectedVal < form_paint_model.westRightRoadCountRef) {
+    form_paint_model.westRightRoadCountRef = selectedVal;
   }
 }
 
@@ -1720,8 +2344,8 @@ function southOutputRoadCountRefChange(selectedVal: any) {
     temp_array.push({ value: i, label: i });
   }
   roadSouthRightNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.s_npathrNRef) {
-    form_model.s_npathrNRef = selectedVal;
+  if (selectedVal < form_paint_model.southRightRoadCountRef) {
+    form_paint_model.southRightRoadCountRef = selectedVal;
   }
 }
 
@@ -1731,8 +2355,8 @@ function northOutputRoadCountRefChange(selectedVal: any) {
     temp_array.push({ value: i, label: i });
   }
   roadNorthRightNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.n_spathrNRef) {
-    form_model.n_spathrNRef = selectedVal;
+  if (selectedVal < form_paint_model.northRightRoadCountRef) {
+    form_paint_model.northRightRoadCountRef = selectedVal;
   }
 }
 
