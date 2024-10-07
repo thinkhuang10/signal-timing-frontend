@@ -606,7 +606,7 @@ import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
-// import { get_calc_ttimingh } from "@/api/modules/calc";
+import { get_calc_ttimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
@@ -1304,8 +1304,8 @@ async function CloseDialog() {
   console.log(input_infos_obj);
 
   try {
-    let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
-    // let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
+    // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
+    let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
     calc_result = calc_result.replace(/\n$/, "");
     let calc_outputs: any = calc_result.split(",");
     if (calc_outputs.length >= 6) {

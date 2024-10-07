@@ -1,7 +1,7 @@
 <template>
   <el-row style="margin: 10px">
     <el-button type="primary" @click="goBack()" style="margin-right: 50px">返回</el-button>
-    <el-text style="margin-right: 20px; font-size: 20px">三相位 - 智能计算</el-text>
+    <el-text style="margin-right: 20px; font-size: 20px">五相位 - 智能计算</el-text>
     <el-text style="margin-left: 20px">路口位置</el-text>
     <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange" style="margin-left: 10px">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
@@ -440,6 +440,76 @@
           </el-col>
         </el-row>
 
+        <!-- 四相位 正向 -->
+        <el-row style="margin-right: 20px; margin-left: 20px">
+          <el-divider content-position="left">
+            <span style="color: #409eff">四相位 正向</span>
+          </el-divider>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="four_fordflowRef">
+              <el-input v-model="form_model.four_fordflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="出口车道数" prop="four_fordpathsNRef">
+              <el-select v-model="form_model.four_fordpathsNRef" style="width: 60px" @change="four_fordpathsNRefChange">
+                <el-option v-for="item in four_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="右转专有车道" prop="four_fordpathrNRef">
+              <el-select v-model="form_model.four_fordpathrNRef" style="width: 60px">
+                <el-option v-for="item in four_fordpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="four_fordpathlenRef">
+              <el-input v-model="form_model.four_fordpathlenRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 四相位 逆向 -->
+        <el-row style="margin-right: 20px; margin-left: 20px">
+          <el-divider content-position="left">
+            <span style="color: #409eff">四相位 逆向</span>
+          </el-divider>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="6">
+            <el-form-item label="流量" prop="four_oppflowRef">
+              <el-input v-model="form_model.four_oppflowRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="出口车道数" prop="four_opppathsNRef">
+              <el-select v-model="form_model.four_opppathsNRef" style="width: 60px" @change="four_opppathsNRefChange">
+                <el-option v-for="item in four_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="右转专有车道" prop="four_opppathrNRef">
+              <el-select v-model="form_model.four_opppathrNRef" style="width: 60px">
+                <el-option v-for="item in four_opppathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="margin-left: 20px">
+          <el-col :span="8">
+            <el-form-item label="距离上一个路口距离(米)" prop="four_opppathlenRef">
+              <el-input v-model="form_model.four_opppathlenRef" style="width: 60px" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <!-- Create Road -->
         <el-form-item style="margin-left: 20px">
           <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="ExecuteCalc()">计算</el-button>
@@ -517,6 +587,28 @@
           <el-col :span="6">
             <el-form-item label="红灯时长(秒)">
               <el-text style="width: 100px">{{ three_red_computed }}</el-text>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 四相位 -->
+        <el-row style="margin-left: 20px">
+          <el-col :span="2">
+            <el-form-item label="四相位"></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="绿灯时长(秒)">
+              <el-text style="width: 100px">{{ four_green_computed }}</el-text>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="黄灯时长(秒)">
+              <el-text style="width: 100px">{{ four_yellow_computed }}</el-text>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="红灯时长(秒)">
+              <el-text style="width: 100px">{{ four_red_computed }}</el-text>
             </el-form-item>
           </el-col>
         </el-row>
@@ -686,6 +778,20 @@ let t_opppathsNArrayRef: any = ref([
   { value: "3", label: "3" },
   { value: "4", label: "4" }
 ]);
+let four_fordpathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let four_opppathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
 
 let f_fordpathrNArrayRef: any = ref([
   { value: "0", label: "0" },
@@ -713,6 +819,16 @@ let t_fordpathrNArrayRef: any = ref([
   { value: "2", label: "2" }
 ]);
 let t_opppathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let four_fordpathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" }
+]);
+let four_opppathrNArrayRef: any = ref([
   { value: "0", label: "0" },
   { value: "1", label: "1" },
   { value: "2", label: "2" }
@@ -809,6 +925,16 @@ let form_model = reactive({
   t_opppathrNRef: 1,
   t_opppathlenRef: 500,
 
+  four_fordflowRef: 300,
+  four_fordpathsNRef: 2,
+  four_fordpathrNRef: 1,
+  four_fordpathlenRef: 500,
+
+  four_oppflowRef: 300,
+  four_opppathsNRef: 2,
+  four_opppathrNRef: 1,
+  four_opppathlenRef: 500,
+
   first_green_Ref: 0.0,
   first_yellow_Ref: 0.0,
   first_red_Ref: 0.0,
@@ -820,6 +946,10 @@ let form_model = reactive({
   three_green_Ref: 0.0,
   three_yellow_Ref: 0.0,
   three_red_Ref: 0.0,
+
+  four_green_Ref: 0.0,
+  four_yellow_Ref: 0.0,
+  four_red_Ref: 0.0,
 
   is_show_warning_Ref: false,
 
@@ -833,7 +963,11 @@ let form_model = reactive({
 
   three_green_correct_Ref: 0.0,
   three_yellow_correct_Ref: 0.0,
-  three_red_correct_Ref: 0.0
+  three_red_correct_Ref: 0.0,
+
+  four_green_correct_Ref: 0.0,
+  four_yellow_correct_Ref: 0.0,
+  four_red_correct_Ref: 0.0
 });
 
 let form_paint_model = reactive({
@@ -949,6 +1083,26 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
   ],
 
+  // 四相位 正向
+  four_fordflowRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+  four_fordpathlenRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+
+  // 四相位 反向
+  four_oppflowRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+  four_opppathlenRef: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|[1-9]\d\d|[1-4]\d\d\d|5000)$/, message: "范围在0-5000" }
+  ],
+
   first_green_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
@@ -985,6 +1139,18 @@ const rules = reactive({
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
+  four_green_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  four_yellow_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  four_red_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
   first_green_correct_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
@@ -1018,6 +1184,18 @@ const rules = reactive({
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ],
   three_red_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  four_green_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  four_yellow_correct_Ref: [
+    { required: true, message: "请填写" },
+    { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
+  ],
+  four_red_correct_Ref: [
     { required: true, message: "请填写" },
     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-5]\d|260)$/, message: "范围在0-260" }
   ]
@@ -1071,6 +1249,22 @@ const three_red_computed = computed(() => {
   }
 
   return Math.round(form_model.three_red_Ref);
+});
+
+const four_green_computed = computed(() => {
+  return Math.round(form_model.four_green_Ref);
+});
+
+const four_yellow_computed = computed(() => {
+  return Math.round(form_model.four_yellow_Ref);
+});
+
+const four_red_computed = computed(() => {
+  if (CheckEndWithDotFive(form_model.four_red_Ref) && form_model.four_red_Ref > 1) {
+    return Math.round(form_model.four_red_Ref - 1);
+  }
+
+  return Math.round(form_model.four_red_Ref);
 });
 
 // 请输 0.5 的倍数的数字
@@ -1206,6 +1400,18 @@ function GetInputParameters(inputObj: any) {
   form_model.t_opppathrNRef = inputObj.t_opppathrN;
   t_opppathsNRefChange(form_model.t_opppathrNRef);
   form_model.t_opppathlenRef = inputObj.t_opppathlen;
+
+  form_model.four_fordflowRef = inputObj.four_fordflow;
+  form_model.four_fordpathsNRef = inputObj.four_fordpathsN;
+  form_model.four_fordpathrNRef = inputObj.four_fordpathrN;
+  four_fordpathsNRefChange(form_model.four_fordpathrNRef);
+  form_model.four_fordpathlenRef = inputObj.four_fordpathlen;
+
+  form_model.four_oppflowRef = inputObj.four_oppflow;
+  form_model.four_opppathsNRef = inputObj.four_opppathsN;
+  form_model.four_opppathrNRef = inputObj.four_opppathrN;
+  four_opppathsNRefChange(form_model.four_opppathrNRef);
+  form_model.four_opppathlenRef = inputObj.four_opppathlen;
 }
 
 function GetOutputParameters(outputObj: any) {
@@ -1222,6 +1428,10 @@ function GetOutputParameters(outputObj: any) {
   form_model.three_yellow_Ref = outputObj.three_yellow;
   form_model.three_red_Ref = outputObj.three_red;
 
+  form_model.four_green_Ref = outputObj.four_green;
+  form_model.four_yellow_Ref = outputObj.four_yellow;
+  form_model.four_red_Ref = outputObj.four_red;
+
   form_model.is_show_warning_Ref = outputObj.is_show_warning_Ref;
 
   form_model.first_green_correct_Ref = outputObj.first_green_correct;
@@ -1235,6 +1445,10 @@ function GetOutputParameters(outputObj: any) {
   form_model.three_green_correct_Ref = outputObj.three_green_correct;
   form_model.three_yellow_correct_Ref = outputObj.three_yellow_correct;
   form_model.three_red_correct_Ref = outputObj.three_red_correct;
+
+  form_model.four_green_correct_Ref = outputObj.four_green_correct;
+  form_model.four_yellow_correct_Ref = outputObj.four_yellow_correct;
+  form_model.four_red_correct_Ref = outputObj.four_red_correct;
 }
 
 async function InitParameters() {
@@ -1335,6 +1549,10 @@ async function CloseDialog() {
       form_model.three_green_correct_Ref = three_green_computed.value;
       form_model.three_yellow_correct_Ref = three_yellow_computed.value;
       form_model.three_red_correct_Ref = three_red_computed.value;
+
+      form_model.four_green_correct_Ref = four_green_computed.value;
+      form_model.four_yellow_correct_Ref = four_yellow_computed.value;
+      form_model.four_red_correct_Ref = four_red_computed.value;
     }
   } catch (error) {
     console.log("get_calc_stiminge出现异常: " + error);
@@ -1460,6 +1678,10 @@ async function SaveParametersToSQL() {
     three_yellow: Number(form_model.three_yellow_Ref),
     three_green: Number(form_model.three_green_Ref),
 
+    four_red: Number(form_model.four_red_Ref),
+    four_yellow: Number(form_model.four_yellow_Ref),
+    four_green: Number(form_model.four_green_Ref),
+
     is_show_warning_Ref: Boolean(form_model.is_show_warning_Ref),
 
     first_red_correct: Number(form_model.first_red_correct_Ref),
@@ -1472,7 +1694,11 @@ async function SaveParametersToSQL() {
 
     three_red_correct: Number(form_model.three_red_correct_Ref),
     three_yellow_correct: Number(form_model.three_yellow_correct_Ref),
-    three_green_correct: Number(form_model.three_green_correct_Ref)
+    three_green_correct: Number(form_model.three_green_correct_Ref),
+
+    four_red_correct: Number(form_model.four_red_correct_Ref),
+    four_yellow_correct: Number(form_model.four_yellow_correct_Ref),
+    four_green_correct: Number(form_model.four_green_correct_Ref)
   };
 
   // 保存数据到数据库
@@ -1544,6 +1770,16 @@ function CheckPTime() {
     return false;
   }
 
+  if (
+    Number(form_model.TRef) !=
+    Number(form_model.four_green_correct_Ref) +
+      Number(form_model.four_yellow_correct_Ref) +
+      Number(form_model.four_red_correct_Ref)
+  ) {
+    ElMessage.error({ message: "四相位实际输出结果之和不等于协同周期！" });
+    return false;
+  }
+
   return true;
 }
 
@@ -1588,7 +1824,17 @@ function GetInputObjInfo() {
     t_oppflow: Number(form_model.t_oppflowRef),
     t_opppathsN: Number(form_model.t_opppathsNRef),
     t_opppathrN: Number(form_model.t_opppathrNRef),
-    t_opppathlen: Number(form_model.t_opppathlenRef)
+    t_opppathlen: Number(form_model.t_opppathlenRef),
+
+    four_fordflow: Number(form_model.four_fordflowRef),
+    four_fordpathsN: Number(form_model.four_fordpathsNRef),
+    four_fordpathrN: Number(form_model.four_fordpathrNRef),
+    four_fordpathlen: Number(form_model.four_fordpathlenRef),
+
+    four_oppflow: Number(form_model.four_oppflowRef),
+    four_opppathsN: Number(form_model.four_opppathsNRef),
+    four_opppathrN: Number(form_model.four_opppathrNRef),
+    four_opppathlen: Number(form_model.four_opppathlenRef)
   };
 }
 
@@ -2264,6 +2510,28 @@ function t_opppathsNRefChange(selectedVal: any) {
   t_opppathrNArrayRef.value = temp_array;
   if (selectedVal < form_model.t_opppathrNRef) {
     form_model.t_opppathrNRef = selectedVal;
+  }
+}
+
+function four_fordpathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  four_fordpathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.t_fordpathrNRef) {
+    form_model.four_fordpathrNRef = selectedVal;
+  }
+}
+
+function four_opppathsNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  four_opppathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.t_opppathrNRef) {
+    form_model.four_opppathrNRef = selectedVal;
   }
 }
 
