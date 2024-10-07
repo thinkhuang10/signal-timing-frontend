@@ -1,7 +1,7 @@
 <template>
   <el-row style="margin: 10px">
     <el-button type="primary" @click="goBack()" style="margin-right: 50px">返回</el-button>
-    <el-text style="margin-right: 30px; font-size: 20px">三相位配时计算 - 数据导入</el-text>
+    <el-text style="margin-right: 30px; font-size: 20px">三相位 - 大模型计算</el-text>
     <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
@@ -489,7 +489,7 @@ async function CloseDialog() {
 
     isCalcFinish = true;
   } catch (error) {
-    console.log("计算 数据导入-三相位-十字 出现异常: " + error);
+    console.log("计算 大模型计算-三相位-十字 出现异常: " + error);
   }
 }
 

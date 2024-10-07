@@ -21,7 +21,7 @@
       "redirect": "/calc/manual",
       "meta": {
         "icon": "HelpFilled",
-        "title": "手动输入",
+        "title": "智能计算",
         "isLink": "",
         "isHide": false,
         "isFull": false,
@@ -35,7 +35,7 @@
           "component": "/calc_two_cross/manual/index",
           "meta": {
             "icon": "HelpFilled",
-            "title": "两相位配时计算",
+            "title": "两相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -49,7 +49,7 @@
           "component": "/calc_three_cross/manual/index",
           "meta": {
             "icon": "HelpFilled",
-            "title": "三相位配时计算",
+            "title": "三相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -63,7 +63,7 @@
           "component": "/calc_four_cross/manual/index",
           "meta": {
             "icon": "HelpFilled",
-            "title": "四相位配时计算",
+            "title": "四相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -77,7 +77,7 @@
           "component": "/calc_five_cross/manual/index",
           "meta": {
             "icon": "HelpFilled",
-            "title": "五相位配时计算",
+            "title": "五相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -93,7 +93,7 @@
       "redirect": "/calc/export",
       "meta": {
         "icon": "ChromeFilled",
-        "title": "数据导入",
+        "title": "大模型计算",
         "isLink": "",
         "isHide": false,
         "isFull": false,
@@ -107,7 +107,7 @@
           "component": "/calc_two_cross/excel_import/index",
           "meta": {
             "icon": "ChromeFilled",
-            "title": "两相位数据导入",
+            "title": "两相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -121,7 +121,7 @@
           "component": "/calc_three_cross/excel_import/index",
           "meta": {
             "icon": "ChromeFilled",
-            "title": "三相位数据导入",
+            "title": "三相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -135,7 +135,7 @@
           "component": "/calc_four_cross/excel_import/index",
           "meta": {
             "icon": "ChromeFilled",
-            "title": "四相位数据导入",
+            "title": "四相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,
@@ -149,7 +149,7 @@
           "component": "/calc_five_cross/excel_import/index",
           "meta": {
             "icon": "ChromeFilled",
-            "title": "五相位数据导入",
+            "title": "五相位",
             "isLink": "",
             "isHide": false,
             "isFull": true,

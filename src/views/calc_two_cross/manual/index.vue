@@ -1,7 +1,7 @@
 <template>
   <el-row style="margin: 10px">
     <el-button type="primary" @click="goBack()" style="margin-right: 50px">返回</el-button>
-    <el-text style="margin-right: 30px; font-size: 20px">两相位配时计算 - 手动输入</el-text>
+    <el-text style="margin-right: 30px; font-size: 20px">两相位 - 智能计算</el-text>
     <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>

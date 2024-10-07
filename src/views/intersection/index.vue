@@ -20,7 +20,7 @@
       <template #configuration="scope">
         <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 查看配时 </el-button>
         <el-button type="primary" link :icon="View" @click="calc_manual(scope.row)"> 配时计算 </el-button>
-        <!-- <el-button type="primary" link :icon="EditPen" @click="calc_two_export(scope.row)"> 数据导入 </el-button> -->
+        <!-- <el-button type="primary" link :icon="EditPen" @click="calc_two_export(scope.row)"> 大模型计算 </el-button> -->
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
