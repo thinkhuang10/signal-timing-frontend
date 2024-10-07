@@ -1,15 +1,16 @@
 <template>
   <el-row style="margin: 10px">
     <el-button type="primary" @click="goBack()" style="margin-right: 50px">返回</el-button>
-    <el-text style="margin-right: 30px; font-size: 20px">三相位配时计算 - 手动输入</el-text>
-    <el-text style="margin-left: 30px">路口位置</el-text>
+    <el-text style="margin-right: 20px; font-size: 20px">三相位配时计算 - 手动输入</el-text>
+    <el-text style="margin-left: 20px">路口位置</el-text>
     <el-select v-model="selectedPositionRef" placeholder="请选择" @change="positionRefChange" style="margin-left: 10px">
       <el-option v-for="item in positionsRef" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
-    <el-text style="margin-left: 30px">方案名称</el-text>
+    <el-text style="margin-left: 20px">方案名称</el-text>
     <el-select v-model="selectedSchemeRef" placeholder="请选择" @change="schemeRefChange" style="margin-left: 10px">
       <el-option v-for="item in schemesRef" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
+    <el-button type="primary" @click="delScheme()" style="margin-left: 20px">删除方案</el-button>
   </el-row>
 
   <el-row>
@@ -445,7 +446,7 @@
 
           <el-text style="margin-left: 30px">方案名称</el-text>
           <el-input v-model="saveSchemeRef" style="width: 160px; margin-left: 10px" />
-          <el-button type="primary" @click="SaveParametersToSQL()" style="margin-left: 10px">保存</el-button>
+          <el-button type="primary" @click="ValidateAndSaveParametersToSQL()" style="margin-left: 10px">保存</el-button>
         </el-form-item>
 
         <!-- 计算输出结果 -->
@@ -609,7 +610,7 @@ import { add_historian } from "@/api/modules/intersection_historian";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 
@@ -1156,7 +1157,7 @@ function schemeRefChange(selectedVal: any) {
     if (schemeName != selectedVal) continue;
 
     // 获取参数
-    GetOutputParameters(selectedInputParameters[i]);
+    GetOutputParameters(selectedOutputParameters[i]);
   }
 }
 
@@ -1344,7 +1345,58 @@ async function CloseDialog() {
   }
 }
 
-async function SaveParametersToSQL() {
+function delScheme() {
+  if ("" == selectedSchemeRef.value) {
+    ElMessage.error({ message: "请选择方案名称！" });
+    return;
+  }
+
+  ElMessageBox.confirm("是否删除方案?", "提示", {
+    confirmButtonText: "是",
+    cancelButtonText: "否",
+    type: "提示"
+  })
+    .then(async () => {
+      selectedInputParameters = selectedInputParameters.filter(function (item: any) {
+        return item.schemeName != selectedSchemeRef.value;
+      });
+      let input_infos_str_scheme: any = JSON.stringify(selectedInputParameters);
+
+      selectedOutputParameters = selectedOutputParameters.filter(function (item: any) {
+        return item.schemeName !== selectedSchemeRef.value;
+      });
+      let output_infos_str_scheme: any = JSON.stringify(selectedOutputParameters);
+      await set_detail_by_code({
+        code: codeRef.value,
+        input_parameters: input_infos_str_scheme,
+        output_parameters: output_infos_str_scheme
+      });
+
+      // 切换保存的方案
+      schemesRef.value = [];
+      if (selectedInputParameters.length != 0) {
+        for (let i = 0; i < selectedInputParameters.length; i++) {
+          // 获取方案
+          let schemeName: any = selectedInputParameters[i].schemeName;
+          if (undefined == schemeName) continue;
+          schemesRef.value.push({ value: schemeName, label: schemeName });
+
+          if (0 == i) {
+            selectedSchemeRef.value = schemeName;
+            // 获取参数
+            // GetInputParameters(selectedInputParameters[0]);
+          }
+        }
+      } else {
+        selectedSchemeRef.value = "";
+      }
+    })
+    .catch(() => {
+      // 取消，则直接返回
+    });
+}
+
+async function ValidateAndSaveParametersToSQL() {
   // 数据正确性检测
   ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
@@ -1362,65 +1414,106 @@ async function SaveParametersToSQL() {
       return;
     }
 
-    // let isPTimeSuccess: any = CheckPTime();
-    // if (!isPTimeSuccess) return;
+    // 检测保存方案是否重名
+    let isDuplicateSchemeName = false;
+    for (let i = 0; i < selectedInputParameters.length; i++) {
+      let schemeName: any = selectedInputParameters[i].schemeName;
+      if (undefined == schemeName) continue;
+      if (saveSchemeRef.value == schemeName) {
+        isDuplicateSchemeName = true;
+        break;
+      }
+    }
 
-    // 调用数据接口计算
-    let input_infos_obj: any = GetInputObjInfo();
-
-    let output_infos_obj = {
-      schemeName: selectedSchemeRef.value,
-      first_red: Number(form_model.first_red_Ref),
-      first_yellow: Number(form_model.first_yellow_Ref),
-      first_green: Number(form_model.first_green_Ref),
-
-      second_red: Number(form_model.second_red_Ref),
-      second_yellow: Number(form_model.second_yellow_Ref),
-      second_green: Number(form_model.second_green_Ref),
-
-      three_red: Number(form_model.three_red_Ref),
-      three_yellow: Number(form_model.three_yellow_Ref),
-      three_green: Number(form_model.three_green_Ref),
-
-      is_show_warning_Ref: Boolean(form_model.is_show_warning_Ref),
-
-      first_red_correct: Number(form_model.first_red_correct_Ref),
-      first_yellow_correct: Number(form_model.first_yellow_correct_Ref),
-      first_green_correct: Number(form_model.first_green_correct_Ref),
-
-      second_red_correct: Number(form_model.second_red_correct_Ref),
-      second_yellow_correct: Number(form_model.second_yellow_correct_Ref),
-      second_green_correct: Number(form_model.second_green_correct_Ref),
-
-      three_red_correct: Number(form_model.three_red_correct_Ref),
-      three_yellow_correct: Number(form_model.three_yellow_correct_Ref),
-      three_green_correct: Number(form_model.three_green_correct_Ref)
-    };
-
-    // 保存数据到数据库
-    let input_infos_str: any = JSON.stringify(input_infos_obj);
-    let output_infos_str: any = JSON.stringify(output_infos_obj);
-    await add_historian({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
-
-    selectedInputParameters = selectedInputParameters.filter(function (item: any) {
-      return item !== saveSchemeRef.value;
-    });
-    selectedInputParameters.push(input_infos_obj);
-    let input_infos_str_scheme: any = JSON.stringify(selectedInputParameters);
-
-    selectedOutputParameters = selectedInputParameters.filter(function (item: any) {
-      return item !== saveSchemeRef.value;
-    });
-    selectedOutputParameters.push(input_infos_obj);
-    let output_infos_str_scheme: any = JSON.stringify(selectedOutputParameters);
-    await set_detail_by_code({
-      code: codeRef.value,
-      input_parameters: input_infos_str_scheme,
-      output_parameters: output_infos_str_scheme
-    });
-
-    ElMessage.info({ message: "保存成功." });
+    if (isDuplicateSchemeName) {
+      ElMessageBox.confirm("方案名称重复, 是否继续?", "提示", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "提示"
+      })
+        .then(async () => {
+          await SaveParametersToSQL();
+        })
+        .catch(() => {
+          // 取消，则直接返回
+        });
+    } else {
+      await SaveParametersToSQL();
+    }
   });
+}
+
+async function SaveParametersToSQL() {
+  // let isPTimeSuccess: any = CheckPTime();
+  // if (!isPTimeSuccess) return;
+
+  // 调用数据接口计算
+  let input_infos_obj: any = GetInputObjInfo();
+
+  let output_infos_obj = {
+    schemeName: saveSchemeRef.value,
+    first_red: Number(form_model.first_red_Ref),
+    first_yellow: Number(form_model.first_yellow_Ref),
+    first_green: Number(form_model.first_green_Ref),
+
+    second_red: Number(form_model.second_red_Ref),
+    second_yellow: Number(form_model.second_yellow_Ref),
+    second_green: Number(form_model.second_green_Ref),
+
+    three_red: Number(form_model.three_red_Ref),
+    three_yellow: Number(form_model.three_yellow_Ref),
+    three_green: Number(form_model.three_green_Ref),
+
+    is_show_warning_Ref: Boolean(form_model.is_show_warning_Ref),
+
+    first_red_correct: Number(form_model.first_red_correct_Ref),
+    first_yellow_correct: Number(form_model.first_yellow_correct_Ref),
+    first_green_correct: Number(form_model.first_green_correct_Ref),
+
+    second_red_correct: Number(form_model.second_red_correct_Ref),
+    second_yellow_correct: Number(form_model.second_yellow_correct_Ref),
+    second_green_correct: Number(form_model.second_green_correct_Ref),
+
+    three_red_correct: Number(form_model.three_red_correct_Ref),
+    three_yellow_correct: Number(form_model.three_yellow_correct_Ref),
+    three_green_correct: Number(form_model.three_green_correct_Ref)
+  };
+
+  // 保存数据到数据库
+  let input_infos_str: any = JSON.stringify(input_infos_obj);
+  let output_infos_str: any = JSON.stringify(output_infos_obj);
+  await add_historian({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
+
+  // 保存方案
+  selectedInputParameters = selectedInputParameters.filter(function (item: any) {
+    return item.schemeName != saveSchemeRef.value;
+  });
+  selectedInputParameters.push(input_infos_obj);
+  let input_infos_str_scheme: any = JSON.stringify(selectedInputParameters);
+
+  selectedOutputParameters = selectedOutputParameters.filter(function (item: any) {
+    return item.schemeName !== saveSchemeRef.value;
+  });
+  selectedOutputParameters.push(output_infos_obj);
+  let output_infos_str_scheme: any = JSON.stringify(selectedOutputParameters);
+  await set_detail_by_code({
+    code: codeRef.value,
+    input_parameters: input_infos_str_scheme,
+    output_parameters: output_infos_str_scheme
+  });
+
+  // 切换保存的方案
+  schemesRef.value = [];
+  for (let i = 0; i < selectedInputParameters.length; i++) {
+    // 获取方案
+    let schemeName: any = selectedInputParameters[i].schemeName;
+    if (undefined == schemeName) continue;
+    schemesRef.value.push({ value: schemeName, label: schemeName });
+  }
+
+  selectedSchemeRef.value = saveSchemeRef.value;
+
+  ElMessage.info({ message: "保存成功." });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
