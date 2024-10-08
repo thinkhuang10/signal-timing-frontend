@@ -42,28 +42,28 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="西路口车道数" prop="W_pathNSRef">
+            <el-form-item label="西路口车道" prop="W_pathNSRef">
               <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="东路口车道数" prop="E_pathNSRef">
+            <el-form-item label="东路口车道" prop="E_pathNSRef">
               <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="北路口车道数" prop="N_pathNSRef">
+            <el-form-item label="北路口车道" prop="N_pathNSRef">
               <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="南路口车道数" prop="S_pathNSRef">
+            <el-form-item label="南路口车道" prop="S_pathNSRef">
               <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -79,7 +79,7 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="f_fordpathsNRef">
+            <el-form-item label="出口车道" prop="f_fordpathsNRef">
               <el-select v-model="form_model.f_fordpathsNRef" style="width: 60px" @change="f_fordpathsNRefChange">
                 <el-option v-for="item in f_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -107,7 +107,7 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="f_opppathsNRef">
+            <el-form-item label="出口车道" prop="f_opppathsNRef">
               <el-select v-model="form_model.f_opppathsNRef" style="width: 60px" @change="f_opppathsNRefChange">
                 <el-option v-for="item in f_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -135,7 +135,7 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="s_fordpathsNRef">
+            <el-form-item label="出口车道" prop="s_fordpathsNRef">
               <el-select v-model="form_model.s_fordpathsNRef" style="width: 60px" @change="s_fordpathsNRefChange">
                 <el-option v-for="item in s_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -163,7 +163,7 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="s_opppathsNRef">
+            <el-form-item label="出口车道" prop="s_opppathsNRef">
               <el-select v-model="form_model.s_opppathsNRef" style="width: 60px" @change="s_opppathsNRefChange">
                 <el-option v-for="item in s_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -191,7 +191,7 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="t_fordpathsNRef">
+            <el-form-item label="出口车道" prop="t_fordpathsNRef">
               <el-select v-model="form_model.t_fordpathsNRef" style="width: 60px" @change="t_fordpathsNRefChange">
                 <el-option v-for="item in t_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -219,7 +219,7 @@
         </el-row>
         <el-row style="margin-left: 20px">
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="t_opppathsNRef">
+            <el-form-item label="出口车道" prop="t_opppathsNRef">
               <el-select v-model="form_model.t_opppathsNRef" style="width: 60px" @change="t_opppathsNRefChange">
                 <el-option v-for="item in t_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>

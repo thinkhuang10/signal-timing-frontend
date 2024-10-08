@@ -29,7 +29,7 @@
             <el-form-item label="西路口"></el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="车道数" prop="westTotalRoadCountRef">
+            <el-form-item label="车道" prop="westTotalRoadCountRef">
               <el-select
                 v-model="form_paint_model.westTotalRoadCountRef"
                 style="width: 60px"
@@ -40,7 +40,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="出口车道数" prop="westOutputRoadCountRef">
+            <el-form-item label="出口车道" prop="westOutputRoadCountRef">
               <el-select
                 v-model="form_paint_model.westOutputRoadCountRef"
                 style="width: 60px"
@@ -51,7 +51,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="右转专有车道数" prop="westRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="westRightRoadCountRef">
               <el-select v-model="form_paint_model.westRightRoadCountRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -63,7 +63,7 @@
             <el-form-item label="东路口"></el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="车道数" prop="eastTotalRoadCountRef">
+            <el-form-item label="车道" prop="eastTotalRoadCountRef">
               <el-select
                 v-model="form_paint_model.eastTotalRoadCountRef"
                 style="width: 60px"
@@ -74,7 +74,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="出口车道数" prop="eastOutputRoadCountRef">
+            <el-form-item label="出口车道" prop="eastOutputRoadCountRef">
               <el-select
                 v-model="form_paint_model.eastOutputRoadCountRef"
                 style="width: 60px"
@@ -85,7 +85,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="右转专有车道数" prop="eastRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="eastRightRoadCountRef">
               <el-select v-model="form_paint_model.eastRightRoadCountRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -97,7 +97,7 @@
             <el-form-item label="北路口"></el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="车道数" prop="northTotalRoadCountRef">
+            <el-form-item label="车道" prop="northTotalRoadCountRef">
               <el-select
                 v-model="form_paint_model.northTotalRoadCountRef"
                 style="width: 60px"
@@ -108,7 +108,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="出口车道数" prop="northOutputRoadCountRef">
+            <el-form-item label="出口车道" prop="northOutputRoadCountRef">
               <el-select
                 v-model="form_paint_model.northOutputRoadCountRef"
                 style="width: 60px"
@@ -119,7 +119,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="右转专有车道数" prop="northRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="northRightRoadCountRef">
               <el-select v-model="form_paint_model.northRightRoadCountRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -131,7 +131,7 @@
             <el-form-item label="南路口"></el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="车道数" prop="southTotalRoadCountRef">
+            <el-form-item label="车道" prop="southTotalRoadCountRef">
               <el-select
                 v-model="form_paint_model.southTotalRoadCountRef"
                 style="width: 60px"
@@ -142,7 +142,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="出口车道数" prop="southOutputRoadCountRef">
+            <el-form-item label="出口车道" prop="southOutputRoadCountRef">
               <el-select
                 v-model="form_paint_model.southOutputRoadCountRef"
                 style="width: 60px"
@@ -153,7 +153,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="右转专有车道数" prop="southRightRoadCountRef">
+            <el-form-item label="右转专有车道" prop="southRightRoadCountRef">
               <el-select v-model="form_paint_model.southRightRoadCountRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -163,7 +163,7 @@
       </el-form>
 
       <el-row style="margin: 10px">
-        <el-button type="primary" @click="DrawRoad()" style="margin-right: 50px">绘制图形</el-button>
+        <el-button type="primary" @click="CreateRoad()" style="margin-right: 50px">绘制图形</el-button>
       </el-row>
     </el-col>
 
@@ -201,28 +201,28 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="西路口车道数" prop="W_pathNSRef">
+            <el-form-item label="西路口车道" prop="W_pathNSRef">
               <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="东路口车道数" prop="E_pathNSRef">
+            <el-form-item label="东路口车道" prop="E_pathNSRef">
               <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="北路口车道数" prop="N_pathNSRef">
+            <el-form-item label="北路口车道" prop="N_pathNSRef">
               <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="南路口车道数" prop="S_pathNSRef">
+            <el-form-item label="南路口车道" prop="S_pathNSRef">
               <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="pathNSRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -243,7 +243,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="f_fordpathsNRef">
+            <el-form-item label="出口车道" prop="f_fordpathsNRef">
               <el-select v-model="form_model.f_fordpathsNRef" style="width: 60px" @change="f_fordpathsNRefChange">
                 <el-option v-for="item in f_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -278,7 +278,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="f_opppathsNRef">
+            <el-form-item label="出口车道" prop="f_opppathsNRef">
               <el-select v-model="form_model.f_opppathsNRef" style="width: 60px" @change="f_opppathsNRefChange">
                 <el-option v-for="item in f_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -313,7 +313,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="s_fordpathsNRef">
+            <el-form-item label="出口车道" prop="s_fordpathsNRef">
               <el-select v-model="form_model.s_fordpathsNRef" style="width: 60px" @change="s_fordpathsNRefChange">
                 <el-option v-for="item in s_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -348,7 +348,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="s_opppathsNRef">
+            <el-form-item label="出口车道" prop="s_opppathsNRef">
               <el-select v-model="form_model.s_opppathsNRef" style="width: 60px" @change="s_opppathsNRefChange">
                 <el-option v-for="item in s_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -383,7 +383,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="t_fordpathsNRef">
+            <el-form-item label="出口车道" prop="t_fordpathsNRef">
               <el-select v-model="form_model.t_fordpathsNRef" style="width: 60px" @change="t_fordpathsNRefChange">
                 <el-option v-for="item in t_fordpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -418,7 +418,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="出口车道数" prop="t_opppathsNRef">
+            <el-form-item label="出口车道" prop="t_opppathsNRef">
               <el-select v-model="form_model.t_opppathsNRef" style="width: 60px" @change="t_opppathsNRefChange">
                 <el-option v-for="item in t_opppathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -440,7 +440,6 @@
           </el-col>
         </el-row>
 
-        <!-- Create Road -->
         <el-form-item style="margin-left: 20px">
           <el-button type="primary" v-if="isCalcButtonVisibleRef" @click="ExecuteCalc()">计算</el-button>
 
@@ -1275,10 +1274,6 @@ async function InitParameters() {
     }
   }
 
-  CreateRoad();
-}
-
-function DrawRoad() {
   CreateRoad();
 }
 
