@@ -1170,6 +1170,7 @@ async function SaveParametersToSQL() {
   let input_infos_obj: any = GetInputObjInfo();
 
   let output_infos_obj = {
+    schemeName: saveSchemeRef.value,
     e_w_red: Number(form_model.e_w_red_Ref),
     e_w_yellow: Number(form_model.e_w_yellow_Ref),
     e_w_green: Number(form_model.e_w_green_Ref),
