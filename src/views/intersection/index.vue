@@ -129,7 +129,7 @@ const columns: ColumnProps<ResIntersection>[] = [
     label: "经纬度",
     width: 180
   },
-  { prop: "configuration", label: "配时配置", fixed: "right" },
+  { prop: "configuration", label: "配置方案", fixed: "right" },
   { prop: "operation", label: "操作", fixed: "right" }
 ];
 
