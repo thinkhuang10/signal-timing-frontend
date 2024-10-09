@@ -686,6 +686,28 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <!-- 四相位 -->
+        <el-row style="margin-left: 20px">
+          <el-col :span="2">
+            <el-form-item label="四相位"></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="绿灯时长(秒)" prop="four_green_correct_Ref">
+              <el-input v-model="form_model.four_green_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="黄灯时长(秒)" prop="four_yellow_correct_Ref">
+              <el-input v-model="form_model.four_yellow_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="红灯时长(秒)" prop="four_red_correct_Ref">
+              <el-input v-model="form_model.four_red_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </el-col>
   </el-row>
@@ -1534,6 +1556,10 @@ async function CloseDialog() {
       form_model.three_green_Ref = calc_outputs[4];
       form_model.three_yellow_Ref = form_model.ytimeRef;
       form_model.three_red_Ref = calc_outputs[5];
+
+      form_model.four_green_Ref = calc_outputs[6];
+      form_model.four_yellow_Ref = form_model.ytimeRef;
+      form_model.four_red_Ref = calc_outputs[7];
 
       if (calc_outputs[6] > 0) form_model.is_show_warning_Ref = true;
       else form_model.is_show_warning_Ref = false;
