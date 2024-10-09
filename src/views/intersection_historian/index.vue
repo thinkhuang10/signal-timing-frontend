@@ -118,7 +118,7 @@ const columns: ColumnProps<ResIntersection>[] = [
     label: "经纬度",
     width: 180
   },
-  { prop: "configuration", label: "配置", fixed: "right" }
+  { prop: "configuration", label: "配时方案", fixed: "right" }
 ];
 
 const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | null>(null);
