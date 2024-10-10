@@ -41,34 +41,34 @@
               <el-input v-model="form_model.mingtimeRef" style="width: 60px" />
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="6"> -->
-          <!-- <el-form-item label="西路口车道" prop="W_pathNSRef">
-              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+          <el-col :span="6">
+            <el-form-item label="西路口车道" prop="W_pathNSRef">
+              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="westTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="东路口车道" prop="E_pathNSRef">
-              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="eastTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="北路口车道" prop="N_pathNSRef">
-              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="northTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="南路口车道" prop="S_pathNSRef">
-              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="southTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-          </el-col> -->
+          </el-col>
         </el-row>
 
         <!-- 西出口 -->
@@ -78,13 +78,13 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="路口车道" prop="westTotalRoadCountRef">
               <el-select v-model="form_model.westTotalRoadCountRef" style="width: 60px" @change="westTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-form-item label="出口车道" prop="westOutputRoadCountRef">
               <el-select v-model="form_model.westOutputRoadCountRef" style="width: 60px" @change="westOutputRoadCountRefChange">
@@ -123,13 +123,13 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="路口车道" prop="eastTotalRoadCountRef">
               <el-select v-model="form_model.eastTotalRoadCountRef" style="width: 60px" @change="eastTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-form-item label="出口车道" prop="eastOutputRoadCountRef">
               <el-select v-model="form_model.eastOutputRoadCountRef" style="width: 60px" @change="eastOutputRoadCountRefChange">
@@ -168,13 +168,13 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="路口车道" prop="northTotalRoadCountRef">
               <el-select v-model="form_model.northTotalRoadCountRef" style="width: 60px" @change="northTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-form-item label="出口车道" prop="northOutputRoadCountRef">
               <el-select v-model="form_model.northOutputRoadCountRef" style="width: 60px" @change="northOutputRoadCountRefChange">
@@ -213,13 +213,13 @@
           </el-divider>
         </el-row>
         <el-row style="margin-left: 20px">
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="路口车道" prop="southTotalRoadCountRef">
               <el-select v-model="form_model.southTotalRoadCountRef" style="width: 60px" @change="southTotalRoadCountRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-form-item label="出口车道" prop="southOutputRoadCountRef">
               <el-select v-model="form_model.southOutputRoadCountRef" style="width: 60px" @change="southOutputRoadCountRefChange">
@@ -405,7 +405,7 @@ import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 
 const upload = ref<UploadInstance>();
 
-const handleExceed: UploadProps["onExceed"] = files => {
+const handleExceed: UploadProps["onExceed"] = (files: any[]) => {
   upload.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
@@ -445,7 +445,7 @@ let Cal_Correct_HoliDayTableData: any = ref([]);
 
 const submitCalcImport = async () => {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
@@ -618,12 +618,18 @@ const getInputObjInfo = (
     ytime: Number(form_model.ytimeRef),
     mingtime: Number(form_model.mingtimeRef),
     // E_pathNS: Number(form_model.e_pathNSRef),
+    E_pathNS: Number(form_model.E_pathNSRef),
+
     // W_pathNS: Number(form_model.w_pathNSRef),
+    W_pathNS: Number(form_model.W_pathNSRef),
+
     // S_pathNS: Number(form_model.s_pathNSRef),
+    S_pathNS: Number(form_model.S_pathNSRef),
+
     // N_pathNS: Number(form_model.n_pathNSRef),
+    N_pathNS: Number(form_model.N_pathNSRef),
 
     w_eflow: Number(west_mean),
-    w_epathNS: Number(form_model.westTotalRoadCountRef),
     w_epathsN: Number(form_model.westOutputRoadCountRef),
     w_epathrN: Number(form_model.westRightRoadCountRef),
     w_epathlen: Number(form_model.westNextDistanceRef),
@@ -631,7 +637,6 @@ const getInputObjInfo = (
     w_eflowN: Number(west_min),
 
     e_wflow: Number(east_mean),
-    e_wpathNS: Number(form_model.eastTotalRoadCountRef),
     e_wpathsN: Number(form_model.eastOutputRoadCountRef),
     e_wpathrN: Number(form_model.eastRightRoadCountRef),
     e_wpathlen: Number(form_model.eastNextDistanceRef),
@@ -639,7 +644,6 @@ const getInputObjInfo = (
     e_wflowN: Number(east_min),
 
     n_sflow: Number(north_mean),
-    n_spathNS: Number(form_model.northTotalRoadCountRef),
     n_spathsN: Number(form_model.northOutputRoadCountRef),
     n_spathrN: Number(form_model.northRightRoadCountRef),
     n_spathlen: Number(form_model.northNextDistanceRef),
@@ -647,7 +651,6 @@ const getInputObjInfo = (
     n_sflowN: Number(north_min),
 
     s_nflow: Number(south_mean),
-    s_npathNS: Number(form_model.southTotalRoadCountRef),
     s_npathsN: Number(form_model.southOutputRoadCountRef),
     s_npathrN: Number(form_model.southRightRoadCountRef),
     s_npathlen: Number(form_model.southNextDistanceRef),
@@ -765,27 +768,27 @@ let form_model = reactive({
   tortimeRef: 2,
   mingtimeRef: 5,
   ytimeRef: 3,
-  // E_pathNSRef: 4,
-  // W_pathNSRef: 4,
-  // S_pathNSRef: 4,
-  // N_pathNSRef: 4,
+  E_pathNSRef: 4,
+  W_pathNSRef: 4,
+  S_pathNSRef: 4,
+  N_pathNSRef: 4,
 
-  eastTotalRoadCountRef: 4,
+  // eastTotalRoadCountRef: 4,
   eastOutputRoadCountRef: 2,
   eastRightRoadCountRef: 1,
   eastNextDistanceRef: 500,
 
-  westTotalRoadCountRef: 4,
+  // westTotalRoadCountRef: 4,
   westOutputRoadCountRef: 2,
   westRightRoadCountRef: 1,
   westNextDistanceRef: 500,
 
-  southTotalRoadCountRef: 4,
+  // southTotalRoadCountRef: 4,
   southOutputRoadCountRef: 2,
   southRightRoadCountRef: 1,
   southNextDistanceRef: 500,
 
-  northTotalRoadCountRef: 4,
+  // northTotalRoadCountRef: 4,
   northOutputRoadCountRef: 2,
   northRightRoadCountRef: 1,
   northNextDistanceRef: 500
@@ -919,30 +922,31 @@ async function InitParameters() {
         form_model.ytimeRef = inputObj.ytime;
         form_model.mingtimeRef = inputObj.mingtime;
 
-        form_model.eastTotalRoadCountRef = inputObj.e_wpathNS;
+        form_model.E_pathNSRef = inputObj.E_pathNS;
+        form_model.W_pathNSRef = inputObj.W_pathNS;
+        form_model.S_pathNSRef = inputObj.S_pathNS;
+        form_model.N_pathNSRef = inputObj.N_pathNS;
+
         form_model.eastOutputRoadCountRef = inputObj.e_wpathsN;
-        eastTotalRoadCountRefChange(form_model.eastTotalRoadCountRef);
+        eastTotalRoadCountRefChange(form_model.E_pathNSRef);
         eastOutputRoadCountRefChange(form_model.eastOutputRoadCountRef);
         form_model.eastRightRoadCountRef = inputObj.e_wpathrN;
         form_model.eastNextDistanceRef = inputObj.e_wpathlen;
 
-        form_model.southTotalRoadCountRef = inputObj.s_npathNS;
         form_model.southOutputRoadCountRef = inputObj.s_npathsN;
-        southTotalRoadCountRefChange(form_model.southTotalRoadCountRef);
+        southTotalRoadCountRefChange(form_model.S_pathNSRef);
         southOutputRoadCountRefChange(form_model.southOutputRoadCountRef);
         form_model.southRightRoadCountRef = inputObj.s_npathrN;
         form_model.southNextDistanceRef = inputObj.s_npathlen;
 
-        form_model.northTotalRoadCountRef = inputObj.n_spathNS;
         form_model.northOutputRoadCountRef = inputObj.n_spathsN;
-        northTotalRoadCountRefChange(form_model.northTotalRoadCountRef);
+        northTotalRoadCountRefChange(form_model.N_pathNSRef);
         northOutputRoadCountRefChange(form_model.northOutputRoadCountRef);
         form_model.northRightRoadCountRef = inputObj.n_spathrN;
         form_model.northNextDistanceRef = inputObj.n_spathlen;
 
-        form_model.westTotalRoadCountRef = inputObj.w_epathNS;
         form_model.westOutputRoadCountRef = inputObj.w_epathsN;
-        westTotalRoadCountRefChange(form_model.westTotalRoadCountRef);
+        westTotalRoadCountRefChange(form_model.W_pathNSRef);
         westOutputRoadCountRefChange(form_model.westOutputRoadCountRef);
         form_model.westRightRoadCountRef = inputObj.w_epathrN;
         form_model.westNextDistanceRef = inputObj.w_epathlen;
@@ -1013,22 +1017,22 @@ function restoreInputParameters() {
   form_model.mingtimeRef = 5;
   form_model.ytimeRef = 3;
 
-  form_model.eastTotalRoadCountRef = 4;
+  form_model.E_pathNSRef = 4;
   form_model.eastOutputRoadCountRef = 2;
   form_model.eastRightRoadCountRef = 1;
   form_model.eastNextDistanceRef = 500;
 
-  form_model.westTotalRoadCountRef = 4;
+  form_model.W_pathNSRef = 4;
   form_model.westOutputRoadCountRef = 2;
   form_model.westRightRoadCountRef = 1;
   form_model.westNextDistanceRef = 500;
 
-  form_model.southTotalRoadCountRef = 4;
+  form_model.S_pathNSRef = 4;
   form_model.southOutputRoadCountRef = 2;
   form_model.southRightRoadCountRef = 1;
   form_model.southNextDistanceRef = 500;
 
-  form_model.northTotalRoadCountRef = 4;
+  form_model.N_pathNSRef = 4;
   form_model.northOutputRoadCountRef = 2;
   form_model.northRightRoadCountRef = 1;
   form_model.northNextDistanceRef = 500;
@@ -1036,7 +1040,7 @@ function restoreInputParameters() {
 
 async function SaveParametersToSQL() {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!isCalcFinish) {
       ElMessage.error({ message: "请先完成计算再保存！" });
       return;
@@ -1082,22 +1086,23 @@ function getImportInputParameters() {
     ytime: Number(form_model.ytimeRef),
     mingtime: Number(form_model.mingtimeRef),
 
-    w_epathNS: Number(form_model.westTotalRoadCountRef),
+    E_pathNS: Number(form_model.E_pathNSRef),
+    W_pathNS: Number(form_model.W_pathNSRef),
+    S_pathNS: Number(form_model.S_pathNSRef),
+    N_pathNS: Number(form_model.N_pathNSRef),
+
     w_epathsN: Number(form_model.westOutputRoadCountRef),
     w_epathrN: Number(form_model.westRightRoadCountRef),
     w_epathlen: Number(form_model.westNextDistanceRef),
 
-    e_wpathNS: Number(form_model.eastTotalRoadCountRef),
     e_wpathsN: Number(form_model.eastOutputRoadCountRef),
     e_wpathrN: Number(form_model.eastRightRoadCountRef),
     e_wpathlen: Number(form_model.eastNextDistanceRef),
 
-    n_spathNS: Number(form_model.northTotalRoadCountRef),
     n_spathsN: Number(form_model.northOutputRoadCountRef),
     n_spathrN: Number(form_model.northRightRoadCountRef),
     n_spathlen: Number(form_model.northNextDistanceRef),
 
-    s_npathNS: Number(form_model.southTotalRoadCountRef),
     s_npathsN: Number(form_model.southOutputRoadCountRef),
     s_npathrN: Number(form_model.southRightRoadCountRef),
     s_npathlen: Number(form_model.southNextDistanceRef)

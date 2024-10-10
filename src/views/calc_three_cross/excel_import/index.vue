@@ -418,7 +418,7 @@ import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 
 const upload = ref<UploadInstance>();
 
-const handleExceed: UploadProps["onExceed"] = files => {
+const handleExceed: UploadProps["onExceed"] = (files: any[]) => {
   upload.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
@@ -458,7 +458,7 @@ let Cal_Correct_HoliDayTableData: any = ref([]);
 
 const submitCalcImport = async () => {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!valid) {
       ElMessage.error({ message: "验证失败，请按提示输入正确参数！" });
       return;
@@ -560,7 +560,7 @@ function calcWorkdayDataTable(workdayFlow: any): void {
         Cal_Correct_WorkDayTableData.value.sort(sortIdAsc);
       }
     } catch (error) {
-      console.log("get_calc_stiminge出现异常: " + error);
+      console.log("get_calc_ttiminge出现异常: " + error);
     }
   });
 }
@@ -632,7 +632,7 @@ function calcHolidayDataTable(holidayFlow: any): void {
         Cal_Correct_HoliDayTableData.value.sort(sortIdAsc);
       }
     } catch (error) {
-      console.log("get_calc_stiminge出现异常: " + error);
+      console.log("get_calc_ttiminge 出现异常: " + error);
     }
   });
 }
@@ -1139,7 +1139,7 @@ function restoreInputParameters() {
 
 async function SaveParametersToSQL() {
   // 数据正确性检测
-  ruleFormRef.value!.validate(async valid => {
+  ruleFormRef.value!.validate(async (valid: any) => {
     if (!isCalcFinish) {
       ElMessage.error({ message: "请先完成计算再保存！" });
       return;
