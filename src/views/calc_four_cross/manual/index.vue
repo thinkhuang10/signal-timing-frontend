@@ -1336,7 +1336,7 @@ onMounted(async () => {
   params.pageNum = 1;
   params.pageSize = 1000;
   params.type = 1;
-  params.calc_type = "三相位";
+  params.calc_type = "四相位";
   // crossing_type如果不定义, 为undefined,则查询所有路口类型
   // params.crossing_type = "十字路口";
 
@@ -1561,7 +1561,7 @@ async function CloseDialog() {
       form_model.four_yellow_Ref = form_model.ytimeRef;
       form_model.four_red_Ref = calc_outputs[7];
 
-      if (calc_outputs[6] > 0) form_model.is_show_warning_Ref = true;
+      if (calc_outputs[8] > 0) form_model.is_show_warning_Ref = true;
       else form_model.is_show_warning_Ref = false;
 
       form_model.first_green_correct_Ref = first_green_computed.value;

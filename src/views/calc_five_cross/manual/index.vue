@@ -778,6 +778,50 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <!-- 四相位 -->
+        <el-row style="margin-left: 20px">
+          <el-col :span="2">
+            <el-form-item label="四相位"></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="绿灯时长(秒)" prop="four_green_correct_Ref">
+              <el-input v-model="form_model.four_green_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="黄灯时长(秒)" prop="four_yellow_correct_Ref">
+              <el-input v-model="form_model.four_yellow_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="红灯时长(秒)" prop="four_red_correct_Ref">
+              <el-input v-model="form_model.four_red_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 五相位 -->
+        <el-row style="margin-left: 20px">
+          <el-col :span="2">
+            <el-form-item label="五相位"></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="绿灯时长(秒)" prop="five_green_correct_Ref">
+              <el-input v-model="form_model.five_green_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="黄灯时长(秒)" prop="five_yellow_correct_Ref">
+              <el-input v-model="form_model.five_yellow_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="红灯时长(秒)" prop="five_red_correct_Ref">
+              <el-input v-model="form_model.five_red_correct_Ref" style="width: 60px"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </el-col>
   </el-row>
@@ -790,7 +834,7 @@ import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
-// import { get_calc_ttimingh } from "@/api/modules/calc";
+import { get_calc_wtimingh } from "@/api/modules/calc";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
@@ -1508,7 +1552,7 @@ onMounted(async () => {
   params.pageNum = 1;
   params.pageSize = 1000;
   params.type = 1;
-  params.calc_type = "三相位";
+  params.calc_type = "五相位";
   // crossing_type如果不定义, 为undefined,则查询所有路口类型
   // params.crossing_type = "十字路口";
 
@@ -1732,8 +1776,8 @@ async function CloseDialog() {
   console.log(input_infos_obj);
 
   try {
-    let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
-    // let calc_result: any = (await get_calc_ttimingh(input_infos_obj)).data;
+    // let calc_result = "11.11,22.22,33.33,44.44,55.55,66.66,1\n";
+    let calc_result: any = (await get_calc_wtimingh(input_infos_obj)).data;
     calc_result = calc_result.replace(/\n$/, "");
     let calc_outputs: any = calc_result.split(",");
     if (calc_outputs.length >= 6) {
@@ -1749,7 +1793,15 @@ async function CloseDialog() {
       form_model.three_yellow_Ref = form_model.ytimeRef;
       form_model.three_red_Ref = calc_outputs[5];
 
-      if (calc_outputs[6] > 0) form_model.is_show_warning_Ref = true;
+      form_model.four_green_Ref = calc_outputs[6];
+      form_model.four_yellow_Ref = form_model.ytimeRef;
+      form_model.four_red_Ref = calc_outputs[7];
+
+      form_model.five_green_Ref = calc_outputs[8];
+      form_model.five_yellow_Ref = form_model.ytimeRef;
+      form_model.five_red_Ref = calc_outputs[9];
+
+      if (calc_outputs[10] > 0) form_model.is_show_warning_Ref = true;
       else form_model.is_show_warning_Ref = false;
 
       form_model.first_green_correct_Ref = first_green_computed.value;
@@ -1773,7 +1825,7 @@ async function CloseDialog() {
       form_model.five_red_correct_Ref = five_red_computed.value;
     }
   } catch (error) {
-    console.log("get_calc_stiminge出现异常: " + error);
+    console.log("get_calc_wtimingh出现异常: " + error);
   }
 }
 

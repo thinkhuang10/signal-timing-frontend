@@ -51,7 +51,7 @@
 import { ref, reactive, onMounted, computed } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ResIntersection } from "@/api/interface";
-import { groupType, calcType, twoCrossingType, threeCrossingType } from "@/utils/serviceDict";
+import { groupType, calcType, twoCrossingType, threeCrossingType, FourCrossingType, FiveCrossingType } from "@/utils/serviceDict";
 import { useUserStore } from "@/stores/modules/user";
 
 const rules = reactive({
@@ -100,8 +100,12 @@ function calcTypeChange(selectedVal: any) {
 
   if ("两相位" == selectedVal) {
     crossingType.value = twoCrossingType;
-  } else {
+  } else if ("三相位" == selectedVal) {
     crossingType.value = threeCrossingType;
+  } else if ("四相位" == selectedVal) {
+    crossingType.value = FourCrossingType;
+  } else if ("五相位" == selectedVal) {
+    crossingType.value = FiveCrossingType;
   }
 }
 
