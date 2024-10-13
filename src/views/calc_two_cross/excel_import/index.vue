@@ -388,7 +388,7 @@ import { onMounted, ref, reactive } from "vue";
 import router from "@/routers";
 import { get_calc_stiminge } from "@/api/modules/calc";
 import { get_import_detail_by_code, getCheckExcelFormat, set_import_detail_by_code } from "@/api/modules/calc_import";
-// import { getTraffic_data_preprocessing_v2 } from "@/api/modules/calc_import";
+import { getTraffic_data_preprocessing_v2 } from "@/api/modules/calc_import";
 // import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance, ElMessage } from "element-plus";
@@ -465,11 +465,9 @@ async function CloseDialog() {
   try {
     // // 测试用表格数据
     // let excelString =
-    //   '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 242.0,\n\t\t\t"east_mean" : 36.0,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 137.0,\n\t\t\t"north_mean" : 20.464743589743591,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 62.0,\n\t\t\t"south_mean" : 4.215686274509804,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 138.0,\n\t\t\t"west_mean" : 26.39308176100629,\n\t\t\t"west_min" : 2.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 691.0,\n\t\t\t"east_mean" : 222.49253731343285,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 294.0,\n\t\t\t"north_mean" : 121.125,\n\t\t\t"north_min" : 34.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88\n\t\t\t],\n\t\t\t"south_max" : 175.0,\n\t\t\t"south_mean" : 35.377990430622006,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 429.0,\n\t\t\t"west_mean" : 168.68269230769232,\n\t\t\t"west_min" : 62.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 632.0,\n\t\t\t"east_mean" : 317.80835380835379,\n\t\t\t"east_min" : 172.0,\n\t\t\t"north_max" : 253.0,\n\t\t\t"north_mean" : 177.17718446601941,\n\t\t\t"north_min" : 91.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t],\n\t\t\t"south_max" : 193.0,\n\t\t\t"south_mean" : 52.704761904761902,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 620.0,\n\t\t\t"west_mean" : 326.78208232445519,\n\t\t\t"west_min" : 140.0\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"east_max" : 210.0,\n\t\t\t"east_mean" : 37.798722044728436,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 145.0,\n\t\t\t"north_mean" : 20.676567656765677,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t],\n\t\t\t"south_max" : 99.0,\n\t\t\t"south_mean" : 1.7046263345195729,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 146.0,\n\t\t\t"west_mean" : 28.098387096774193,\n\t\t\t"west_min" : 1.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 514.0,\n\t\t\t"east_mean" : 256.05376344086022,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 262.0,\n\t\t\t"north_mean" : 149.4718792866941,\n\t\t\t"north_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t25,\n\t\t\t\t26,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86\n\t\t\t],\n\t\t\t"south_max" : 181.0,\n\t\t\t"south_mean" : 29.111695137976348,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 565.0,\n\t\t\t"west_mean" : 227.28021978021977,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 826.0,\n\t\t\t"east_mean" : 402.83431952662721,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 374.0,\n\t\t\t"north_mean" : 189.72674418604652,\n\t\t\t"north_min" : 87.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t27,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t75\n\t\t\t],\n\t\t\t"south_max" : 202.0,\n\t\t\t"south_mean" : 37.308571428571426,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 632.0,\n\t\t\t"west_mean" : 385.85465116279067,\n\t\t\t"west_min" : 0.0\n\t\t},\n\t\t{\n\t\t\t"east_max" : 899.0,\n\t\t\t"east_mean" : 533.64814814814815,\n\t\t\t"east_min" : 0.0,\n\t\t\t"north_max" : 414.0,\n\t\t\t"north_mean" : 215.99618320610688,\n\t\t\t"north_min" : 51.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t],\n\t\t\t"south_max" : 272.0,\n\t\t\t"south_mean" : 40.609665427509292,\n\t\t\t"south_min" : 0.0,\n\t\t\t"west_max" : 859.0,\n\t\t\t"west_mean" : 520.77238805970148,\n\t\t\t"west_min" : 0.0\n\t\t}\n\t]\n}\n';
+    //  '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 78.0,\n\t\t\t"first_backward_mean" : 26.39308176100629,\n\t\t\t"first_backward_min" : 2.0,\n\t\t\t"first_forward_max" : 124.0,\n\t\t\t"first_forward_mean" : 36.0,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 64.0,\n\t\t\t"second_backward_mean" : 20.464743589743591,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 32.0,\n\t\t\t"second_forward_mean" : 6.2483443708609272,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 353.0,\n\t\t\t"first_backward_mean" : 168.68269230769232,\n\t\t\t"first_backward_min" : 62.0,\n\t\t\t"first_forward_max" : 413.0,\n\t\t\t"first_forward_mean" : 222.49253731343285,\n\t\t\t"first_forward_min" : 106.0,\n\t\t\t"second_backward_max" : 224.0,\n\t\t\t"second_backward_mean" : 121.125,\n\t\t\t"second_backward_min" : 34.0,\n\t\t\t"second_forward_max" : 241.0,\n\t\t\t"second_forward_mean" : 54.647619047619045,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 513.0,\n\t\t\t"first_backward_mean" : 326.78208232445519,\n\t\t\t"first_backward_min" : 140.0,\n\t\t\t"first_forward_max" : 506.0,\n\t\t\t"first_forward_mean" : 317.80835380835379,\n\t\t\t"first_forward_min" : 172.0,\n\t\t\t"second_backward_max" : 241.0,\n\t\t\t"second_backward_mean" : 177.17718446601941,\n\t\t\t"second_backward_min" : 106.0,\n\t\t\t"second_forward_max" : 288.0,\n\t\t\t"second_forward_mean" : 86.67619047619047,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t]\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 101.0,\n\t\t\t"first_backward_mean" : 28.098387096774193,\n\t\t\t"first_backward_min" : 1.0,\n\t\t\t"first_forward_max" : 138.0,\n\t\t\t"first_forward_mean" : 37.798722044728436,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 77.0,\n\t\t\t"second_backward_mean" : 20.676567656765677,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 22.0,\n\t\t\t"second_forward_mean" : 3.0158730158730158,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 371.0,\n\t\t\t"first_backward_mean" : 227.28021978021977,\n\t\t\t"first_backward_min" : 84.0,\n\t\t\t"first_forward_max" : 423.0,\n\t\t\t"first_forward_mean" : 256.05376344086022,\n\t\t\t"first_forward_min" : 99.0,\n\t\t\t"second_backward_max" : 219.0,\n\t\t\t"second_backward_mean" : 149.4718792866941,\n\t\t\t"second_backward_min" : 81.0,\n\t\t\t"second_forward_max" : 266.0,\n\t\t\t"second_forward_mean" : 48.856191744340876,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t25,\n\t\t\t\t26,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 596.0,\n\t\t\t"first_backward_mean" : 385.85465116279067,\n\t\t\t"first_backward_min" : 190.0,\n\t\t\t"first_forward_max" : 696.0,\n\t\t\t"first_forward_mean" : 402.83431952662721,\n\t\t\t"first_forward_min" : 139.0,\n\t\t\t"second_backward_max" : 264.0,\n\t\t\t"second_backward_mean" : 189.72674418604652,\n\t\t\t"second_backward_min" : 108.0,\n\t\t\t"second_forward_max" : 310.0,\n\t\t\t"second_forward_mean" : 64.406976744186053,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t27,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t75\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 769.0,\n\t\t\t"first_backward_mean" : 520.77238805970148,\n\t\t\t"first_backward_min" : 289.0,\n\t\t\t"first_forward_max" : 899.0,\n\t\t\t"first_forward_mean" : 533.64814814814815,\n\t\t\t"first_forward_min" : 264.0,\n\t\t\t"second_backward_max" : 288.0,\n\t\t\t"second_backward_mean" : 215.99618320610688,\n\t\t\t"second_backward_min" : 143.0,\n\t\t\t"second_forward_max" : 350.0,\n\t\t\t"second_forward_mean" : 71.759259259259252,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t]\n\t\t}\n\t]\n}\n';
 
-    let excelString =
-      '{\n\t"holiday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 78.0,\n\t\t\t"first_backward_mean" : 26.39308176100629,\n\t\t\t"first_backward_min" : 2.0,\n\t\t\t"first_forward_max" : 124.0,\n\t\t\t"first_forward_mean" : 36.0,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 64.0,\n\t\t\t"second_backward_mean" : 20.464743589743591,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 32.0,\n\t\t\t"second_forward_mean" : 6.2483443708609272,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t25,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 353.0,\n\t\t\t"first_backward_mean" : 168.68269230769232,\n\t\t\t"first_backward_min" : 62.0,\n\t\t\t"first_forward_max" : 413.0,\n\t\t\t"first_forward_mean" : 222.49253731343285,\n\t\t\t"first_forward_min" : 106.0,\n\t\t\t"second_backward_max" : 224.0,\n\t\t\t"second_backward_mean" : 121.125,\n\t\t\t"second_backward_min" : 34.0,\n\t\t\t"second_forward_max" : 241.0,\n\t\t\t"second_forward_mean" : 54.647619047619045,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t26,\n\t\t\t\t27,\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t75,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86,\n\t\t\t\t87,\n\t\t\t\t88\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 513.0,\n\t\t\t"first_backward_mean" : 326.78208232445519,\n\t\t\t"first_backward_min" : 140.0,\n\t\t\t"first_forward_max" : 506.0,\n\t\t\t"first_forward_mean" : 317.80835380835379,\n\t\t\t"first_forward_min" : 172.0,\n\t\t\t"second_backward_max" : 241.0,\n\t\t\t"second_backward_mean" : 177.17718446601941,\n\t\t\t"second_backward_min" : 106.0,\n\t\t\t"second_forward_max" : 288.0,\n\t\t\t"second_forward_mean" : 86.67619047619047,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t]\n\t\t}\n\t],\n\t"workday_result" : \n\t[\n\t\t{\n\t\t\t"first_backward_max" : 101.0,\n\t\t\t"first_backward_mean" : 28.098387096774193,\n\t\t\t"first_backward_min" : 1.0,\n\t\t\t"first_forward_max" : 138.0,\n\t\t\t"first_forward_mean" : 37.798722044728436,\n\t\t\t"first_forward_min" : 0.0,\n\t\t\t"second_backward_max" : 77.0,\n\t\t\t"second_backward_mean" : 20.676567656765677,\n\t\t\t"second_backward_min" : 0.0,\n\t\t\t"second_forward_max" : 22.0,\n\t\t\t"second_forward_mean" : 3.0158730158730158,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t0,\n\t\t\t\t1,\n\t\t\t\t2,\n\t\t\t\t3,\n\t\t\t\t4,\n\t\t\t\t5,\n\t\t\t\t6,\n\t\t\t\t7,\n\t\t\t\t8,\n\t\t\t\t9,\n\t\t\t\t10,\n\t\t\t\t11,\n\t\t\t\t12,\n\t\t\t\t13,\n\t\t\t\t14,\n\t\t\t\t15,\n\t\t\t\t16,\n\t\t\t\t17,\n\t\t\t\t18,\n\t\t\t\t19,\n\t\t\t\t20,\n\t\t\t\t21,\n\t\t\t\t22,\n\t\t\t\t23,\n\t\t\t\t24,\n\t\t\t\t87,\n\t\t\t\t88,\n\t\t\t\t89,\n\t\t\t\t90,\n\t\t\t\t91,\n\t\t\t\t92,\n\t\t\t\t93,\n\t\t\t\t94,\n\t\t\t\t95\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 371.0,\n\t\t\t"first_backward_mean" : 227.28021978021977,\n\t\t\t"first_backward_min" : 84.0,\n\t\t\t"first_forward_max" : 423.0,\n\t\t\t"first_forward_mean" : 256.05376344086022,\n\t\t\t"first_forward_min" : 99.0,\n\t\t\t"second_backward_max" : 219.0,\n\t\t\t"second_backward_mean" : 149.4718792866941,\n\t\t\t"second_backward_min" : 81.0,\n\t\t\t"second_forward_max" : 266.0,\n\t\t\t"second_forward_mean" : 48.856191744340876,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t25,\n\t\t\t\t26,\n\t\t\t\t39,\n\t\t\t\t40,\n\t\t\t\t41,\n\t\t\t\t42,\n\t\t\t\t43,\n\t\t\t\t44,\n\t\t\t\t45,\n\t\t\t\t46,\n\t\t\t\t47,\n\t\t\t\t48,\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t\t52,\n\t\t\t\t53,\n\t\t\t\t54,\n\t\t\t\t55,\n\t\t\t\t56,\n\t\t\t\t57,\n\t\t\t\t58,\n\t\t\t\t59,\n\t\t\t\t60,\n\t\t\t\t61,\n\t\t\t\t62,\n\t\t\t\t63,\n\t\t\t\t64,\n\t\t\t\t76,\n\t\t\t\t77,\n\t\t\t\t78,\n\t\t\t\t79,\n\t\t\t\t80,\n\t\t\t\t81,\n\t\t\t\t82,\n\t\t\t\t83,\n\t\t\t\t84,\n\t\t\t\t85,\n\t\t\t\t86\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 596.0,\n\t\t\t"first_backward_mean" : 385.85465116279067,\n\t\t\t"first_backward_min" : 190.0,\n\t\t\t"first_forward_max" : 696.0,\n\t\t\t"first_forward_mean" : 402.83431952662721,\n\t\t\t"first_forward_min" : 139.0,\n\t\t\t"second_backward_max" : 264.0,\n\t\t\t"second_backward_mean" : 189.72674418604652,\n\t\t\t"second_backward_min" : 108.0,\n\t\t\t"second_forward_max" : 310.0,\n\t\t\t"second_forward_mean" : 64.406976744186053,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t27,\n\t\t\t\t36,\n\t\t\t\t37,\n\t\t\t\t38,\n\t\t\t\t65,\n\t\t\t\t66,\n\t\t\t\t67,\n\t\t\t\t68,\n\t\t\t\t75\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t"first_backward_max" : 769.0,\n\t\t\t"first_backward_mean" : 520.77238805970148,\n\t\t\t"first_backward_min" : 289.0,\n\t\t\t"first_forward_max" : 899.0,\n\t\t\t"first_forward_mean" : 533.64814814814815,\n\t\t\t"first_forward_min" : 264.0,\n\t\t\t"second_backward_max" : 288.0,\n\t\t\t"second_backward_mean" : 215.99618320610688,\n\t\t\t"second_backward_min" : 143.0,\n\t\t\t"second_forward_max" : 350.0,\n\t\t\t"second_forward_mean" : 71.759259259259252,\n\t\t\t"second_forward_min" : 0.0,\n\t\t\t"slot_ids" : \n\t\t\t[\n\t\t\t\t28,\n\t\t\t\t29,\n\t\t\t\t30,\n\t\t\t\t31,\n\t\t\t\t32,\n\t\t\t\t33,\n\t\t\t\t34,\n\t\t\t\t35,\n\t\t\t\t69,\n\t\t\t\t70,\n\t\t\t\t71,\n\t\t\t\t72,\n\t\t\t\t73,\n\t\t\t\t74\n\t\t\t]\n\t\t}\n\t]\n}\n';
-    // let excelString: any = (await getTraffic_data_preprocessing_v2({ fileName: "两相位-十字.xls" })).data;
+    let excelString: any = (await getTraffic_data_preprocessing_v2({ fileName: "两相位-十字.xls" })).data;
 
     // 流量值
     let calcFlow = JSON.parse(excelString);
@@ -490,18 +488,18 @@ function calcWorkdayDataTable(workdayFlow: any): void {
 
   workday_row.forEach(async element => {
     let input_infos_obj: any = getInputObjInfo(
-      element.east_max,
-      element.east_mean,
-      element.east_min,
-      element.south_max,
-      element.south_mean,
-      element.south_min,
-      element.west_max,
-      element.west_mean,
-      element.west_min,
-      element.north_max,
-      element.north_mean,
-      element.north_min
+      element.first_forward_max,
+      element.first_forward_mean,
+      element.first_forward_min,
+      element.first_backward_max,
+      element.first_backward_mean,
+      element.first_backward_min,
+      element.second_forward_max,
+      element.second_forward_mean,
+      element.second_forward_min,
+      element.second_backward_max,
+      element.second_backward_mean,
+      element.second_backward_min
     );
 
     try {
@@ -549,18 +547,18 @@ function calcHolidayDataTable(holidayFlow: any): void {
 
   holiday_row.forEach(async element => {
     let input_infos_obj: any = getInputObjInfo(
-      element.east_max,
-      element.east_mean,
-      element.east_min,
-      element.south_max,
-      element.south_mean,
-      element.south_min,
-      element.west_max,
-      element.west_mean,
-      element.west_min,
-      element.north_max,
-      element.north_mean,
-      element.north_min
+      element.first_forward_max,
+      element.first_forward_mean,
+      element.first_forward_min,
+      element.first_backward_max,
+      element.first_backward_mean,
+      element.first_backward_min,
+      element.second_forward_max,
+      element.second_forward_mean,
+      element.second_forward_min,
+      element.second_backward_max,
+      element.second_backward_mean,
+      element.second_backward_min
     );
 
     try {
@@ -600,18 +598,18 @@ function calcHolidayDataTable(holidayFlow: any): void {
 }
 
 const getInputObjInfo = (
-  east_max: any,
-  east_mean: any,
-  east_min: any,
-  south_max: any,
-  south_mean: any,
-  south_min: any,
-  west_max: any,
-  west_mean: any,
-  west_min: any,
-  north_max: any,
-  north_mean: any,
-  north_min: any
+  first_forward_max: any,
+  first_forward_mean: any,
+  first_forward_min: any,
+  first_backward_max: any,
+  first_backward_mean: any,
+  first_backward_min: any,
+  second_forward_max: any,
+  second_forward_mean: any,
+  second_forward_min: any,
+  second_backward_max: any,
+  second_backward_mean: any,
+  second_backward_min: any
 ) => {
   return {
     T: Number(form_model.TRef),
@@ -619,45 +617,38 @@ const getInputObjInfo = (
     tortime: Number(form_model.tortimeRef),
     ytime: Number(form_model.ytimeRef),
     mingtime: Number(form_model.mingtimeRef),
-    // E_pathNS: Number(form_model.e_pathNSRef),
     E_pathNS: Number(form_model.E_pathNSRef),
-
-    // W_pathNS: Number(form_model.w_pathNSRef),
     W_pathNS: Number(form_model.W_pathNSRef),
-
-    // S_pathNS: Number(form_model.s_pathNSRef),
     S_pathNS: Number(form_model.S_pathNSRef),
-
-    // N_pathNS: Number(form_model.n_pathNSRef),
     N_pathNS: Number(form_model.N_pathNSRef),
 
-    w_eflow: Number(west_mean),
-    w_epathsN: Number(form_model.westOutputRoadCountRef),
-    w_epathrN: Number(form_model.westRightRoadCountRef),
-    w_epathlen: Number(form_model.westNextDistanceRef),
-    w_eflowM: Number(west_max),
-    w_eflowN: Number(west_min),
-
-    e_wflow: Number(east_mean),
+    e_wflow: Number(first_forward_mean),
     e_wpathsN: Number(form_model.eastOutputRoadCountRef),
     e_wpathrN: Number(form_model.eastRightRoadCountRef),
     e_wpathlen: Number(form_model.eastNextDistanceRef),
-    e_wflowM: Number(east_max),
-    e_wflowN: Number(east_min),
+    e_wflowM: Number(first_forward_max),
+    e_wflowN: Number(first_forward_min),
 
-    n_sflow: Number(north_mean),
-    n_spathsN: Number(form_model.northOutputRoadCountRef),
-    n_spathrN: Number(form_model.northRightRoadCountRef),
-    n_spathlen: Number(form_model.northNextDistanceRef),
-    n_sflowM: Number(north_max),
-    n_sflowN: Number(north_min),
+    w_eflow: Number(first_backward_mean),
+    w_epathsN: Number(form_model.westOutputRoadCountRef),
+    w_epathrN: Number(form_model.westRightRoadCountRef),
+    w_epathlen: Number(form_model.westNextDistanceRef),
+    w_eflowM: Number(first_backward_max),
+    w_eflowN: Number(first_backward_min),
 
-    s_nflow: Number(south_mean),
+    s_nflow: Number(second_forward_mean),
     s_npathsN: Number(form_model.southOutputRoadCountRef),
     s_npathrN: Number(form_model.southRightRoadCountRef),
     s_npathlen: Number(form_model.southNextDistanceRef),
-    s_nflowM: Number(south_max),
-    s_nflowN: Number(south_min)
+    s_nflowM: Number(second_forward_max),
+    s_nflowN: Number(second_forward_min),
+
+    n_sflow: Number(second_backward_mean),
+    n_spathsN: Number(form_model.northOutputRoadCountRef),
+    n_spathrN: Number(form_model.northRightRoadCountRef),
+    n_spathlen: Number(form_model.northNextDistanceRef),
+    n_sflowM: Number(second_backward_max),
+    n_sflowN: Number(second_backward_min)
   };
 };
 
