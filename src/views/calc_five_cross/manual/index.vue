@@ -686,7 +686,7 @@
         <!-- 五相位 -->
         <el-row style="margin-left: 20px">
           <el-col :span="2">
-            <el-form-item label="四相位"></el-form-item>
+            <el-form-item label="五相位"></el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="绿灯时长(秒)">
