@@ -34,6 +34,8 @@
     <TwoCrossPhaseDialog ref="TwoCrossPhaseDialogRef"></TwoCrossPhaseDialog>
     <TwoTPhaseDialog ref="TwoTPhaseDialogRef"></TwoTPhaseDialog>
     <ThreeCrossPhaseDialog ref="ThreeCrossPhaseDialogRef"></ThreeCrossPhaseDialog>
+    <FourCrossPhaseDialog ref="FourCrossPhaseDialogRef"></FourCrossPhaseDialog>
+    <FiveCrossPhaseDialog ref="FiveCrossPhaseDialogRef"></FiveCrossPhaseDialog>
   </div>
 </template>
 
@@ -51,6 +53,8 @@ import { useUserStore } from "@/stores/modules/user";
 import TwoCrossPhaseDialog from "./components/TwoCrossPhaseDialog.vue";
 import TwoTPhaseDialog from "./components/TwoTPhaseDialog.vue";
 import ThreeCrossPhaseDialog from "./components/ThreeCrossPhaseDialog.vue";
+import FourCrossPhaseDialog from "./components/FourCrossPhaseDialog.vue";
+import FiveCrossPhaseDialog from "./components/FiveCrossPhaseDialog.vue";
 
 const userStore = useUserStore();
 const group_type = computed(() => userStore.userInfo.group_type);
@@ -223,6 +227,8 @@ const openDrawer = (title: string, row: Partial<ResIntersection> = {}) => {
 const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | null>(null);
 const TwoTPhaseDialogRef = ref<InstanceType<typeof TwoTPhaseDialog> | null>(null);
 const ThreeCrossPhaseDialogRef = ref<InstanceType<typeof ThreeCrossPhaseDialog> | null>(null);
+const FourCrossPhaseDialogRef = ref<InstanceType<typeof FourCrossPhaseDialog> | null>(null);
+const FiveCrossPhaseDialogRef = ref<InstanceType<typeof FiveCrossPhaseDialog> | null>(null);
 const openDialog = (params: ResIntersection) => {
   if ("两相位" == params.calc_type) TwoCrossPhaseDialogRef.value?.openDialog(params.code);
   else if ("三相位" == params.calc_type) ThreeCrossPhaseDialogRef.value?.openDialog(params.code);
