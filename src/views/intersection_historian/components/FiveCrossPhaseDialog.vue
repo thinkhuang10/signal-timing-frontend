@@ -1,16 +1,6 @@
 <template>
   <el-dialog v-model="dialogVisible" title="配时方案" width="600" align-center draggable>
     <el-form>
-      <!-- 路口位置 -->
-      <el-text style="margin-left: 20px">位置: </el-text>
-      <el-text style="width: 100px">{{ selectedPositionRef }}</el-text>
-
-      <!-- 选择方案 -->
-      <el-text style="margin-left: 20px">方案名称</el-text>
-      <el-select v-model="selectedSchemeRef" placeholder="请选择" @change="schemeRefChange" style="margin-left: 10px">
-        <el-option v-for="item in schemesRef" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-
       <!-- 计算输出结果 -->
       <el-row>
         <el-divider content-position="left">
@@ -79,6 +69,50 @@
         <el-col :span="7">
           <el-form-item label="红灯时长(秒)">
             <el-text style="width: 100px">{{ three_red_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <!-- 四相位 -->
+      <el-row style="margin-left: 20px">
+        <el-col :span="2">
+          <el-form-item label="四相位"></el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="绿灯时长(秒)">
+            <el-text style="width: 100px">{{ four_green_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="黄灯时长(秒)">
+            <el-text style="width: 100px">{{ four_yellow_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="红灯时长(秒)">
+            <el-text style="width: 100px">{{ four_red_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <!-- 五相位 -->
+      <el-row style="margin-left: 20px">
+        <el-col :span="2">
+          <el-form-item label="五相位"></el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="绿灯时长(秒)">
+            <el-text style="width: 100px">{{ five_green_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="黄灯时长(秒)">
+            <el-text style="width: 100px">{{ five_yellow_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="红灯时长(秒)">
+            <el-text style="width: 100px">{{ five_red_Ref }}</el-text>
           </el-form-item>
         </el-col>
       </el-row>
@@ -154,6 +188,50 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <!-- 四相位 -->
+      <el-row style="margin-left: 20px">
+        <el-col :span="2">
+          <el-form-item label="四相位"></el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="绿灯时长(秒)">
+            <el-text style="width: 100px">{{ four_green_correct_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="黄灯时长(秒)">
+            <el-text style="width: 100px">{{ four_yellow_correct_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="红灯时长(秒)">
+            <el-text style="width: 100px">{{ four_red_correct_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <!-- 五相位 -->
+      <el-row style="margin-left: 20px">
+        <el-col :span="2">
+          <el-form-item label="五相位"></el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="绿灯时长(秒)">
+            <el-text style="width: 100px">{{ five_green_correct_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="黄灯时长(秒)">
+            <el-text style="width: 100px">{{ five_yellow_correct_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="红灯时长(秒)">
+            <el-text style="width: 100px">{{ five_red_correct_Ref }}</el-text>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
 
     <template #footer>
@@ -166,7 +244,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { get_detail_by_code } from "@/api/modules/intersection";
+import { get_detail_by_id } from "@/api/modules/intersection_historian";
 
 let first_green_Ref = ref(0.0);
 let first_yellow_Ref = ref(0.0);
@@ -180,6 +258,14 @@ let three_green_Ref = ref(0.0);
 let three_yellow_Ref = ref(0.0);
 let three_red_Ref = ref(0.0);
 
+let four_green_Ref = ref(0.0);
+let four_yellow_Ref = ref(0.0);
+let four_red_Ref = ref(0.0);
+
+let five_green_Ref = ref(0.0);
+let five_yellow_Ref = ref(0.0);
+let five_red_Ref = ref(0.0);
+
 let first_green_correct_Ref = ref(0.0);
 let first_yellow_correct_Ref = ref(0.0);
 let first_red_correct_Ref = ref(0.0);
@@ -192,79 +278,64 @@ let three_green_correct_Ref = ref(0.0);
 let three_yellow_correct_Ref = ref(0.0);
 let three_red_correct_Ref = ref(0.0);
 
-let selectedPositionRef: any = ref("");
-let selectedSchemeRef: any = ref("");
-let schemesRef: any = ref([]);
-let selectedOutputParameters: any = [];
+let four_green_correct_Ref = ref(0.0);
+let four_yellow_correct_Ref = ref(0.0);
+let four_red_correct_Ref = ref(0.0);
+
+let five_green_correct_Ref = ref(0.0);
+let five_yellow_correct_Ref = ref(0.0);
+let five_red_correct_Ref = ref(0.0);
 
 const dialogVisible = ref(false);
-const openDialog = async (code: string) => {
-  InitSchemes(code);
-  dialogVisible.value = true;
-};
-
-async function InitSchemes(code: string) {
-  let detail_infos: any = await get_detail_by_code({ code: code });
+const openDialog = async (id: Number) => {
+  let detail_infos: any = await get_detail_by_id({ id: id });
   let result: any = detail_infos.data[0];
-  if (undefined != result) {
-    selectedPositionRef.value = result.position;
+  if (undefined != result && "" != result.output_parameters) {
+    let outputObj: any = JSON.parse(result.output_parameters);
+    if (null != outputObj) {
+      first_green_Ref.value = Math.round(outputObj.first_green);
+      first_yellow_Ref.value = Math.round(outputObj.first_yellow);
+      first_red_Ref.value = Math.round(outputObj.first_red);
 
-    if (null != result.output_parameters && "" != result.output_parameters) {
-      selectedOutputParameters = JSON.parse(result.output_parameters);
-      if (null != selectedOutputParameters) {
-        schemesRef.value = [];
-        for (let i = 0; i < selectedOutputParameters.length; i++) {
-          // 获取方案
-          let schemeName: any = selectedOutputParameters[i].schemeName;
-          if (undefined == schemeName) continue;
-          schemesRef.value.push({ value: schemeName, label: schemeName });
+      second_green_Ref.value = Math.round(outputObj.second_green);
+      second_yellow_Ref.value = Math.round(outputObj.second_yellow);
+      second_red_Ref.value = Math.round(outputObj.second_red);
 
-          if (0 == i) {
-            selectedSchemeRef.value = schemeName;
-            // 获取参数
-            GetOutputParameters(selectedOutputParameters[0]);
-          }
-        }
-      }
+      three_green_Ref.value = Math.round(outputObj.three_green);
+      three_yellow_Ref.value = Math.round(outputObj.three_yellow);
+      three_red_Ref.value = Math.round(outputObj.three_red);
+
+      four_green_Ref.value = Math.round(outputObj.four_green);
+      four_yellow_Ref.value = Math.round(outputObj.four_yellow);
+      four_red_Ref.value = Math.round(outputObj.four_red);
+
+      five_green_Ref.value = Math.round(outputObj.five_green);
+      five_yellow_Ref.value = Math.round(outputObj.five_yellow);
+      five_red_Ref.value = Math.round(outputObj.five_red);
+
+      first_green_correct_Ref.value = Math.round(outputObj.first_green_correct);
+      first_yellow_correct_Ref.value = Math.round(outputObj.first_yellow_correct);
+      first_red_correct_Ref.value = Math.round(outputObj.first_red_correct);
+
+      second_green_correct_Ref.value = Math.round(outputObj.second_green_correct);
+      second_yellow_correct_Ref.value = Math.round(outputObj.second_yellow_correct);
+      second_red_correct_Ref.value = Math.round(outputObj.second_red_correct);
+
+      three_green_correct_Ref.value = Math.round(outputObj.three_green_correct);
+      three_yellow_correct_Ref.value = Math.round(outputObj.three_yellow_correct);
+      three_red_correct_Ref.value = Math.round(outputObj.three_red_correct);
+
+      four_green_correct_Ref.value = Math.round(outputObj.four_green_correct);
+      four_yellow_correct_Ref.value = Math.round(outputObj.four_yellow_correct);
+      four_red_correct_Ref.value = Math.round(outputObj.four_red_correct);
+
+      five_green_correct_Ref.value = Math.round(outputObj.five_green_correct);
+      five_yellow_correct_Ref.value = Math.round(outputObj.five_yellow_correct);
+      five_red_correct_Ref.value = Math.round(outputObj.five_red_correct);
     }
   }
-}
-
-function GetOutputParameters(outputObj: any) {
-  first_green_Ref.value = Math.round(outputObj.first_green);
-  first_yellow_Ref.value = Math.round(outputObj.first_yellow);
-  first_red_Ref.value = Math.round(outputObj.first_red);
-
-  second_green_Ref.value = Math.round(outputObj.second_green);
-  second_yellow_Ref.value = Math.round(outputObj.second_yellow);
-  second_red_Ref.value = Math.round(outputObj.second_red);
-
-  three_green_Ref.value = Math.round(outputObj.three_green);
-  three_yellow_Ref.value = Math.round(outputObj.three_yellow);
-  three_red_Ref.value = Math.round(outputObj.three_red);
-
-  first_green_correct_Ref.value = Math.round(outputObj.first_green_correct);
-  first_yellow_correct_Ref.value = Math.round(outputObj.first_yellow_correct);
-  first_red_correct_Ref.value = Math.round(outputObj.first_red_correct);
-
-  second_green_correct_Ref.value = Math.round(outputObj.second_green_correct);
-  second_yellow_correct_Ref.value = Math.round(outputObj.second_yellow_correct);
-  second_red_correct_Ref.value = Math.round(outputObj.second_red_correct);
-
-  three_green_correct_Ref.value = Math.round(outputObj.three_green_correct);
-  three_yellow_correct_Ref.value = Math.round(outputObj.three_yellow_correct);
-  three_red_correct_Ref.value = Math.round(outputObj.three_red_correct);
-}
-
-function schemeRefChange(selectedVal: any) {
-  for (let i = 0; i < selectedOutputParameters.length; i++) {
-    let schemeName: any = selectedOutputParameters[i].schemeName;
-    if (schemeName != selectedVal) continue;
-
-    // 获取参数
-    GetOutputParameters(selectedOutputParameters[i]);
-  }
-}
+  dialogVisible.value = true;
+};
 
 defineExpose({ openDialog });
 </script>

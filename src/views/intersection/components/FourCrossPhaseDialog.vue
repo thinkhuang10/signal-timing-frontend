@@ -1,6 +1,16 @@
 <template>
   <el-dialog v-model="dialogVisible" title="配时方案" width="600" align-center draggable>
     <el-form>
+      <!-- 路口位置 -->
+      <el-text style="margin-left: 20px">位置: </el-text>
+      <el-text style="width: 100px">{{ selectedPositionRef }}</el-text>
+
+      <!-- 选择方案 -->
+      <el-text style="margin-left: 20px">方案名称</el-text>
+      <el-select v-model="selectedSchemeRef" placeholder="请选择" @change="schemeRefChange" style="margin-left: 10px">
+        <el-option v-for="item in schemesRef" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+
       <!-- 计算输出结果 -->
       <el-row>
         <el-divider content-position="left">
@@ -234,48 +244,87 @@ let four_green_correct_Ref = ref(0.0);
 let four_yellow_correct_Ref = ref(0.0);
 let four_red_correct_Ref = ref(0.0);
 
+let selectedPositionRef: any = ref("");
+let selectedSchemeRef: any = ref("");
+let schemesRef: any = ref([]);
+let selectedOutputParameters: any = [];
+
 const dialogVisible = ref(false);
 const openDialog = async (code: string) => {
-  let detail_infos: any = await get_detail_by_code({ code: code });
-  let result: any = detail_infos.data[0];
-  if (undefined != result && "" != result.output_parameters) {
-    let outputObj: any = JSON.parse(result.output_parameters);
-    if (null != outputObj) {
-      first_green_Ref.value = Math.round(outputObj.first_green);
-      first_yellow_Ref.value = Math.round(outputObj.first_yellow);
-      first_red_Ref.value = Math.round(outputObj.first_red);
-
-      second_green_Ref.value = Math.round(outputObj.second_green);
-      second_yellow_Ref.value = Math.round(outputObj.second_yellow);
-      second_red_Ref.value = Math.round(outputObj.second_red);
-
-      three_green_Ref.value = Math.round(outputObj.three_green);
-      three_yellow_Ref.value = Math.round(outputObj.three_yellow);
-      three_red_Ref.value = Math.round(outputObj.three_red);
-
-      four_green_Ref.value = Math.round(outputObj.four_green);
-      four_yellow_Ref.value = Math.round(outputObj.four_yellow);
-      four_red_Ref.value = Math.round(outputObj.four_red);
-
-      first_green_correct_Ref.value = Math.round(outputObj.first_green_correct);
-      first_yellow_correct_Ref.value = Math.round(outputObj.first_yellow_correct);
-      first_red_correct_Ref.value = Math.round(outputObj.first_red_correct);
-
-      second_green_correct_Ref.value = Math.round(outputObj.second_green_correct);
-      second_yellow_correct_Ref.value = Math.round(outputObj.second_yellow_correct);
-      second_red_correct_Ref.value = Math.round(outputObj.second_red_correct);
-
-      three_green_correct_Ref.value = Math.round(outputObj.three_green_correct);
-      three_yellow_correct_Ref.value = Math.round(outputObj.three_yellow_correct);
-      three_red_correct_Ref.value = Math.round(outputObj.three_red_correct);
-
-      four_green_correct_Ref.value = Math.round(outputObj.four_green_correct);
-      four_yellow_correct_Ref.value = Math.round(outputObj.four_yellow_correct);
-      four_red_correct_Ref.value = Math.round(outputObj.four_red_correct);
-    }
-  }
+  InitSchemes(code);
   dialogVisible.value = true;
 };
+
+async function InitSchemes(code: string) {
+  let detail_infos: any = await get_detail_by_code({ code: code });
+  let result: any = detail_infos.data[0];
+  if (undefined != result) {
+    selectedPositionRef.value = result.position;
+
+    if (null != result.output_parameters && "" != result.output_parameters) {
+      selectedOutputParameters = JSON.parse(result.output_parameters);
+      if (null != selectedOutputParameters) {
+        schemesRef.value = [];
+        for (let i = 0; i < selectedOutputParameters.length; i++) {
+          // 获取方案
+          let schemeName: any = selectedOutputParameters[i].schemeName;
+          if (undefined == schemeName) continue;
+          schemesRef.value.push({ value: schemeName, label: schemeName });
+
+          if (0 == i) {
+            selectedSchemeRef.value = schemeName;
+            // 获取参数
+            GetOutputParameters(selectedOutputParameters[0]);
+          }
+        }
+      }
+    }
+  }
+}
+
+function GetOutputParameters(outputObj: any) {
+  first_green_Ref.value = Math.round(outputObj.first_green);
+  first_yellow_Ref.value = Math.round(outputObj.first_yellow);
+  first_red_Ref.value = Math.round(outputObj.first_red);
+
+  second_green_Ref.value = Math.round(outputObj.second_green);
+  second_yellow_Ref.value = Math.round(outputObj.second_yellow);
+  second_red_Ref.value = Math.round(outputObj.second_red);
+
+  three_green_Ref.value = Math.round(outputObj.three_green);
+  three_yellow_Ref.value = Math.round(outputObj.three_yellow);
+  three_red_Ref.value = Math.round(outputObj.three_red);
+
+  four_green_Ref.value = Math.round(outputObj.four_green);
+  four_yellow_Ref.value = Math.round(outputObj.four_yellow);
+  four_red_Ref.value = Math.round(outputObj.four_red);
+
+  first_green_correct_Ref.value = Math.round(outputObj.first_green_correct);
+  first_yellow_correct_Ref.value = Math.round(outputObj.first_yellow_correct);
+  first_red_correct_Ref.value = Math.round(outputObj.first_red_correct);
+
+  second_green_correct_Ref.value = Math.round(outputObj.second_green_correct);
+  second_yellow_correct_Ref.value = Math.round(outputObj.second_yellow_correct);
+  second_red_correct_Ref.value = Math.round(outputObj.second_red_correct);
+
+  three_green_correct_Ref.value = Math.round(outputObj.three_green_correct);
+  three_yellow_correct_Ref.value = Math.round(outputObj.three_yellow_correct);
+  three_red_correct_Ref.value = Math.round(outputObj.three_red_correct);
+
+  four_green_correct_Ref.value = Math.round(outputObj.four_green_correct);
+  four_yellow_correct_Ref.value = Math.round(outputObj.four_yellow_correct);
+  four_red_correct_Ref.value = Math.round(outputObj.four_red_correct);
+}
+
+function schemeRefChange(selectedVal: any) {
+  for (let i = 0; i < selectedOutputParameters.length; i++) {
+    let schemeName: any = selectedOutputParameters[i].schemeName;
+    if (schemeName != selectedVal) continue;
+
+    // 获取参数
+    GetOutputParameters(selectedOutputParameters[i]);
+  }
+}
 
 defineExpose({ openDialog });
 </script>
