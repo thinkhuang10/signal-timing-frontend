@@ -19,8 +19,8 @@
       <!-- 配置 -->
       <template #configuration="scope">
         <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 查看配时 </el-button>
-        <el-button type="primary" link :icon="View" @click="calc_manual(scope.row)"> 配时计算 </el-button>
-        <!-- <el-button type="primary" link :icon="EditPen" @click="calc_two_export(scope.row)"> 大模型计算 </el-button> -->
+        <el-button type="primary" link :icon="View" @click="calc_manual(scope.row)"> 智能计算 </el-button>
+        <el-button type="primary" link :icon="View" @click="calc_excel_import(scope.row)"> 大模型计算 </el-button>
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
@@ -140,32 +140,69 @@ const delete_intersection = async (params: ResIntersection) => {
 
 const calc_manual = async (params: ResIntersection) => {
   let calc_type = params.calc_type;
-  let crossing_type = params.crossing_type;
+  // let crossing_type = params.crossing_type;
   if ("两相位" == calc_type) {
-    if ("十字路口" == crossing_type) {
-      router.push({
-        path: "/calc_two_cross/manual/index",
-        query: {
-          code: params.code
-        }
-      });
-    } else if ("T型路口" == crossing_type) {
-      router.push({
-        path: "/calc_two_t/manual/index",
-        query: {
-          code: params.code
-        }
-      });
-    }
+    router.push({
+      path: "/calc_two_cross/manual/index",
+      query: {
+        code: params.code
+      }
+    });
   } else if ("三相位" == calc_type) {
-    if ("十字路口" == crossing_type) {
-      router.push({
-        path: "/calc_three_cross/manual/index",
-        query: {
-          code: params.code
-        }
-      });
-    }
+    router.push({
+      path: "/calc_three_cross/manual/index",
+      query: {
+        code: params.code
+      }
+    });
+  } else if ("四相位" == calc_type) {
+    router.push({
+      path: "/calc_four_cross/manual/index",
+      query: {
+        code: params.code
+      }
+    });
+  } else if ("五相位" == calc_type) {
+    router.push({
+      path: "/calc_five_cross/manual/index",
+      query: {
+        code: params.code
+      }
+    });
+  }
+};
+
+const calc_excel_import = async (params: ResIntersection) => {
+  let calc_type = params.calc_type;
+  // let crossing_type = params.crossing_type;
+  if ("两相位" == calc_type) {
+    router.push({
+      path: "/calc_two_cross/excel_import/index",
+      query: {
+        code: params.code
+      }
+    });
+  } else if ("三相位" == calc_type) {
+    router.push({
+      path: "/calc_three_cross/excel_import/index",
+      query: {
+        code: params.code
+      }
+    });
+  } else if ("四相位" == calc_type) {
+    router.push({
+      path: "/calc_four_cross/excel_import/index",
+      query: {
+        code: params.code
+      }
+    });
+  } else if ("五相位" == calc_type) {
+    router.push({
+      path: "/calc_five_cross/excel_import/index",
+      query: {
+        code: params.code
+      }
+    });
   }
 };
 
@@ -187,9 +224,9 @@ const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | nu
 const TwoTPhaseDialogRef = ref<InstanceType<typeof TwoTPhaseDialog> | null>(null);
 const ThreeCrossPhaseDialogRef = ref<InstanceType<typeof ThreeCrossPhaseDialog> | null>(null);
 const openDialog = (params: ResIntersection) => {
-  if ("两相位" == params.calc_type && "十字路口" == params.crossing_type) TwoCrossPhaseDialogRef.value?.openDialog(params.code);
-  else if ("两相位" == params.calc_type && "T型路口" == params.crossing_type) TwoTPhaseDialogRef.value?.openDialog(params.code);
-  else if ("三相位" == params.calc_type && "十字路口" == params.crossing_type)
-    ThreeCrossPhaseDialogRef.value?.openDialog(params.code);
+  if ("两相位" == params.calc_type) TwoCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("三相位" == params.calc_type) ThreeCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("四相位" == params.calc_type) FourCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("五相位" == params.calc_type) FiveCrossPhaseDialogRef.value?.openDialog(params.code);
 };
 </script>
