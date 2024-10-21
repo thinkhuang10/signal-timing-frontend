@@ -137,7 +137,7 @@
             "icon": "ChromeFilled",
             "title": "四相位",
             "isLink": "",
-            "isHide": false,
+            "isHide": true,
             "isFull": true,
             "isAffix": false,
             "isKeepAlive": true
@@ -151,7 +151,7 @@
             "icon": "ChromeFilled",
             "title": "五相位",
             "isLink": "",
-            "isHide": false,
+            "isHide": true,
             "isFull": true,
             "isAffix": false,
             "isKeepAlive": true

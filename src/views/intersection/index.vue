@@ -18,9 +18,9 @@
       </template>
       <!-- 配置 -->
       <template #configuration="scope">
-        <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 查看配时 </el-button>
-        <el-button type="primary" link :icon="View" @click="calc_manual(scope.row)"> 智能计算 </el-button>
-        <el-button type="primary" link :icon="View" @click="calc_excel_import(scope.row)"> 大模型计算 </el-button>
+        <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 智能计算 </el-button>
+        <!-- <el-button type="primary" link :icon="View" @click="calc_manual(scope.row)"> 智能计算 </el-button>
+        <el-button type="primary" link :icon="View" @click="calc_excel_import(scope.row)"> 大模型计算 </el-button> -->
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
@@ -142,6 +142,7 @@ const delete_intersection = async (params: ResIntersection) => {
   proTable.value?.getTableList();
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const calc_manual = async (params: ResIntersection) => {
   let calc_type = params.calc_type;
   // let crossing_type = params.crossing_type;
@@ -176,6 +177,7 @@ const calc_manual = async (params: ResIntersection) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const calc_excel_import = async (params: ResIntersection) => {
   let calc_type = params.calc_type;
   // let crossing_type = params.crossing_type;

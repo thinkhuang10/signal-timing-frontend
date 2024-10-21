@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="配时方案" width="600" align-center draggable>
+  <el-dialog v-model="dialogVisible" title="智能计算" width="600" align-center draggable>
     <el-form>
       <!-- 计算输出结果 -->
       <el-row>

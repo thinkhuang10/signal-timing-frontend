@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="配时方案" width="600" align-center draggable>
+  <el-dialog v-model="dialogVisible" title="智能计算" width="600" align-center draggable>
     <el-form>
       <!-- 路口位置 -->
       <el-text style="margin-left: 20px">位置: </el-text>

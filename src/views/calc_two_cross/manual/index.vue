@@ -46,14 +46,24 @@
                 style="width: 60px"
                 @change="westOutputRoadCountRefChange"
               >
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadWestOutputNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="右转专有车道" prop="westRightRoadCountRef">
               <el-select v-model="form_paint_model.westRightRoadCountRef" style="width: 60px">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadWestRightNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -80,14 +90,24 @@
                 style="width: 60px"
                 @change="eastOutputRoadCountRefChange"
               >
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadEastOutputNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="右转专有车道" prop="eastRightRoadCountRef">
               <el-select v-model="form_paint_model.eastRightRoadCountRef" style="width: 60px">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadEastRightNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -114,14 +134,24 @@
                 style="width: 60px"
                 @change="northOutputRoadCountRefChange"
               >
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadNorthOutputNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="右转专有车道" prop="northRightRoadCountRef">
               <el-select v-model="form_paint_model.northRightRoadCountRef" style="width: 60px">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadNorthRightNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -148,14 +178,24 @@
                 style="width: 60px"
                 @change="southOutputRoadCountRefChange"
               >
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadSouthOutputNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="右转专有车道" prop="southRightRoadCountRef">
               <el-select v-model="form_paint_model.southRightRoadCountRef" style="width: 60px">
-                <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option
+                  v-for="item in roadSouthRightNumberArrayRef"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -202,28 +242,28 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="西路口车道" prop="W_pathNSRef">
-              <el-select v-model="form_model.W_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="w_epathsNRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="东路口车道" prop="E_pathNSRef">
-              <el-select v-model="form_model.E_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="e_wpathsNRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="北路口车道" prop="N_pathNSRef">
-              <el-select v-model="form_model.N_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="n_spathsNRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="南路口车道" prop="S_pathNSRef">
-              <el-select v-model="form_model.S_pathNSRef" style="width: 60px">
+              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="s_npathsNRefChange">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
@@ -244,25 +284,15 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道" prop="w_epathsNRef">
-              <el-select v-model="form_model.w_epathsNRef" style="width: 60px" @change="w_epathsNRefChange">
-                <el-option
-                  v-for="item in roadWestOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+              <el-select v-model="form_model.w_epathsNRef" style="width: 60px" @change="w_epathrNRefChange">
+                <el-option v-for="item in w_epathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="右转专有车道" prop="w_epathrNRef">
               <el-select v-model="form_model.w_epathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadWestRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+                <el-option v-for="item in w_epathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -289,25 +319,15 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道" prop="e_wpathsNRef">
-              <el-select v-model="form_model.e_wpathsNRef" style="width: 60px" @change="e_wpathsNRefChange">
-                <el-option
-                  v-for="item in roadEastOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+              <el-select v-model="form_model.e_wpathsNRef" style="width: 60px" @change="e_wpathrNRefChange">
+                <el-option v-for="item in e_wpathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="右转专有车道" prop="e_wpathrNRef">
               <el-select v-model="form_model.e_wpathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadEastRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+                <el-option v-for="item in e_wpathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -334,25 +354,15 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道" prop="n_spathsNRef">
-              <el-select v-model="form_model.n_spathsNRef" style="width: 60px" @change="n_spathsNRefChange">
-                <el-option
-                  v-for="item in roadNorthOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+              <el-select v-model="form_model.n_spathsNRef" style="width: 60px" @change="n_spathrNRefChange">
+                <el-option v-for="item in n_spathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="右转专有车道" prop="n_spathrNRef">
               <el-select v-model="form_model.n_spathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadNorthRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+                <el-option v-for="item in n_spathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -379,25 +389,15 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="出口车道" prop="s_npathsNRef">
-              <el-select v-model="form_model.s_npathsNRef" style="width: 60px" @change="s_npathsNRefChange">
-                <el-option
-                  v-for="item in roadSouthOutputNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+              <el-select v-model="form_model.s_npathsNRef" style="width: 60px" @change="s_npathrNRefChange">
+                <el-option v-for="item in s_npathsNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="右转专有车道" prop="s_npathrNRef">
               <el-select v-model="form_model.s_npathrNRef" style="width: 60px">
-                <el-option
-                  v-for="item in roadSouthRightNumberArrayRef"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
+                <el-option v-for="item in s_npathrNArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -544,6 +544,7 @@ let codeRef: any = ref("");
 let positionRef: any = ref("");
 
 let roadNumberArrayRef: any = ref([
+  { value: "0", label: "0" },
   { value: "1", label: "1" },
   { value: "2", label: "2" },
   { value: "3", label: "3" },
@@ -588,6 +589,35 @@ let n_spathsNArrayRef: any = ref([
   { value: "4", label: "4" }
 ]);
 let s_npathsNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+
+let w_epathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let e_wpathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let n_spathrNArrayRef: any = ref([
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" }
+]);
+let s_npathrNArrayRef: any = ref([
   { value: "0", label: "0" },
   { value: "1", label: "1" },
   { value: "2", label: "2" },
@@ -651,7 +681,7 @@ let form_model = reactive({
   tortimeRef: 2,
   mingtimeRef: 5,
   ytimeRef: 3,
-  E_pathNSRef: 0,
+  E_pathNSRef: 4,
   W_pathNSRef: 4,
   S_pathNSRef: 4,
   N_pathNSRef: 4,
@@ -935,25 +965,29 @@ function GetInputParameters(inputObj: any) {
 
   form_model.e_wflowRef = inputObj.e_wflow;
   form_model.e_wpathsNRef = inputObj.e_wpathsN;
-  E_pathNSRefChange(form_model.E_pathNSRef);
+  e_wpathsNRefChange(form_model.E_pathNSRef);
+  e_wpathrNRefChange(form_model.e_wpathsNRef);
   form_model.e_wpathrNRef = inputObj.e_wpathrN;
   form_model.e_wpathlenRef = inputObj.e_wpathlen;
 
   form_model.s_nflowRef = inputObj.s_nflow;
   form_model.s_npathsNRef = inputObj.s_npathsN;
-  S_pathNSRefChange(form_model.S_pathNSRef);
+  s_npathsNRefChange(form_model.S_pathNSRef);
+  s_npathrNRefChange(form_model.s_npathsNRef);
   form_model.s_npathrNRef = inputObj.s_npathrN;
   form_model.s_npathlenRef = inputObj.s_npathlen;
 
   form_model.n_sflowRef = inputObj.n_sflow;
   form_model.n_spathsNRef = inputObj.n_spathsN;
-  northTotalRoadCountRefChange(form_model.N_pathNSRef);
+  n_spathsNRefChange(form_model.N_pathNSRef);
+  n_spathrNRefChange(form_model.n_spathsNRef);
   form_model.n_spathrNRef = inputObj.n_spathrN;
   form_model.n_spathlenRef = inputObj.n_spathlen;
 
   form_model.w_eflowRef = inputObj.w_eflow;
   form_model.w_epathsNRef = inputObj.w_epathsN;
-  W_pathNSRefChange(form_model.W_pathNSRef);
+  w_epathsNRefChange(form_model.W_pathNSRef);
+  w_epathrNRefChange(form_model.w_epathsNRef);
   form_model.w_epathrNRef = inputObj.w_epathrN;
   form_model.w_epathlenRef = inputObj.w_epathlen;
 }
@@ -1835,42 +1869,6 @@ function GetCompassIcon(x: any, y: any) {
   };
 }
 
-function E_pathNSRefChange(selectedVal: any) {
-  let temp_array = [];
-  for (let i = 0; i <= selectedVal; i++) {
-    temp_array.push({ value: i, label: i });
-  }
-  roadEastOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.e_wpathsNRef) {
-    form_model.e_wpathsNRef = selectedVal;
-    eastOutputRoadCountRefChange(selectedVal);
-  }
-}
-
-function W_pathNSRefChange(selectedVal: any) {
-  let temp_array = [];
-  for (let i = 0; i <= selectedVal; i++) {
-    temp_array.push({ value: i, label: i });
-  }
-  roadWestOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.w_epathsNRef) {
-    form_model.w_epathsNRef = selectedVal;
-    westOutputRoadCountRefChange(selectedVal);
-  }
-}
-
-function S_pathNSRefChange(selectedVal: any) {
-  let temp_array = [];
-  for (let i = 0; i <= selectedVal; i++) {
-    temp_array.push({ value: i, label: i });
-  }
-  roadSouthOutputNumberArrayRef.value = temp_array;
-  if (selectedVal < form_model.s_npathsNRef) {
-    form_model.s_npathsNRef = selectedVal;
-    southOutputRoadCountRefChange(selectedVal);
-  }
-}
-
 function w_epathsNRefChange(selectedVal: any) {
   let temp_array = [];
   for (let i = 0; i <= selectedVal; i++) {
@@ -1879,6 +1877,7 @@ function w_epathsNRefChange(selectedVal: any) {
   w_epathsNArrayRef.value = temp_array;
   if (selectedVal < form_model.w_epathsNRef) {
     form_model.w_epathsNRef = selectedVal;
+    w_epathrNRefChange(selectedVal);
   }
 }
 
@@ -1890,6 +1889,7 @@ function e_wpathsNRefChange(selectedVal: any) {
   e_wpathsNArrayRef.value = temp_array;
   if (selectedVal < form_model.e_wpathsNRef) {
     form_model.e_wpathsNRef = selectedVal;
+    e_wpathrNRefChange(selectedVal);
   }
 }
 
@@ -1901,6 +1901,7 @@ function n_spathsNRefChange(selectedVal: any) {
   n_spathsNArrayRef.value = temp_array;
   if (selectedVal < form_model.n_spathsNRef) {
     form_model.n_spathsNRef = selectedVal;
+    n_spathrNRefChange(selectedVal);
   }
 }
 
@@ -1912,6 +1913,51 @@ function s_npathsNRefChange(selectedVal: any) {
   s_npathsNArrayRef.value = temp_array;
   if (selectedVal < form_model.s_npathsNRef) {
     form_model.s_npathsNRef = selectedVal;
+    s_npathrNRefChange(selectedVal);
+  }
+}
+
+function w_epathrNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  w_epathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.w_epathrNRef) {
+    form_model.w_epathrNRef = selectedVal;
+  }
+}
+
+function e_wpathrNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  e_wpathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.e_wpathrNRef) {
+    form_model.e_wpathrNRef = selectedVal;
+  }
+}
+
+function n_spathrNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  n_spathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.n_spathrNRef) {
+    form_model.n_spathrNRef = selectedVal;
+  }
+}
+
+function s_npathrNRefChange(selectedVal: any) {
+  let temp_array = [];
+  for (let i = 0; i <= selectedVal; i++) {
+    temp_array.push({ value: i, label: i });
+  }
+  s_npathrNArrayRef.value = temp_array;
+  if (selectedVal < form_model.s_npathrNRef) {
+    form_model.s_npathrNRef = selectedVal;
   }
 }
 
