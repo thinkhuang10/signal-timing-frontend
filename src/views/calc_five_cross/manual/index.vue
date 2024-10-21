@@ -242,28 +242,28 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="西路口车道" prop="W_pathNSRef">
-              <el-select v-model="form_model.W_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.W_pathNSRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="东路口车道" prop="E_pathNSRef">
-              <el-select v-model="form_model.E_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.E_pathNSRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="北路口车道" prop="N_pathNSRef">
-              <el-select v-model="form_model.N_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.N_pathNSRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="南路口车道" prop="S_pathNSRef">
-              <el-select v-model="form_model.S_pathNSRef" style="width: 60px" @change="pathNSRefChange">
+              <el-select v-model="form_model.S_pathNSRef" style="width: 60px">
                 <el-option v-for="item in roadNumberArrayRef" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
@@ -1700,8 +1700,6 @@ function GetInputParameters(inputObj: any) {
   form_model.W_pathNSRef = inputObj.W_pathNS;
   form_model.S_pathNSRef = inputObj.S_pathNS;
   form_model.N_pathNSRef = inputObj.N_pathNS;
-
-  pathNSRefChange(0);
 
   form_model.f_fordflowRef = inputObj.f_fordflow;
   form_model.f_fordpathsNRef = inputObj.f_fordpathsN;
