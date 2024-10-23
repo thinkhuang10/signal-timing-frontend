@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import { get_list, get_detail_by_code } from "@/api/modules/intersection";
+import { get_list } from "@/api/modules/intersection";
 import { useUserStore } from "@/stores/modules/user";
 
 declare const BMapGL: any;
@@ -38,54 +38,24 @@ async function addMarker(map: { addOverlay: (arg0: any) => void; openInfoWindow:
 
   let intersections: any = await get_list(parameters);
   for (let intersection of intersections["data"]["list"]) {
-    if ("两相位" == intersection.calc_type && "十字路口" == intersection.crossing_type) AddTwoCrossPhase(map, intersection);
-    else if ("两相位" == intersection.calc_type && "T型路口" == intersection.crossing_type) AddTwoTPhase(map, intersection);
-    else if ("三相位" == intersection.calc_type && "十字路口" == intersection.crossing_type)
-      AddThreeCrossPhase(map, intersection);
+    // if ("两相位" == intersection.calc_type) AddTwoCrossPhase(map, intersection);
+    // else if ("三相位" == intersection.calc_type) AddThreeCrossPhase(map, intersection);
+
+    AddCommonPhase(map, intersection);
   }
 }
 
-async function AddTwoCrossPhase(map: any, intersection: any) {
+async function AddCommonPhase(map: any, intersection: any) {
   let coordinate = intersection.coordinate.split(",");
   let point = new BMapGL.Point(Number(coordinate[0]), Number(coordinate[1]));
   let marker = new BMapGL.Marker(point);
   map.addOverlay(marker);
 
-  // let e_w_green = 0.0;
-  // let e_w_yellow = 3.0;
-  // let e_w_red = 0.0;
-  // let s_n_green = 0.0;
-  // let s_n_yellow = 3.0;
-  // let s_n_red = 0.0;
-  let e_w_green_correct = 0.0;
-  let e_w_yellow_correct = 3.0;
-  let e_w_red_correct = 0.0;
-  let s_n_green_correct = 0.0;
-  let s_n_yellow_correct = 3.0;
-  let s_n_red_correct = 0.0;
-
-  let detail_infos: any = await get_detail_by_code({ code: intersection.code });
-  let result: any = detail_infos.data[0];
-  if (undefined != result && "" != result.output_parameters) {
-    let outputObj: any = JSON.parse(result.output_parameters);
-    if (null != outputObj) {
-      // e_w_green = Math.round(outputObj.e_w_green);
-      // e_w_yellow = Math.round(outputObj.e_w_yellow);
-      // e_w_red = Math.round(outputObj.e_w_red);
-
-      // s_n_green = Math.round(outputObj.s_n_green);
-      // s_n_yellow = Math.round(outputObj.s_n_yellow);
-      // s_n_red = Math.round(outputObj.s_n_red);
-
-      e_w_green_correct = Math.round(outputObj.e_w_green_correct);
-      e_w_yellow_correct = Math.round(outputObj.e_w_yellow_correct);
-      e_w_red_correct = Math.round(outputObj.e_w_red_correct);
-
-      s_n_green_correct = Math.round(outputObj.s_n_green_correct);
-      s_n_yellow_correct = Math.round(outputObj.s_n_yellow_correct);
-      s_n_red_correct = Math.round(outputObj.s_n_red_correct);
-    }
-  }
+  let calcTypeDirName = "calc_two_cross";
+  if ("两相位" == intersection.calc_type) calcTypeDirName = "calc_two_cross";
+  else if ("三相位" == intersection.calc_type) calcTypeDirName = "calc_three_cross";
+  else if ("四相位" == intersection.calc_type) calcTypeDirName = "calc_four_cross";
+  else if ("五相位" == intersection.calc_type) calcTypeDirName = "calc_five_cross";
 
   marker.addEventListener("click", function () {
     map.openInfoWindow(
@@ -102,37 +72,50 @@ async function AddTwoCrossPhase(map: any, intersection: any) {
           "<div>路口类型：" +
           intersection.crossing_type +
           "</div>" +
-          // "</br>" +
-          // "<div>计算输出结果：</div>" +
-          // "<div>东-西 绿灯时长(秒) " +
-          // e_w_green +
-          // " 黄灯时长(秒) " +
-          // e_w_yellow +
-          // " 红灯时长(秒) " +
-          // e_w_red +
-          // "</div>" +
-          // "<div>南-北 绿灯时长(秒) " +
-          // s_n_green +
-          // " 黄灯时长(秒) " +
-          // s_n_yellow +
-          // " 红灯时长(秒) " +
-          // s_n_red +
-          // "</div>" +
-          // "</br>" +
-          "<div>配时方案：</div>" +
-          "<div>东-西 绿灯时长(秒) " +
-          e_w_green_correct +
-          " 黄灯时长(秒) " +
-          e_w_yellow_correct +
-          " 红灯时长(秒) " +
-          e_w_red_correct +
+          "</br>" +
+          "<div><a href='#/" +
+          calcTypeDirName +
+          "/manual/index?code=" +
+          intersection.code +
+          "' style='margin-right:10px'>智能计算</a></div>" +
+          "<div><a href='#/" +
+          calcTypeDirName +
+          "/excel_import/index?code=" +
+          intersection.code +
+          "' style='margin-right:10px'>大模型计算</a></div>",
+        {
+          width: 450,
+          height: 180,
+          title: "交通信号配时优化辅助决策系统",
+          message: "交通信号配时优化辅助决策系统"
+        }
+      ),
+      point
+    ); //开启信息窗口
+  });
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function AddTwoCrossPhase(map: any, intersection: any) {
+  let coordinate = intersection.coordinate.split(",");
+  let point = new BMapGL.Point(Number(coordinate[0]), Number(coordinate[1]));
+  let marker = new BMapGL.Marker(point);
+  map.addOverlay(marker);
+
+  marker.addEventListener("click", function () {
+    map.openInfoWindow(
+      new BMapGL.InfoWindow(
+        "<div>编号：" +
+          intersection.code +
           "</div>" +
-          "<div>南-北 绿灯时长(秒) " +
-          s_n_green_correct +
-          " 黄灯时长(秒) " +
-          s_n_yellow_correct +
-          " 红灯时长(秒) " +
-          s_n_red_correct +
+          "<div>位置：" +
+          intersection.position +
+          "</div>" +
+          "<div>相位类型：" +
+          intersection.calc_type +
+          "</div>" +
+          "<div>路口类型：" +
+          intersection.crossing_type +
           "</div>" +
           "</br>" +
           "<div><a href='#/calc_two_cross/manual/index?code=" +
@@ -150,175 +133,13 @@ async function AddTwoCrossPhase(map: any, intersection: any) {
   });
 }
 
-async function AddTwoTPhase(map: any, intersection: any) {
-  let coordinate = intersection.coordinate.split(",");
-  let point = new BMapGL.Point(Number(coordinate[0]), Number(coordinate[1]));
-  let marker = new BMapGL.Marker(point);
-  map.addOverlay(marker);
-
-  // let first_green = 0.0;
-  // let first_yellow = 3.0;
-  // let first_red = 0.0;
-
-  // let second_green = 0.0;
-  // let second_yellow = 3.0;
-  // let second_red = 0.0;
-
-  let first_green_correct = 0.0;
-  let first_yellow_correct = 3.0;
-  let first_red_correct = 0.0;
-
-  let second_green_correct = 0.0;
-  let second_yellow_correct = 3.0;
-  let second_red_correct = 0.0;
-
-  let detail_infos: any = await get_detail_by_code({ code: intersection.code });
-  let result: any = detail_infos.data[0];
-  if (undefined != result && "" != result.output_parameters) {
-    let outputObj: any = JSON.parse(result.output_parameters);
-    if (null != outputObj) {
-      // first_green = Math.round(outputObj.first_green);
-      // first_yellow = Math.round(outputObj.first_yellow);
-      // first_red = Math.round(outputObj.first_red);
-
-      // second_green = Math.round(outputObj.second_green);
-      // second_yellow = Math.round(outputObj.second_yellow);
-      // second_red = Math.round(outputObj.second_red);
-
-      first_green_correct = Math.round(outputObj.first_green_correct);
-      first_yellow_correct = Math.round(outputObj.first_yellow_correct);
-      first_red_correct = Math.round(outputObj.first_red_correct);
-
-      second_green_correct = Math.round(outputObj.second_green_correct);
-      second_yellow_correct = Math.round(outputObj.second_yellow_correct);
-      second_red_correct = Math.round(outputObj.second_red_correct);
-    }
-  }
-
-  marker.addEventListener("click", function () {
-    map.openInfoWindow(
-      new BMapGL.InfoWindow(
-        "<div>编号：" +
-          intersection.code +
-          "</div>" +
-          "<div>位置：" +
-          intersection.position +
-          "</div>" +
-          "<div>相位类型：" +
-          intersection.calc_type +
-          "</div>" +
-          "<div>路口类型：" +
-          intersection.crossing_type +
-          "</div>" +
-          // "</br>" +
-          // "<div>计算输出结果：</div>" +
-          // "<div>一相位 绿灯时长(秒) " +
-          // first_green +
-          // " 黄灯时长(秒) " +
-          // first_yellow +
-          // " 红灯时长(秒) " +
-          // first_red +
-          // "</div>" +
-          // "<div>二相位 绿灯时长(秒) " +
-          // second_green +
-          // " 黄灯时长(秒) " +
-          // second_yellow +
-          // " 红灯时长(秒) " +
-          // second_red +
-          // "</div>" +
-          // "</br>" +
-          "<div>配时方案：</div>" +
-          "<div>一相位 绿灯时长(秒) " +
-          first_green_correct +
-          " 黄灯时长(秒) " +
-          first_yellow_correct +
-          " 红灯时长(秒) " +
-          first_red_correct +
-          "</div>" +
-          "<div>二相位 绿灯时长(秒) " +
-          second_green_correct +
-          " 黄灯时长(秒) " +
-          second_yellow_correct +
-          " 红灯时长(秒) " +
-          second_red_correct +
-          "</div>" +
-          "</br>" +
-          "<div><a href='#/calc_two_t/manual/index?code=" +
-          intersection.code +
-          "' style='margin-right:10px'>配时计算</a>",
-        {
-          width: 450,
-          height: 230,
-          title: "交通信号配时优化辅助决策系统",
-          message: "交通信号配时优化辅助决策系统"
-        }
-      ),
-      point
-    ); //开启信息窗口
-  });
-}
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function AddThreeCrossPhase(map: any, intersection: any) {
   let coordinate = intersection.coordinate.split(",");
   let point = new BMapGL.Point(Number(coordinate[0]), Number(coordinate[1]));
   let marker = new BMapGL.Marker(point);
   map.addOverlay(marker);
 
-  // let first_green = 0.0;
-  // let first_yellow = 3.0;
-  // let first_red = 0.0;
-
-  // let second_green = 0.0;
-  // let second_yellow = 3.0;
-  // let second_red = 0.0;
-
-  // let three_green = 0.0;
-  // let three_yellow = 3.0;
-  // let three_red = 0.0;
-
-  let first_green_correct = 0.0;
-  let first_yellow_correct = 3.0;
-  let first_red_correct = 0.0;
-
-  let second_green_correct = 0.0;
-  let second_yellow_correct = 3.0;
-  let second_red_correct = 0.0;
-
-  let three_green_correct = 0.0;
-  let three_yellow_correct = 3.0;
-  let three_red_correct = 0.0;
-
-  let detail_infos: any = await get_detail_by_code({ code: intersection.code });
-  let result: any = detail_infos.data[0];
-  if (undefined != result && "" != result.output_parameters) {
-    let outputObj: any = JSON.parse(result.output_parameters);
-    if (null != outputObj) {
-      // first_green = Math.round(outputObj.first_green);
-      // first_yellow = Math.round(outputObj.first_yellow);
-      // first_red = Math.round(outputObj.first_red);
-
-      // second_green = Math.round(outputObj.second_green);
-      // second_yellow = Math.round(outputObj.second_yellow);
-      // second_red = Math.round(outputObj.second_red);
-
-      // three_green = Math.round(outputObj.three_green);
-      // three_yellow = Math.round(outputObj.three_yellow);
-      // three_red = Math.round(outputObj.three_red);
-
-      first_green_correct = Math.round(outputObj.first_green_correct);
-      first_yellow_correct = Math.round(outputObj.first_yellow_correct);
-      first_red_correct = Math.round(outputObj.first_red_correct);
-
-      second_green_correct = Math.round(outputObj.second_green_correct);
-      second_yellow_correct = Math.round(outputObj.second_yellow_correct);
-      second_red_correct = Math.round(outputObj.second_red_correct);
-
-      three_green_correct = Math.round(outputObj.three_green_correct);
-      three_yellow_correct = Math.round(outputObj.three_yellow_correct);
-      three_red_correct = Math.round(outputObj.three_red_correct);
-    }
-  }
-
   marker.addEventListener("click", function () {
     map.openInfoWindow(
       new BMapGL.InfoWindow(
@@ -333,52 +154,6 @@ async function AddThreeCrossPhase(map: any, intersection: any) {
           "</div>" +
           "<div>路口类型：" +
           intersection.crossing_type +
-          "</div>" +
-          // "</br>" +
-          // "<div>计算输出结果：</div>" +
-          // "<div>一相位 绿灯时长(秒) " +
-          // first_green +
-          // " 黄灯时长(秒) " +
-          // first_yellow +
-          // " 红灯时长(秒) " +
-          // first_red +
-          // "</div>" +
-          // "<div>二相位 绿灯时长(秒) " +
-          // second_green +
-          // " 黄灯时长(秒) " +
-          // second_yellow +
-          // " 红灯时长(秒) " +
-          // second_red +
-          // "</div>" +
-          // "<div>三相位 绿灯时长(秒) " +
-          // three_green +
-          // " 黄灯时长(秒) " +
-          // three_yellow +
-          // " 红灯时长(秒) " +
-          // three_red +
-          // "</div>" +
-          // "</br>" +
-          "<div>配时方案：</div>" +
-          "<div>一相位 绿灯时长(秒) " +
-          first_green_correct +
-          " 黄灯时长(秒) " +
-          first_yellow_correct +
-          " 红灯时长(秒) " +
-          first_red_correct +
-          "</div>" +
-          "<div>二相位 绿灯时长(秒) " +
-          second_green_correct +
-          " 黄灯时长(秒) " +
-          second_yellow_correct +
-          " 红灯时长(秒) " +
-          second_red_correct +
-          "</div>" +
-          "<div>三相位 绿灯时长(秒) " +
-          three_green_correct +
-          " 黄灯时长(秒) " +
-          three_yellow_correct +
-          " 红灯时长(秒) " +
-          three_red_correct +
           "</div>" +
           "</br>" +
           "<div><a href='#/calc_three_cross/manual/index?code=" +

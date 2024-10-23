@@ -107,9 +107,15 @@ const columns: ColumnProps<ResIntersection>[] = [
   },
   {
     prop: "group_type",
-    label: "区域",
+    label: "市",
     search: { el: "input" },
     width: 60
+  },
+  {
+    prop: "region_type",
+    label: "区",
+    search: { el: "input" },
+    width: 120
   },
   {
     prop: "position",

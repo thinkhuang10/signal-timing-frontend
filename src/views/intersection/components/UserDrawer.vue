@@ -18,9 +18,14 @@
       <el-form-item label="经纬度" prop="coordinate">
         <el-input v-model="drawerProps.row!.coordinate" placeholder="请填写经纬度" clearable></el-input>
       </el-form-item>
-      <el-form-item label="区域" prop="group_type">
-        <el-select v-model="drawerProps.row!.group_type" :disabled="isGroupRegionDisabled" placeholder="请选择区域" clearable>
+      <el-form-item label="市" prop="group_type">
+        <el-select v-model="drawerProps.row!.group_type" :disabled="isGroupRegionDisabled" placeholder="请选择市" clearable>
           <el-option v-for="item in groupType" :key="item.value" :label="item.label" :value="item.label" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="区" prop="region_type">
+        <el-select v-model="drawerProps.row!.region_type" :disabled="isGroupRegionDisabled" placeholder="请选择区" clearable>
+          <el-option v-for="item in regionType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
       <el-form-item label="相位类型" prop="calc_type">
@@ -58,10 +63,13 @@ const rules = reactive({
   code: [{ required: true, message: "请填写编号" }],
   position: [{ required: true, message: "请填写位置" }],
   coordinate: [{ required: true, message: "请填写经纬度" }],
-  group_type: [{ required: true, message: "请填写区域" }],
+  group_type: [{ required: true, message: "请填写市" }],
+  region_type: [{ required: true, message: "请填写区" }],
   calc_type: [{ required: true, message: "请选择相位类型" }],
   crossing_type: [{ required: true, message: "请选择路口类型" }]
 });
+
+let regionType: any = [];
 
 interface DrawerProps {
   title: string;
@@ -85,6 +93,7 @@ let role = computed(() => userStore.userInfo.role);
 let currentGroupType = computed(() => userStore.userInfo.group_type);
 let isGroupDisabled = ref(false);
 let isGroupRegionDisabled = ref(false);
+
 onMounted(() => {
   if (role.value == "区域管理员") {
     isGroupRegionDisabled.value = true;
@@ -116,6 +125,20 @@ const acceptParams = (params: DrawerProps) => {
   // 特殊处理，处理区域管理员
   if (role.value == "区域管理员") {
     drawerProps.value.row.group_type = currentGroupType.value;
+  }
+
+  if (currentGroupType.value === "大连") {
+    regionType = [
+      { label: "中山区", value: 1 },
+      { label: "西岗区", value: 2 },
+      { label: "沙河口区", value: 3 },
+      { label: "甘井子区", value: 4 },
+      { label: "旅顺口区", value: 5 },
+      { label: "金州区", value: 6 },
+      { label: "普兰店区", value: 7 }
+    ];
+  } else {
+    regionType = [];
   }
 
   drawerVisible.value = true;
