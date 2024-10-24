@@ -324,7 +324,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button class="mt-4" style="width: 100%" @click="onAddItem_WorkDayTableData">添加</el-button>
+      <!-- <el-button class="mt-4" style="width: 100%" @click="onAddItem_WorkDayTableData">添加</el-button> -->
 
       <br />
 
@@ -384,7 +384,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button class="mt-4" style="width: 100%" @click="onAddItem_WeekDayTableData">添加</el-button>
+      <!-- <el-button class="mt-4" style="width: 100%" @click="onAddItem_WeekDayTableData">添加</el-button> -->
     </el-col>
   </el-row>
 
@@ -716,6 +716,7 @@ const deleteRow_WorkDayTableData = (index: number) => {
   Cal_Correct_WorkDayTableData.value.splice(index, 1);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const onAddItem_WorkDayTableData = () => {
   Cal_Correct_WorkDayTableData.value.push({
     No: 1,
@@ -736,6 +737,7 @@ const deleteRow_WeekDayTableData = (index: number) => {
   Cal_Correct_WorkDayTableData.value.splice(index, 1);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const onAddItem_WeekDayTableData = () => {
   Cal_Correct_WorkDayTableData.value.push({
     No: 1,

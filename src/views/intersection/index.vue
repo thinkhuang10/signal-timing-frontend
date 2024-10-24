@@ -18,9 +18,8 @@
       </template>
       <!-- 配置 -->
       <template #configuration="scope">
-        <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 智能计算 </el-button>
-        <!-- <el-button type="primary" link :icon="View" @click="calc_manual(scope.row)"> 智能计算 </el-button>
-        <el-button type="primary" link :icon="View" @click="calc_excel_import(scope.row)"> 大模型计算 </el-button> -->
+        <el-button type="primary" link :icon="View" @click="openDialog(scope.row, '智能计算')"> 智能计算 </el-button>
+        <el-button type="primary" link :icon="View" @click="openDialog(scope.row, '大模型计算')"> 大模型计算 </el-button>
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
@@ -32,10 +31,13 @@
     <UserDrawer ref="drawerRef" />
 
     <TwoCrossPhaseDialog ref="TwoCrossPhaseDialogRef"></TwoCrossPhaseDialog>
-    <TwoTPhaseDialog ref="TwoTPhaseDialogRef"></TwoTPhaseDialog>
     <ThreeCrossPhaseDialog ref="ThreeCrossPhaseDialogRef"></ThreeCrossPhaseDialog>
     <FourCrossPhaseDialog ref="FourCrossPhaseDialogRef"></FourCrossPhaseDialog>
     <FiveCrossPhaseDialog ref="FiveCrossPhaseDialogRef"></FiveCrossPhaseDialog>
+    <TwoCrossExcelImportPhaseDialog ref="TwoCrossExcelImportPhaseDialogRef"></TwoCrossExcelImportPhaseDialog>
+    <ThreeCrossExcelImportPhaseDialog ref="ThreeCrossExcelImportPhaseDialogRef"></ThreeCrossExcelImportPhaseDialog>
+    <FourCrossExcelImportPhaseDialog ref="FourCrossExcelImportPhaseDialogRef"></FourCrossExcelImportPhaseDialog>
+    <FiveCrossExcelImportPhaseDialog ref="FiveCrossExcelImportPhaseDialogRef"></FiveCrossExcelImportPhaseDialog>
   </div>
 </template>
 
@@ -50,11 +52,15 @@ import { get_list, delete_item, add_item, edit_item } from "@/api/modules/inters
 import { useHandleData } from "@/hooks/useHandleData";
 import router from "@/routers";
 import { useUserStore } from "@/stores/modules/user";
+
 import TwoCrossPhaseDialog from "./components/TwoCrossPhaseDialog.vue";
-import TwoTPhaseDialog from "./components/TwoTPhaseDialog.vue";
 import ThreeCrossPhaseDialog from "./components/ThreeCrossPhaseDialog.vue";
 import FourCrossPhaseDialog from "./components/FourCrossPhaseDialog.vue";
 import FiveCrossPhaseDialog from "./components/FiveCrossPhaseDialog.vue";
+import TwoCrossExcelImportPhaseDialog from "./components/TwoCrossExcelImportPhaseDialog.vue";
+import ThreeCrossExcelImportPhaseDialog from "./components/ThreeCrossExcelImportPhaseDialog.vue";
+import FourCrossExcelImportPhaseDialog from "./components/FourCrossExcelImportPhaseDialog.vue";
+import FiveCrossExcelImportPhaseDialog from "./components/FiveCrossExcelImportPhaseDialog.vue";
 
 const userStore = useUserStore();
 const group_type = computed(() => userStore.userInfo.group_type);
@@ -233,14 +239,25 @@ const openDrawer = (title: string, row: Partial<ResIntersection> = {}) => {
 };
 
 const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | null>(null);
-const TwoTPhaseDialogRef = ref<InstanceType<typeof TwoTPhaseDialog> | null>(null);
 const ThreeCrossPhaseDialogRef = ref<InstanceType<typeof ThreeCrossPhaseDialog> | null>(null);
 const FourCrossPhaseDialogRef = ref<InstanceType<typeof FourCrossPhaseDialog> | null>(null);
 const FiveCrossPhaseDialogRef = ref<InstanceType<typeof FiveCrossPhaseDialog> | null>(null);
-const openDialog = (params: ResIntersection) => {
-  if ("两相位" == params.calc_type) TwoCrossPhaseDialogRef.value?.openDialog(params.code);
-  else if ("三相位" == params.calc_type) ThreeCrossPhaseDialogRef.value?.openDialog(params.code);
-  else if ("四相位" == params.calc_type) FourCrossPhaseDialogRef.value?.openDialog(params.code);
-  else if ("五相位" == params.calc_type) FiveCrossPhaseDialogRef.value?.openDialog(params.code);
+const TwoCrossExcelImportPhaseDialogRef = ref<InstanceType<typeof TwoCrossExcelImportPhaseDialog> | null>(null);
+const ThreeCrossExcelImportPhaseDialogRef = ref<InstanceType<typeof ThreeCrossExcelImportPhaseDialog> | null>(null);
+const FourCrossExcelImportPhaseDialogRef = ref<InstanceType<typeof FourCrossExcelImportPhaseDialog> | null>(null);
+const FiveCrossExcelImportPhaseDialogRef = ref<InstanceType<typeof FiveCrossExcelImportPhaseDialog> | null>(null);
+const openDialog = (params: ResIntersection, model_type: string) => {
+  if ("两相位" == params.calc_type && "智能计算" == model_type) TwoCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("三相位" == params.calc_type && "智能计算" == model_type) ThreeCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("四相位" == params.calc_type && "智能计算" == model_type) FourCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("五相位" == params.calc_type && "智能计算" == model_type) FiveCrossPhaseDialogRef.value?.openDialog(params.code);
+  else if ("两相位" == params.calc_type && "大模型计算" == model_type)
+    TwoCrossExcelImportPhaseDialogRef.value?.openDialog(params.code);
+  else if ("三相位" == params.calc_type && "大模型计算" == model_type)
+    ThreeCrossExcelImportPhaseDialogRef.value?.openDialog(params.code);
+  else if ("四相位" == params.calc_type && "大模型计算" == model_type)
+    FourCrossExcelImportPhaseDialogRef.value?.openDialog(params.code);
+  else if ("五相位" == params.calc_type && "大模型计算" == model_type)
+    FiveCrossExcelImportPhaseDialogRef.value?.openDialog(params.code);
 };
 </script>

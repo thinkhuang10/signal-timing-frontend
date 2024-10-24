@@ -20,7 +20,7 @@ const baiduRef = ref();
 function initMap(locationPoint: any[]) {
   let map = new BMapGL.Map(baiduRef.value);
   let point = new BMapGL.Point(locationPoint[0], locationPoint[1]);
-  map.centerAndZoom(point, 10);
+  map.centerAndZoom(point, 11);
   map.enableScrollWheelZoom(true);
 
   map.addControl(new BMapGL.ScaleControl());
@@ -48,15 +48,37 @@ async function addMarker(map: { addOverlay: (arg0: any) => void; openInfoWindow:
 async function AddCommonPhase(map: any, intersection: any) {
   let coordinate = intersection.coordinate.split(",");
   let point = new BMapGL.Point(Number(coordinate[0]), Number(coordinate[1]));
-  let marker = new BMapGL.Marker(point);
-  map.addOverlay(marker);
+
+  // 设置新的地图图标
+  let makerIcon = new BMapGL.Icon("./images/color_two_phase.png", new BMapGL.Size(25, 25), {
+    imageSize: new BMapGL.Size(25, 25)
+  });
 
   let calcTypeDirName = "calc_two_cross";
-  if ("两相位" == intersection.calc_type) calcTypeDirName = "calc_two_cross";
-  else if ("三相位" == intersection.calc_type) calcTypeDirName = "calc_three_cross";
-  else if ("四相位" == intersection.calc_type) calcTypeDirName = "calc_four_cross";
-  else if ("五相位" == intersection.calc_type) calcTypeDirName = "calc_five_cross";
+  if ("两相位" == intersection.calc_type) {
+    calcTypeDirName = "calc_two_cross";
+    makerIcon = new BMapGL.Icon("./images/color_two_phase.png", new BMapGL.Size(25, 25), {
+      imageSize: new BMapGL.Size(25, 25)
+    });
+  } else if ("三相位" == intersection.calc_type) {
+    calcTypeDirName = "calc_three_cross";
+    makerIcon = new BMapGL.Icon("./images/color_three_phase.png", new BMapGL.Size(25, 25), {
+      imageSize: new BMapGL.Size(25, 25)
+    });
+  } else if ("四相位" == intersection.calc_type) {
+    calcTypeDirName = "calc_four_cross";
+    makerIcon = new BMapGL.Icon("./images/color_four_phase.png", new BMapGL.Size(25, 25), {
+      imageSize: new BMapGL.Size(25, 25)
+    });
+  } else if ("五相位" == intersection.calc_type) {
+    calcTypeDirName = "calc_five_cross";
+    makerIcon = new BMapGL.Icon("./images/color_five_phase.png", new BMapGL.Size(25, 25), {
+      imageSize: new BMapGL.Size(25, 25)
+    });
+  }
 
+  let marker = new BMapGL.Marker(point, { icon: makerIcon });
+  map.addOverlay(marker);
   marker.addEventListener("click", function () {
     map.openInfoWindow(
       new BMapGL.InfoWindow(
@@ -72,7 +94,6 @@ async function AddCommonPhase(map: any, intersection: any) {
           "<div>路口类型：" +
           intersection.crossing_type +
           "</div>" +
-          "</br>" +
           "<div><a href='#/" +
           calcTypeDirName +
           "/manual/index?code=" +

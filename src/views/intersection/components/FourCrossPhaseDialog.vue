@@ -1,10 +1,6 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="智能计算" width="600" align-center draggable>
+  <el-dialog v-model="dialogVisible" :title="selectedPositionRef" width="600" align-center draggable>
     <el-form>
-      <!-- 路口位置 -->
-      <el-text style="margin-left: 20px">位置: </el-text>
-      <el-text style="width: 100px">{{ selectedPositionRef }}</el-text>
-
       <!-- 选择方案 -->
       <el-text style="margin-left: 20px">方案名称</el-text>
       <el-select v-model="selectedSchemeRef" placeholder="请选择" @change="schemeRefChange" style="margin-left: 10px">
@@ -259,7 +255,7 @@ async function InitSchemes(code: string) {
   let detail_infos: any = await get_detail_by_code({ code: code });
   let result: any = detail_infos.data[0];
   if (undefined != result) {
-    selectedPositionRef.value = result.position;
+    selectedPositionRef.value = "智能计算 - " + result.position;
 
     if (null != result.output_parameters && "" != result.output_parameters) {
       selectedOutputParameters = JSON.parse(result.output_parameters);
