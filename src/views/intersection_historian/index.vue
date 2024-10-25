@@ -36,7 +36,6 @@ import { View } from "@element-plus/icons-vue";
 import { get_list } from "@/api/modules/intersection_historian";
 import { useUserStore } from "@/stores/modules/user";
 import TwoCrossPhaseDialog from "./components/TwoCrossPhaseDialog.vue";
-import TwoTPhaseDialog from "./components/TwoTPhaseDialog.vue";
 import ThreeCrossPhaseDialog from "./components/ThreeCrossPhaseDialog.vue";
 import FourCrossPhaseDialog from "./components/FourCrossPhaseDialog.vue";
 import FiveCrossPhaseDialog from "./components/FiveCrossPhaseDialog.vue";
@@ -85,7 +84,13 @@ const columns: ColumnProps<ResIntersection>[] = [
   },
   {
     prop: "group_type",
-    label: "区域",
+    label: "市",
+    search: { el: "input" },
+    width: 60
+  },
+  {
+    prop: "region_type",
+    label: "区",
     search: { el: "input" },
     width: 60
   },
@@ -126,13 +131,11 @@ const columns: ColumnProps<ResIntersection>[] = [
 ];
 
 const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | null>(null);
-const TwoTPhaseDialogRef = ref<InstanceType<typeof TwoTPhaseDialog> | null>(null);
 const ThreeCrossPhaseDialogRef = ref<InstanceType<typeof ThreeCrossPhaseDialog> | null>(null);
 const FourCrossPhaseDialogRef = ref<InstanceType<typeof FourCrossPhaseDialog> | null>(null);
 const FiveCrossPhaseDialogRef = ref<InstanceType<typeof FiveCrossPhaseDialog> | null>(null);
 const openDialog = (params: ResIntersection) => {
   if ("两相位" == params.calc_type) TwoCrossPhaseDialogRef.value?.openDialog(params.id);
-  else if ("两相位" == params.calc_type) TwoTPhaseDialogRef.value?.openDialog(params.id);
   else if ("三相位" == params.calc_type) ThreeCrossPhaseDialogRef.value?.openDialog(params.id);
   else if ("四相位" == params.calc_type) FourCrossPhaseDialogRef.value?.openDialog(params.id);
   else if ("五相位" == params.calc_type) FiveCrossPhaseDialogRef.value?.openDialog(params.id);
