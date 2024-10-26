@@ -106,7 +106,7 @@ async function AddCommonPhase(map: any, intersection: any) {
           "' style='margin-right:10px'>大模型计算</a></div>",
         {
           width: 450,
-          height: 180,
+          height: 170,
           title: "交通信号配时优化辅助决策系统",
           message: "交通信号配时优化辅助决策系统"
         }

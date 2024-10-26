@@ -530,15 +530,16 @@ import router from "@/routers";
 import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
 import { get_calc_stimingh } from "@/api/modules/calc";
-// import { useUserStore } from "@/stores/modules/user";
+import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance } from "element-plus/es/components/form";
 import { ElMessage, ElMessageBox } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 
-// const userStore = useUserStore();
+const userStore = useUserStore();
 // const role = computed(() => userStore.userInfo.role);
+const user_name: string = userStore.userInfo.name;
 
 let codeRef: any = ref("");
 let positionRef: any = ref("");
@@ -1220,9 +1221,18 @@ async function SaveParametersToSQL() {
   };
 
   // 保存数据到数据库
+  let scheme_name = saveSchemeRef.value;
+  let model_name = "智能计算";
   let input_infos_str: any = JSON.stringify(input_infos_obj);
   let output_infos_str: any = JSON.stringify(output_infos_obj);
-  await add_historian({ code: codeRef.value, input_parameters: input_infos_str, output_parameters: output_infos_str });
+  await add_historian({
+    code: codeRef.value,
+    scheme_name,
+    model_name,
+    user_name,
+    input_parameters: input_infos_str,
+    output_parameters: output_infos_str
+  });
 
   // 保存方案
   selectedInputParameters = selectedInputParameters.filter(function (item: any) {

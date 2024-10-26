@@ -80,7 +80,7 @@ const columns: ColumnProps<ResIntersection>[] = [
     prop: "code",
     label: "编号",
     search: { el: "input" },
-    width: 150
+    width: 100
   },
   {
     prop: "group_type",
@@ -92,29 +92,47 @@ const columns: ColumnProps<ResIntersection>[] = [
     prop: "region_type",
     label: "区",
     search: { el: "input" },
-    width: 60
+    width: 100
+  },
+  {
+    prop: "scheme_name",
+    label: "方案名称",
+    search: { el: "input" },
+    width: 100
+  },
+  {
+    prop: "model_name",
+    label: "计算模式",
+    search: { el: "input" },
+    width: 100
+  },
+  {
+    prop: "user_name",
+    label: "用户名",
+    search: { el: "input" },
+    width: 100
   },
   {
     prop: "position",
     label: "位置",
-    width: 350
+    width: 250
   },
   {
     prop: "calc_type",
     label: "相位类型",
     search: { el: "input" },
-    width: 120
+    width: 100
   },
   {
     prop: "crossing_type",
     label: "路口类型",
     search: { el: "input" },
-    width: 120
+    width: 100
   },
   {
     prop: "update_time",
     label: "时间",
-    width: 250,
+    width: 200,
     search: {
       el: "date-picker",
       span: 2,
@@ -127,7 +145,7 @@ const columns: ColumnProps<ResIntersection>[] = [
     label: "经纬度",
     width: 180
   },
-  { prop: "configuration", label: "配时方案", fixed: "right" }
+  { prop: "configuration", label: "配时方案", width: 200, fixed: "right" }
 ];
 
 const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | null>(null);
