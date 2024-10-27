@@ -50,7 +50,7 @@ async function addMarker(map: any) {
   let intersections: any = await get_list(parameters);
 
   // 自定义统计数据
-  let control = StaticalControl();
+  let control = StaticalControl(intersections);
   map.addControl(control);
 
   // 加载图标
@@ -63,22 +63,38 @@ async function addMarker(map: any) {
 }
 
 // 获取统计控件
-function StaticalControl() {
+function StaticalControl(intersections: any) {
   let control = new BMapGL.Control();
   // control.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
   control.defaultOffset = new BMapGL.Size(50, 23);
 
+  let two_cross_count: any = 0;
+  let three_cross_count: any = 0;
+  let four_cross_count: any = 0;
+  let five_cross_count: any = 0;
+  for (let intersection of intersections["data"]["list"]) {
+    if ("两相位" == intersection.calc_type) two_cross_count = two_cross_count + 1;
+    else if ("三相位" == intersection.calc_type) three_cross_count = three_cross_count + 1;
+    else if ("四相位" == intersection.calc_type) four_cross_count = four_cross_count + 1;
+    else if ("五相位" == intersection.calc_type) five_cross_count = five_cross_count + 1;
+  }
+
   control.initialize = function (map: any) {
     let div = document.createElement("div");
     div.innerHTML =
-      "<div style='color:#40C5CC'>两相位：个</div>" +
-      "<div style='color:#40C5CC'>三相位：个</div>" +
-      "<div style='color:#40C5CC'>四相位：个</div>" +
-      "<div style='color:#40C5CC'>五相位：个</div>";
-    //添加文字说明
-    // div.chi("div");
-    // document.createElement("br");
-    // div.appendChild(document.createTextNode("三相位："));
+      "<div style='color:#1296d8'>两相位：" +
+      two_cross_count +
+      " 个</div>" +
+      "<div style='color:#d4237a'>三相位：" +
+      three_cross_count +
+      "个</div>" +
+      "<div style='color:#1afa29'>四相位：" +
+      four_cross_count +
+      " 个</div>" +
+      "<div style='color:#f4ea2a'>五相位：" +
+      five_cross_count +
+      "个</div>";
+
     //添加样式
     div.style.margin = "5px";
     div.style.padding = "5px";
