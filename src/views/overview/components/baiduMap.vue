@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { get_list } from "@/api/modules/intersection";
 import { useUserStore } from "@/stores/modules/user";
 
@@ -12,13 +12,16 @@ declare const BMapGL: any;
 const props = defineProps(["detailLocation"]);
 
 const userStore = useUserStore();
-const group_type = computed(() => userStore.userInfo.group_type);
-const role = computed(() => userStore.userInfo.role);
+const role: string = userStore.userInfo.role;
+const group_type: string = userStore.userInfo.group_type;
+const region_type: string = userStore.userInfo.region_type;
 
 const baiduRef = ref();
 
+let map;
+
 function initMap(locationPoint: any[]) {
-  let map = new BMapGL.Map(baiduRef.value);
+  map = new BMapGL.Map(baiduRef.value);
   let point = new BMapGL.Point(locationPoint[0], locationPoint[1]);
   map.centerAndZoom(point, 11);
   map.enableScrollWheelZoom(true);
@@ -30,19 +33,62 @@ function initMap(locationPoint: any[]) {
   addMarker(map);
 }
 
-async function addMarker(map: { addOverlay: (arg0: any) => void; openInfoWindow: (arg0: any, arg1: any) => void }) {
+// function ZoomControl() {
+//   //默认停靠位置和偏移量
+//   // this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+//   // this.defaultOffset = new BMapGL.Size(50, 23);
+// }
+
+async function addMarker(map: any) {
   let parameters: any;
-  if (role.value != "系统管理员") {
-    parameters = { group_type: group_type.value };
+  if ("普通用户" == role) {
+    parameters = { group_type: group_type, region_type: region_type };
+  } else if (role == "区域管理员") {
+    parameters = { group_type: group_type };
   }
 
   let intersections: any = await get_list(parameters);
+
+  // 自定义统计数据
+  let control = StaticalControl();
+  map.addControl(control);
+
+  // 加载图标
   for (let intersection of intersections["data"]["list"]) {
     // if ("两相位" == intersection.calc_type) AddTwoCrossPhase(map, intersection);
     // else if ("三相位" == intersection.calc_type) AddThreeCrossPhase(map, intersection);
 
     AddCommonPhase(map, intersection);
   }
+}
+
+// 获取统计控件
+function StaticalControl() {
+  let control = new BMapGL.Control();
+  // control.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+  control.defaultOffset = new BMapGL.Size(50, 23);
+
+  control.initialize = function (map: any) {
+    let div = document.createElement("div");
+    div.innerHTML =
+      "<div style='color:#40C5CC'>两相位：个</div>" +
+      "<div style='color:#40C5CC'>三相位：个</div>" +
+      "<div style='color:#40C5CC'>四相位：个</div>" +
+      "<div style='color:#40C5CC'>五相位：个</div>";
+    //添加文字说明
+    // div.chi("div");
+    // document.createElement("br");
+    // div.appendChild(document.createTextNode("三相位："));
+    //添加样式
+    div.style.margin = "5px";
+    div.style.padding = "5px";
+    div.style.borderRadius = "5px";
+    div.style.backgroundColor = "#fff";
+    map.getContainer().appendChild(div);
+    return div;
+  };
+
+  return control;
 }
 
 async function AddCommonPhase(map: any, intersection: any) {
@@ -105,8 +151,8 @@ async function AddCommonPhase(map: any, intersection: any) {
           intersection.code +
           "' style='margin-right:10px'>大模型计算</a></div>",
         {
-          width: 450,
-          height: 170,
+          width: 260,
+          height: 175,
           title: "交通信号配时优化辅助决策系统",
           message: "交通信号配时优化辅助决策系统"
         }
@@ -194,9 +240,9 @@ async function AddThreeCrossPhase(map: any, intersection: any) {
 
 onMounted(() => {
   if (undefined == props.detailLocation || "" == props.detailLocation) {
-    if ("沈阳" == group_type.value) {
+    if ("沈阳" == group_type) {
       initMap([123.376324, 41.82479]);
-    } else if ("本溪" == group_type.value) {
+    } else if ("本溪" == group_type) {
       initMap([123.703433, 41.491402]);
     } else {
       initMap([121.56543, 39.013723]);

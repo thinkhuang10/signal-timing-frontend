@@ -204,6 +204,7 @@
 
       <el-row style="margin: 10px">
         <el-button type="primary" @click="CreateRoad()" style="margin-right: 50px">绘制图形</el-button>
+        <el-button type="primary" @click="SaveDrawRoadParas()" style="margin-left: 20px">保存参数</el-button>
       </el-row>
     </el-col>
 
@@ -1372,6 +1373,10 @@ function CreateRoad() {
   draw_road_south(southTotalRoadCount, southOutputRoadCount, eastTotalRoadCount, westOutputRoadCount, eastOutputRoadCount);
 
   GetCompassIcon(10, 10);
+}
+
+function SaveDrawRoadParas(){
+  ElMessage.warning("开发中...");
 }
 
 function draw_road_west(
