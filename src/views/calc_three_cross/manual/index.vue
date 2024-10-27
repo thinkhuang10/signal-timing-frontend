@@ -203,7 +203,8 @@
       </el-form>
 
       <el-row style="margin: 10px">
-        <el-button type="primary" @click="CreateRoad()" style="margin-right: 50px">绘制图形</el-button>
+        <el-button type="primary" @click="CreateRoad()">绘制图形</el-button>
+        <el-button type="primary" @click="SaveDrawRoadParas()">保存参数</el-button>
       </el-row>
     </el-col>
 
@@ -643,7 +644,12 @@
 <script setup lang="ts" name="map">
 import { onMounted, ref, computed, reactive } from "vue";
 import router from "@/routers";
-import { get_detail_by_code, set_detail_by_code } from "@/api/modules/intersection";
+import {
+  get_detail_by_code,
+  get_draw_road_parameters_by_code,
+  set_detail_by_code,
+  set_draw_road_parameters_by_code
+} from "@/api/modules/intersection";
 import { add_historian } from "@/api/modules/intersection_historian";
 import { get_calc_ttimingh } from "@/api/modules/calc";
 import { useUserStore } from "@/stores/modules/user";
@@ -1102,6 +1108,7 @@ const rules = reactive({
 });
 
 const ruleFormRef = ref<FormInstance>();
+const rulePaintFormRef = ref<FormInstance>();
 
 const first_green_computed = computed(() => {
   return Math.round(form_model.first_green_Ref);
@@ -1320,6 +1327,7 @@ function GetOutputParameters(outputObj: any) {
 }
 
 async function InitParameters() {
+  // 加载计算参数
   let detail_infos: any = await get_detail_by_code({ code: codeRef.value });
   let result: any = detail_infos.data[0];
   if (undefined != result) {
@@ -1355,6 +1363,49 @@ async function InitParameters() {
         }
       }
     }
+  }
+
+  // 加载绘制参数
+  let draw_road_parameters_infos: any = await get_draw_road_parameters_by_code({ code: codeRef.value });
+  let result_draw_road_parameters: any = draw_road_parameters_infos.data[0];
+  if (
+    undefined != result_draw_road_parameters &&
+    null != result_draw_road_parameters.draw_road_parameters &&
+    "" != result_draw_road_parameters.draw_road_parameters
+  ) {
+    let parameters: any = JSON.parse(result_draw_road_parameters.draw_road_parameters);
+
+    form_paint_model.eastTotalRoadCountRef = parameters.eastTotalRoadCount;
+    form_paint_model.eastOutputRoadCountRef = parameters.eastOutputRoadCount;
+    form_paint_model.eastRightRoadCountRef = parameters.eastRightRoadCount;
+
+    form_paint_model.westTotalRoadCountRef = parameters.westTotalRoadCount;
+    form_paint_model.westOutputRoadCountRef = parameters.westOutputRoadCount;
+    form_paint_model.westRightRoadCountRef = parameters.westRightRoadCount;
+
+    form_paint_model.southTotalRoadCountRef = parameters.southTotalRoadCount;
+    form_paint_model.southOutputRoadCountRef = parameters.southOutputRoadCount;
+    form_paint_model.southRightRoadCountRef = parameters.southRightRoadCount;
+
+    form_paint_model.northTotalRoadCountRef = parameters.northTotalRoadCount;
+    form_paint_model.northOutputRoadCountRef = parameters.northOutputRoadCount;
+    form_paint_model.northRightRoadCountRef = parameters.northRightRoadCount;
+  } else {
+    form_paint_model.eastTotalRoadCountRef = 4;
+    form_paint_model.eastOutputRoadCountRef = 2;
+    form_paint_model.eastRightRoadCountRef = 1;
+
+    form_paint_model.westTotalRoadCountRef = 4;
+    form_paint_model.westOutputRoadCountRef = 2;
+    form_paint_model.westRightRoadCountRef = 1;
+
+    form_paint_model.southTotalRoadCountRef = 4;
+    form_paint_model.southOutputRoadCountRef = 2;
+    form_paint_model.southRightRoadCountRef = 1;
+
+    form_paint_model.northTotalRoadCountRef = 4;
+    form_paint_model.northOutputRoadCountRef = 2;
+    form_paint_model.northRightRoadCountRef = 1;
   }
 
   CreateRoad();
@@ -1479,7 +1530,7 @@ async function ValidateAndSaveParametersToSQL() {
     }
 
     if ("" == selectedPositionRef.value) {
-      ElMessage.error({ message: "请选择位置！" });
+      ElMessage.error({ message: "请选择路口位置！" });
       return;
     }
 
@@ -1721,6 +1772,57 @@ function CreateRoad() {
   draw_road_south(southTotalRoadCount, southOutputRoadCount, eastTotalRoadCount, westOutputRoadCount, eastOutputRoadCount);
 
   GetCompassIcon(10, 10);
+}
+
+function SaveDrawRoadParas() {
+  // 数据正确性检测
+  rulePaintFormRef.value!.validate(async (valid: any) => {
+    if (!valid) {
+      ElMessage.error({ message: "验证失败，请按提示输入正确绘制参数！" });
+      return;
+    }
+
+    if ("" == selectedPositionRef.value) {
+      ElMessage.error({ message: "请选择路口位置！" });
+      return;
+    }
+
+    await SaveDrawRoadParametersToSQL();
+
+    ElMessage.info({ message: "保存绘制参数成功." });
+  });
+}
+
+async function SaveDrawRoadParametersToSQL() {
+  // 调用数据接口计算
+  let draw_road_parameters_obj: any = GetDrawRoarParameters();
+
+  // 保存数据到数据库
+  let draw_road_parameters_str: any = JSON.stringify(draw_road_parameters_obj);
+  await set_draw_road_parameters_by_code({
+    code: codeRef.value,
+    draw_road_parameters: draw_road_parameters_str
+  });
+}
+
+function GetDrawRoarParameters() {
+  return {
+    eastTotalRoadCount: Number(form_paint_model.eastTotalRoadCountRef),
+    eastOutputRoadCount: Number(form_paint_model.eastOutputRoadCountRef),
+    eastRightRoadCount: Number(form_paint_model.eastRightRoadCountRef),
+
+    westTotalRoadCount: Number(form_paint_model.westTotalRoadCountRef),
+    westOutputRoadCount: Number(form_paint_model.westOutputRoadCountRef),
+    westRightRoadCount: Number(form_paint_model.westRightRoadCountRef),
+
+    southTotalRoadCount: Number(form_paint_model.southTotalRoadCountRef),
+    southOutputRoadCount: Number(form_paint_model.southOutputRoadCountRef),
+    southRightRoadCount: Number(form_paint_model.southRightRoadCountRef),
+
+    northTotalRoadCount: Number(form_paint_model.northTotalRoadCountRef),
+    northOutputRoadCount: Number(form_paint_model.northOutputRoadCountRef),
+    northRightRoadCount: Number(form_paint_model.northRightRoadCountRef)
+  };
 }
 
 function draw_road_west(

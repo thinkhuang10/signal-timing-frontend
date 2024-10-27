@@ -1045,7 +1045,7 @@ async function SaveParametersToSQL() {
     }
 
     if ("" == selectedPositionRef.value) {
-      ElMessage.error({ message: "请选择位置！" });
+      ElMessage.error({ message: "请选择路口位置！" });
       return;
     }
 
