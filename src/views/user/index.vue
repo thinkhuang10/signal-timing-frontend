@@ -77,13 +77,18 @@ const columns: ColumnProps<User.ResUserInfo>[] = [
   },
   {
     prop: "group_type",
-    label: "区域",
+    label: "市",
+    search: { el: "input" }
+  },
+  {
+    prop: "region_type",
+    label: "区",
     search: { el: "input" }
   },
   {
     prop: "update_time",
     label: "更新时间",
-    width: 250
+    width: 200
   },
   { prop: "operation", label: "操作", fixed: "right", width: 320 }
 ];

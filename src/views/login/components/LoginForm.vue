@@ -74,7 +74,8 @@ const login = (formEl: FormInstance | undefined) => {
       userStore.setUserInfo({
         name: data.name,
         role: data.role,
-        group_type: data.group_type
+        group_type: data.group_type,
+        region_type: data.region_type
       });
 
       // 2.添加动态路由

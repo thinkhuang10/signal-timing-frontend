@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="tsx" name="useProTable">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import moment from "moment";
 import { ResIntersection } from "@/api/interface";
 import ProTable from "@/components/ProTable/index.vue";
@@ -41,8 +41,9 @@ import FourCrossPhaseDialog from "./components/FourCrossPhaseDialog.vue";
 import FiveCrossPhaseDialog from "./components/FiveCrossPhaseDialog.vue";
 
 const userStore = useUserStore();
-const group_type = computed(() => userStore.userInfo.group_type);
-const role = computed(() => userStore.userInfo.role);
+const role: string = userStore.userInfo.role;
+const group_type: string = userStore.userInfo.group_type;
+const region_type: string = userStore.userInfo.region_type;
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
@@ -66,8 +67,11 @@ const dataCallback = (data: any) => {
 const getTableList = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
 
-  if (role.value != "系统管理员") {
-    newParams.group_type = group_type.value;
+  if (role == "普通用户") {
+    newParams.group_type = group_type;
+    newParams.region_type = region_type;
+  } else if (role == "区域管理员") {
+    newParams.group_type = group_type;
   }
 
   return get_list(newParams);

@@ -538,8 +538,10 @@ import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 
 const userStore = useUserStore();
-// const role = computed(() => userStore.userInfo.role);
+const role: string = userStore.userInfo.role;
 const user_name: string = userStore.userInfo.name;
+const group_type: string = userStore.userInfo.group_type;
+const region_type: string = userStore.userInfo.region_type;
 
 let codeRef: any = ref("");
 let positionRef: any = ref("");
@@ -915,6 +917,12 @@ onMounted(async () => {
   params.calc_type = "两相位";
   // crossing_type如果不定义, 为undefined,则查询所有路口类型
   // params.crossing_type = "十字路口";
+  if ("普通用户" == role) {
+    params.group_type = group_type;
+    params.region_type = region_type;
+  } else if (role == "区域管理员") {
+    params.group_type = group_type;
+  }
 
   let result: any = await get_list(params);
   for (let i = 0; i < result.data.list.length; i++) {

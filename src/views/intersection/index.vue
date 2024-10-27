@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="tsx" name="useProTable">
-import { ref, reactive, computed, onMounted } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { ResIntersection } from "@/api/interface";
 import ProTable from "@/components/ProTable/index.vue";
 import UserDrawer from "./components/UserDrawer.vue";
@@ -63,8 +63,9 @@ import FourCrossExcelImportPhaseDialog from "./components/FourCrossExcelImportPh
 import FiveCrossExcelImportPhaseDialog from "./components/FiveCrossExcelImportPhaseDialog.vue";
 
 const userStore = useUserStore();
-const group_type = computed(() => userStore.userInfo.group_type);
-const role = computed(() => userStore.userInfo.role);
+const role: string = userStore.userInfo.role;
+const group_type: string = userStore.userInfo.group_type;
+const region_type: string = userStore.userInfo.region_type;
 
 let is_show_add_new: any = ref(true);
 
@@ -86,7 +87,7 @@ const dataCallback = (data: any) => {
 };
 
 onMounted(() => {
-  if (role.value == "普通用户") {
+  if (role == "普通用户") {
     is_show_add_new.value = false;
   }
 });
@@ -96,9 +97,13 @@ onMounted(() => {
 const getTableList = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
 
-  if (role.value != "系统管理员") {
-    newParams.group_type = group_type.value;
+  if (role == "普通用户") {
+    newParams.group_type = group_type;
+    newParams.region_type = region_type;
+  } else if (role == "区域管理员") {
+    newParams.group_type = group_type;
   }
+
   return get_list(newParams);
 };
 
@@ -109,7 +114,7 @@ const columns: ColumnProps<ResIntersection>[] = [
     prop: "code",
     label: "编号",
     search: { el: "input" },
-    width: 150
+    width: 120
   },
   {
     prop: "group_type",
@@ -121,12 +126,12 @@ const columns: ColumnProps<ResIntersection>[] = [
     prop: "region_type",
     label: "区",
     search: { el: "input" },
-    width: 120
+    width: 100
   },
   {
     prop: "position",
     label: "位置",
-    width: 300
+    width: 280
   },
   {
     prop: "calc_type",
@@ -145,8 +150,8 @@ const columns: ColumnProps<ResIntersection>[] = [
     label: "经纬度",
     width: 180
   },
-  { prop: "configuration", label: "配时方案", fixed: "right" },
-  { prop: "operation", label: "操作", fixed: "right" }
+  { prop: "configuration", label: "配时方案", width: 250, fixed: "right" },
+  { prop: "operation", label: "操作", width: 200, fixed: "right" }
 ];
 
 const delete_intersection = async (params: ResIntersection) => {
