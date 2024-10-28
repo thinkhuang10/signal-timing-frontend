@@ -14,22 +14,22 @@
       </template>
       <!-- 配置 -->
       <template #configuration="scope">
-        <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 查看配时 </el-button>
+        <el-button type="primary" link :icon="View" @click="openDialog(scope.row)"> 查看 </el-button>
       </template>
     </ProTable>
 
     <TwoCrossPhaseDialog ref="TwoCrossPhaseDialogRef"></TwoCrossPhaseDialog>
-    <TwoTPhaseDialog ref="TwoTPhaseDialogRef"></TwoTPhaseDialog>
     <ThreeCrossPhaseDialog ref="ThreeCrossPhaseDialogRef"></ThreeCrossPhaseDialog>
     <FourCrossPhaseDialog ref="FourCrossPhaseDialogRef"></FourCrossPhaseDialog>
     <FiveCrossPhaseDialog ref="FiveCrossPhaseDialogRef"></FiveCrossPhaseDialog>
+    <DrawRoadDialog ref="DrawRoadDialogRef"></DrawRoadDialog>
   </div>
 </template>
 
 <script setup lang="tsx" name="useProTable">
 import { ref, reactive } from "vue";
 import moment from "moment";
-import { ResIntersection } from "@/api/interface";
+import { ResIntersectionTableHistorian } from "@/api/interface";
 import ProTable from "@/components/ProTable/index.vue";
 import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
 import { View } from "@element-plus/icons-vue";
@@ -39,6 +39,7 @@ import TwoCrossPhaseDialog from "./components/TwoCrossPhaseDialog.vue";
 import ThreeCrossPhaseDialog from "./components/ThreeCrossPhaseDialog.vue";
 import FourCrossPhaseDialog from "./components/FourCrossPhaseDialog.vue";
 import FiveCrossPhaseDialog from "./components/FiveCrossPhaseDialog.vue";
+import DrawRoadDialog from "./components/DrawRoadDialog.vue";
 
 const userStore = useUserStore();
 const role: string = userStore.userInfo.role;
@@ -78,7 +79,7 @@ const getTableList = (params: any) => {
 };
 
 // 表格配置项
-const columns: ColumnProps<ResIntersection>[] = [
+const columns: ColumnProps<ResIntersectionTableHistorian>[] = [
   { type: "index", label: "#", width: 50 },
   {
     prop: "code",
@@ -149,17 +150,23 @@ const columns: ColumnProps<ResIntersection>[] = [
     label: "经纬度",
     width: 180
   },
-  { prop: "configuration", label: "配时方案", width: 200, fixed: "right" }
+  { prop: "configuration", label: "记录详情", width: 200, fixed: "right" }
 ];
 
 const TwoCrossPhaseDialogRef = ref<InstanceType<typeof TwoCrossPhaseDialog> | null>(null);
 const ThreeCrossPhaseDialogRef = ref<InstanceType<typeof ThreeCrossPhaseDialog> | null>(null);
 const FourCrossPhaseDialogRef = ref<InstanceType<typeof FourCrossPhaseDialog> | null>(null);
 const FiveCrossPhaseDialogRef = ref<InstanceType<typeof FiveCrossPhaseDialog> | null>(null);
-const openDialog = (params: ResIntersection) => {
-  if ("两相位" == params.calc_type) TwoCrossPhaseDialogRef.value?.openDialog(params.id);
-  else if ("三相位" == params.calc_type) ThreeCrossPhaseDialogRef.value?.openDialog(params.id);
-  else if ("四相位" == params.calc_type) FourCrossPhaseDialogRef.value?.openDialog(params.id);
-  else if ("五相位" == params.calc_type) FiveCrossPhaseDialogRef.value?.openDialog(params.id);
+const DrawRoadDialogRef = ref<InstanceType<typeof DrawRoadDialog> | null>(null);
+const openDialog = (params: ResIntersectionTableHistorian) => {
+  if ("两相位" == params.calc_type && ("智能计算" == params.model_name || !params.model_name))
+    TwoCrossPhaseDialogRef.value?.openDialog(params.id);
+  else if ("三相位" == params.calc_type && ("智能计算" == params.model_name || !params.model_name))
+    ThreeCrossPhaseDialogRef.value?.openDialog(params.id);
+  else if ("四相位" == params.calc_type && ("智能计算" == params.model_name || !params.model_name))
+    FourCrossPhaseDialogRef.value?.openDialog(params.id);
+  else if ("五相位" == params.calc_type && ("智能计算" == params.model_name || !params.model_name))
+    FiveCrossPhaseDialogRef.value?.openDialog(params.id);
+  else if ("路口渠化" == params.model_name) DrawRoadDialogRef.value?.openDialog(params.id);
 };
 </script>

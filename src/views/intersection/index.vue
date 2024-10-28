@@ -21,9 +21,9 @@
         <el-button type="primary" link :icon="View" @click="openDialog(scope.row, '智能计算')"> 智能计算 </el-button>
         <el-button type="primary" link :icon="View" @click="openDialog(scope.row, '大模型计算')"> 大模型计算 </el-button>
       </template>
-      <!-- 路口规划 -->
+      <!-- 路口渠化 -->
       <template #draw_road="scope">
-        <el-button type="primary" link :icon="View" @click="openDialog(scope.row, '路口规划')"> 路口规划 </el-button>
+        <el-button type="primary" link :icon="View" @click="openDialog(scope.row, '路口渠化')"> 路口渠化 </el-button>
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
@@ -157,7 +157,7 @@ const columns: ColumnProps<ResIntersection>[] = [
     width: 180
   },
   { prop: "configuration", label: "配时方案", width: 250, fixed: "right" },
-  { prop: "draw_road", label: "路口规划", width: 150, fixed: "right" },
+  { prop: "draw_road", label: "路口渠化", width: 150, fixed: "right" },
   { prop: "operation", label: "操作", width: 200, fixed: "right" }
 ];
 
@@ -272,7 +272,7 @@ const openDialog = (params: ResIntersection, model_type: string) => {
     FourCrossExcelImportPhaseDialogRef.value?.openDialog(params.code);
   else if ("五相位" == params.calc_type && "大模型计算" == model_type)
     FiveCrossExcelImportPhaseDialogRef.value?.openDialog(params.code);
-  else if ("路口规划" == model_type) {
+  else if ("路口渠化" == model_type) {
     DrawRoadDialogRef.value?.openDialog(params.code);
   }
 };

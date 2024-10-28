@@ -1611,11 +1611,12 @@ async function SaveParametersToSQL() {
   let output_infos_str: any = JSON.stringify(output_infos_obj);
   await add_historian({
     code: codeRef.value,
-    scheme_name,
-    model_name,
-    user_name,
+    scheme_name: scheme_name,
+    model_name: model_name,
+    user_name: user_name,
     input_parameters: input_infos_str,
-    output_parameters: output_infos_str
+    output_parameters: output_infos_str,
+    draw_road_parameters: ""
   });
 
   // 保存方案
@@ -1801,6 +1802,19 @@ async function SaveDrawRoadParametersToSQL() {
   let draw_road_parameters_str: any = JSON.stringify(draw_road_parameters_obj);
   await set_draw_road_parameters_by_code({
     code: codeRef.value,
+    draw_road_parameters: draw_road_parameters_str
+  });
+
+  // 保存路口渠化数据到历史数据库
+  let scheme_name = "无";
+  let model_name = "路口渠化";
+  await add_historian({
+    code: codeRef.value,
+    scheme_name: scheme_name,
+    model_name: model_name,
+    user_name: user_name,
+    input_parameters: "",
+    output_parameters: "",
     draw_road_parameters: draw_road_parameters_str
   });
 }

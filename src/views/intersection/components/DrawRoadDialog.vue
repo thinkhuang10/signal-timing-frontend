@@ -72,7 +72,7 @@ const openDialog = async (code: string) => {
     let draw_road_parameters_infos: any = await get_draw_road_parameters_by_code({ code: code });
     let result_draw_road_parameters: any = draw_road_parameters_infos.data[0];
     if (undefined != result_draw_road_parameters) {
-      selectedPositionRef.value = "路口规划 - " + result_draw_road_parameters.position;
+      selectedPositionRef.value = "路口渠化 - " + result_draw_road_parameters.position;
       if (null != result_draw_road_parameters.draw_road_parameters && "" != result_draw_road_parameters.draw_road_parameters) {
         isVisible.value = false;
 
