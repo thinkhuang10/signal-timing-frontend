@@ -80,7 +80,8 @@ const acceptParams = (params: DrawerProps) => {
       { label: "甘井子区", value: 4 },
       { label: "旅顺口区", value: 5 },
       { label: "金州区", value: 6 },
-      { label: "普兰店区", value: 7 }
+      { label: "普兰店区", value: 7 },
+      { label: "高新园区", value: 8 }
     ];
   } else {
     regionType = [];
