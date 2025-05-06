@@ -181,7 +181,7 @@
         "icon": "platform",
         "title": "历史记录",
         "isLink": "",
-        "isHide": false,
+        "isHide": true,
         "isFull": false,
         "isAffix": false,
         "isKeepAlive": true
