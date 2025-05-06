@@ -19,7 +19,13 @@
         <el-input v-model="drawerProps.row!.coordinate" placeholder="请填写经纬度" clearable></el-input>
       </el-form-item>
       <el-form-item label="市" prop="group_type">
-        <el-select v-model="drawerProps.row!.group_type" :disabled="isGroupRegionDisabled" placeholder="请选择市" clearable>
+        <el-select
+          v-model="drawerProps.row!.group_type"
+          :disabled="isGroupRegionDisabled"
+          placeholder="请选择市"
+          @change="getRegionType"
+          clearable
+        >
           <el-option v-for="item in groupType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
@@ -56,7 +62,17 @@
 import { ref, reactive, onMounted, computed } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ResIntersection } from "@/api/interface";
-import { groupType, calcType, twoCrossingType, threeCrossingType, FourCrossingType, FiveCrossingType } from "@/utils/serviceDict";
+import {
+  groupType,
+  calcType,
+  twoCrossingType,
+  threeCrossingType,
+  FourCrossingType,
+  FiveCrossingType,
+  DaLianRegionType,
+  ShenYangRegionType,
+  BenXiRegionType
+} from "@/utils/serviceDict";
 import { useUserStore } from "@/stores/modules/user";
 
 const rules = reactive({
@@ -64,7 +80,6 @@ const rules = reactive({
   position: [{ required: true, message: "请填写位置" }],
   coordinate: [{ required: true, message: "请填写经纬度" }],
   group_type: [{ required: true, message: "请填写市" }],
-  region_type: [{ required: true, message: "请填写区" }],
   calc_type: [{ required: true, message: "请选择相位类型" }],
   crossing_type: [{ required: true, message: "请选择路口类型" }]
 });
@@ -127,23 +142,22 @@ const acceptParams = (params: DrawerProps) => {
     drawerProps.value.row.group_type = currentGroupType.value;
   }
 
-  if (currentGroupType.value === "大连") {
-    regionType = [
-      { label: "中山区", value: 1 },
-      { label: "西岗区", value: 2 },
-      { label: "沙河口区", value: 3 },
-      { label: "甘井子区", value: 4 },
-      { label: "旅顺口区", value: 5 },
-      { label: "金州区", value: 6 },
-      { label: "普兰店区", value: 7 },
-      { label: "高新园区", value: 8 }
-    ];
-  } else {
-    regionType = [];
-  }
+  getRegionType(currentGroupType.value);
 
   drawerVisible.value = true;
 };
+
+function getRegionType(groupType: any) {
+  if (groupType === "大连") {
+    regionType.value = DaLianRegionType;
+  } else if (groupType === "沈阳") {
+    regionType.value = ShenYangRegionType;
+  } else if (groupType === "本溪") {
+    regionType.value = BenXiRegionType;
+  } else {
+    regionType.value = [];
+  }
+}
 
 // 提交数据（新增/编辑）
 const ruleFormRef = ref<FormInstance>();
