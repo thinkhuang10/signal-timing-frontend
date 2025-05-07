@@ -17,8 +17,13 @@
           <el-option v-for="item in roleType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
+      <el-form-item label="省" prop="province_type">
+        <el-select v-model="drawerProps.row!.province_type" placeholder="请选择省" @change="provinceTypeChange" clearable>
+          <el-option v-for="item in ProvinceType" :key="item.value" :label="item.label" :value="item.label" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="市" prop="group_type">
-        <el-select v-model="drawerProps.row!.group_type" placeholder="请选择市" @change="getRegionType" clearable>
+        <el-select v-model="drawerProps.row!.group_type" placeholder="请选择市" @change="groupTypeChange" clearable>
           <el-option v-for="item in groupType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
@@ -36,18 +41,31 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { ref, reactive, computed } from "vue";
+// import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { User } from "@/api/interface";
-import { roleType, groupType, DaLianRegionType, ShenYangRegionType, BenXiRegionType } from "@/utils/serviceDict";
-import { useUserStore } from "@/stores/modules/user";
+import {
+  roleType,
+  LiaoNingGroupType,
+  DaLianRegionType,
+  ShenYangRegionType,
+  BenXiRegionType,
+  ProvinceType,
+  JiangSuGroupType,
+  NanJingRegionType,
+  SuZhouRegionType
+} from "@/utils/serviceDict";
+// import { useUserStore } from "@/stores/modules/user";
 
 const rules = reactive({
   name: [{ required: true, message: "请填写用户名称" }],
   role: [{ required: true, message: "请选择用户类型" }],
-  group_type: [{ required: true, message: "请选择区域" }]
+  province_type: [{ required: true, message: "请选择省" }],
+  group_type: [{ required: true, message: "请选择市" }]
 });
 
+let groupType: any = ref([]);
 let regionType: any = ref([]);
 
 interface DrawerProps {
@@ -65,17 +83,42 @@ const drawerProps = ref<DrawerProps>({
   row: {}
 });
 
-let userStore = useUserStore();
-let currentGroupType = computed(() => userStore.userInfo.group_type);
+// let userStore = useUserStore();
+// let currentProvinceType = computed(() => userStore.userInfo.province_type);
+// let currentGroupType = computed(() => userStore.userInfo.group_type);
 
 // 接收父组件传过来的参数
 const acceptParams = (params: DrawerProps) => {
   drawerProps.value = params;
 
-  getRegionType(currentGroupType.value);
+  getGroupType(params.row.province_type);
 
   drawerVisible.value = true;
 };
+
+function provinceTypeChange(provinceType: any) {
+  getGroupType(provinceType);
+
+  drawerProps.value.row!.group_type = "";
+  drawerProps.value.row!.region_type = "";
+}
+
+function groupTypeChange(groupType: any) {
+  getRegionType(groupType);
+  drawerProps.value.row!.region_type = "";
+}
+
+function getGroupType(provinceType: any) {
+  if (provinceType === "辽宁") {
+    groupType.value = LiaoNingGroupType;
+  } else if (provinceType === "江苏") {
+    groupType.value = JiangSuGroupType;
+  } else {
+    groupType.value = [];
+  }
+
+  getRegionType(groupType.value);
+}
 
 function getRegionType(groupType: any) {
   if (groupType === "大连") {
@@ -84,6 +127,10 @@ function getRegionType(groupType: any) {
     regionType.value = ShenYangRegionType;
   } else if (groupType === "本溪") {
     regionType.value = BenXiRegionType;
+  } else if (groupType === "南京") {
+    regionType.value = NanJingRegionType;
+  } else if (groupType === "苏州") {
+    regionType.value = SuZhouRegionType;
   } else {
     regionType.value = [];
   }

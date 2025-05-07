@@ -18,12 +18,25 @@
       <el-form-item label="经纬度" prop="coordinate">
         <el-input v-model="drawerProps.row!.coordinate" placeholder="请填写经纬度" clearable></el-input>
       </el-form-item>
+
+      <el-form-item label="省" prop="province_type">
+        <el-select
+          v-model="drawerProps.row!.province_type"
+          :disabled="isProvinceRegionDisabled"
+          placeholder="请选择省"
+          @change="provinceTypeChange"
+          clearable
+        >
+          <el-option v-for="item in ProvinceType" :key="item.value" :label="item.label" :value="item.label" />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="市" prop="group_type">
         <el-select
           v-model="drawerProps.row!.group_type"
           :disabled="isGroupRegionDisabled"
           placeholder="请选择市"
-          @change="getRegionType"
+          @change="groupTypeChange"
           clearable
         >
           <el-option v-for="item in groupType" :key="item.value" :label="item.label" :value="item.label" />
@@ -63,7 +76,7 @@ import { ref, reactive, onMounted, computed } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ResIntersection } from "@/api/interface";
 import {
-  groupType,
+  LiaoNingGroupType,
   calcType,
   twoCrossingType,
   threeCrossingType,
@@ -71,7 +84,11 @@ import {
   FiveCrossingType,
   DaLianRegionType,
   ShenYangRegionType,
-  BenXiRegionType
+  BenXiRegionType,
+  ProvinceType,
+  NanJingRegionType,
+  SuZhouRegionType,
+  JiangSuGroupType
 } from "@/utils/serviceDict";
 import { useUserStore } from "@/stores/modules/user";
 
@@ -79,12 +96,14 @@ const rules = reactive({
   code: [{ required: true, message: "请填写编号" }],
   position: [{ required: true, message: "请填写位置" }],
   coordinate: [{ required: true, message: "请填写经纬度" }],
+  province_type: [{ required: true, message: "请填写市" }],
   group_type: [{ required: true, message: "请填写市" }],
   calc_type: [{ required: true, message: "请选择相位类型" }],
   crossing_type: [{ required: true, message: "请选择路口类型" }]
 });
 
-let regionType: any = [];
+let groupType: any = ref([]);
+let regionType: any = ref([]);
 
 interface DrawerProps {
   title: string;
@@ -105,13 +124,16 @@ const drawerProps = ref<DrawerProps>({
 
 let userStore = useUserStore();
 let role = computed(() => userStore.userInfo.role);
-let currentGroupType = computed(() => userStore.userInfo.group_type);
+// let currentGroupType = computed(() => userStore.userInfo.group_type);
+
+let isProvinceRegionDisabled = ref(false);
 let isGroupDisabled = ref(false);
 let isGroupRegionDisabled = ref(false);
 
 onMounted(() => {
   if (role.value == "区域管理员") {
     isGroupRegionDisabled.value = true;
+    isProvinceRegionDisabled.value = true;
   }
 
   if (role.value == "普通用户") {
@@ -138,14 +160,38 @@ const acceptParams = (params: DrawerProps) => {
   drawerProps.value = params;
 
   // 特殊处理，处理区域管理员
-  if (role.value == "区域管理员") {
-    drawerProps.value.row.group_type = currentGroupType.value;
-  }
+  // if (role.value == "区域管理员") {
+  //   drawerProps.value.row.group_type = currentGroupType.value;
+  // }
 
-  getRegionType(currentGroupType.value);
+  getGroupType(params.row.province_type);
 
   drawerVisible.value = true;
 };
+
+function provinceTypeChange(provinceType: any) {
+  getGroupType(provinceType);
+
+  drawerProps.value.row!.group_type = "";
+  drawerProps.value.row!.region_type = "";
+}
+
+function groupTypeChange(groupType: any) {
+  getRegionType(groupType);
+  drawerProps.value.row!.region_type = "";
+}
+
+function getGroupType(provinceType: any) {
+  if (provinceType === "辽宁") {
+    groupType.value = LiaoNingGroupType;
+  } else if (provinceType === "江苏") {
+    groupType.value = JiangSuGroupType;
+  } else {
+    groupType.value = [];
+  }
+
+  getRegionType(groupType.value);
+}
 
 function getRegionType(groupType: any) {
   if (groupType === "大连") {
@@ -154,6 +200,10 @@ function getRegionType(groupType: any) {
     regionType.value = ShenYangRegionType;
   } else if (groupType === "本溪") {
     regionType.value = BenXiRegionType;
+  } else if (groupType === "南京") {
+    regionType.value = NanJingRegionType;
+  } else if (groupType === "苏州") {
+    regionType.value = SuZhouRegionType;
   } else {
     regionType.value = [];
   }

@@ -70,6 +70,7 @@ import DrawRoadDialog from "./components/DrawRoadDialog.vue";
 
 const userStore = useUserStore();
 const role: string = userStore.userInfo.role;
+const province_type: string = userStore.userInfo.province_type;
 const group_type: string = userStore.userInfo.group_type;
 const region_type: string = userStore.userInfo.region_type;
 
@@ -104,9 +105,11 @@ const getTableList = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
 
   if (role == "普通用户") {
+    newParams.province_type = province_type;
     newParams.group_type = group_type;
     newParams.region_type = region_type;
   } else if (role == "区域管理员") {
+    newParams.province_type = province_type;
     newParams.group_type = group_type;
   }
 
@@ -121,6 +124,12 @@ const columns: ColumnProps<ResIntersection>[] = [
     label: "编号",
     search: { el: "input" },
     width: 120
+  },
+  {
+    prop: "province_type",
+    label: "省",
+    search: { el: "input" },
+    width: 60
   },
   {
     prop: "group_type",

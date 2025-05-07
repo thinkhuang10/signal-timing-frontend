@@ -88,6 +88,12 @@ const columns: ColumnProps<ResIntersectionTableHistorian>[] = [
     width: 100
   },
   {
+    prop: "province_type",
+    label: "省",
+    search: { el: "input" },
+    width: 60
+  },
+  {
     prop: "group_type",
     label: "市",
     search: { el: "input" },

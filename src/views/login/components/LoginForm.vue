@@ -74,6 +74,7 @@ const login = (formEl: FormInstance | undefined) => {
       userStore.setUserInfo({
         name: data.name,
         role: data.role,
+        province_type: data.province_type,
         group_type: data.group_type,
         region_type: data.region_type
       });
