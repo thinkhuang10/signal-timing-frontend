@@ -72,7 +72,7 @@ const rules = reactive({
   code: [{ required: true, message: "请填写编号" }],
   position: [{ required: true, message: "请填写位置" }],
   coordinate: [{ required: true, message: "请填写经纬度" }],
-  province_type: [{ required: true, message: "请填写市" }],
+  province_type: [{ required: true, message: "请填写省" }],
   group_type: [{ required: true, message: "请填写市" }],
   calc_type: [{ required: true, message: "请选择相位类型" }],
   crossing_type: [{ required: true, message: "请选择路口类型" }]

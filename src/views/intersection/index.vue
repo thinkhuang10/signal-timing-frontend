@@ -54,6 +54,7 @@ import UserDrawer from "./components/UserDrawer.vue";
 import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { get_list, delete_item, add_item, edit_item } from "@/api/modules/intersection";
+import { getUserListByParentName } from "@/api/modules/user";
 import { useHandleData } from "@/hooks/useHandleData";
 import router from "@/routers";
 import { useUserStore } from "@/stores/modules/user";
@@ -102,13 +103,23 @@ onMounted(() => {
 
 // 如果你想在请求之前对当前请求参数做一些操作，可以自定义如下函数：params 为当前所有的请求参数（包括分页），最后返回请求列表接口
 // 默认不做操作就直接在 ProTable 组件上绑定	:requestApi="getUserList"
-const getTableList = (params: any) => {
+const getTableList = async (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
 
   if (role == "普通用户") {
-    newParams.create_user_name = user_name;
+    newParams.create_user_name = [user_name];
   } else if (role == "区域管理员") {
-    newParams.create_user_name = user_name;
+    debugger;
+    let childUserNames: any = await getUserListByParentName({ parentName: user_name });
+    let userNames = [];
+    userNames.push(user_name);
+    if (childUserNames.data && Array.isArray(childUserNames.data)) {
+      childUserNames.data.forEach(item => {
+        userNames.push(item.name);
+      });
+    }
+
+    newParams.create_user_name = userNames;
   }
 
   return get_list(newParams);
@@ -166,7 +177,7 @@ const columns: ColumnProps<ResIntersection>[] = [
   {
     prop: "create_user_name",
     label: "创建用户",
-    search: { el: "input" },
+    // search: { el: "input" },
     width: 100
   },
   { prop: "configuration", label: "配时方案", width: 250, fixed: "right" },
