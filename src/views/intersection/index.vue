@@ -70,9 +70,10 @@ import DrawRoadDialog from "./components/DrawRoadDialog.vue";
 
 const userStore = useUserStore();
 const role: string = userStore.userInfo.role;
-const province_type: string = userStore.userInfo.province_type;
-const group_type: string = userStore.userInfo.group_type;
-const region_type: string = userStore.userInfo.region_type;
+// const province_type: string = userStore.userInfo.province_type;
+// const group_type: string = userStore.userInfo.group_type;
+// const region_type: string = userStore.userInfo.region_type;
+const user_name: string = userStore.userInfo.name;
 
 let is_show_add_new: any = ref(true);
 
@@ -105,12 +106,9 @@ const getTableList = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
 
   if (role == "普通用户") {
-    newParams.province_type = province_type;
-    newParams.group_type = group_type;
-    newParams.region_type = region_type;
+    newParams.create_user_name = user_name;
   } else if (role == "区域管理员") {
-    newParams.province_type = province_type;
-    newParams.group_type = group_type;
+    newParams.create_user_name = user_name;
   }
 
   return get_list(newParams);
@@ -129,13 +127,13 @@ const columns: ColumnProps<ResIntersection>[] = [
     prop: "province_type",
     label: "省",
     search: { el: "input" },
-    width: 60
+    width: 80
   },
   {
     prop: "group_type",
     label: "市",
     search: { el: "input" },
-    width: 60
+    width: 80
   },
   {
     prop: "region_type",
@@ -164,6 +162,12 @@ const columns: ColumnProps<ResIntersection>[] = [
     prop: "coordinate",
     label: "经纬度",
     width: 180
+  },
+  {
+    prop: "create_user_name",
+    label: "创建用户",
+    search: { el: "input" },
+    width: 100
   },
   { prop: "configuration", label: "配时方案", width: 250, fixed: "right" },
   { prop: "draw_road", label: "路口渠化", width: 150, fixed: "right" },

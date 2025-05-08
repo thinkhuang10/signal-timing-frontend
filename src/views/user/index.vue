@@ -71,6 +71,11 @@ const columns: ColumnProps<User.ResUserInfo>[] = [
     search: { el: "input" }
   },
   {
+    prop: "parent_name",
+    label: "父用户名称",
+    search: { el: "input" }
+  },
+  {
     prop: "role",
     label: "用户类型",
     search: { el: "input" }
@@ -78,8 +83,7 @@ const columns: ColumnProps<User.ResUserInfo>[] = [
   {
     prop: "province_type",
     label: "省",
-    search: { el: "input" },
-    width: 60
+    search: { el: "input" }
   },
   {
     prop: "group_type",

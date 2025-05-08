@@ -1,5 +1,5 @@
 <template>
-  <el-drawer v-model="drawerVisible" :destroy-on-close="true" size="450px" :title="`${drawerProps.title}用户`">
+  <el-drawer v-model="drawerVisible" :destroy-on-close="true" size="450px" :title="`${drawerProps.title}路口`">
     <el-form
       ref="ruleFormRef"
       label-width="100px"
@@ -18,33 +18,19 @@
       <el-form-item label="经纬度" prop="coordinate">
         <el-input v-model="drawerProps.row!.coordinate" placeholder="请填写经纬度" clearable></el-input>
       </el-form-item>
-
       <el-form-item label="省" prop="province_type">
-        <el-select
-          v-model="drawerProps.row!.province_type"
-          :disabled="isProvinceRegionDisabled"
-          placeholder="请选择省"
-          @change="provinceTypeChange"
-          clearable
-        >
-          <el-option v-for="item in ProvinceType" :key="item.value" :label="item.label" :value="item.label" />
+        <el-select v-model="drawerProps.row!.province_type" placeholder="请选择省" @change="changeCities" clearable>
+          <el-option v-for="item in provinces" :key="item.name" :label="item.name" :value="item.name" />
         </el-select>
       </el-form-item>
-
       <el-form-item label="市" prop="group_type">
-        <el-select
-          v-model="drawerProps.row!.group_type"
-          :disabled="isGroupRegionDisabled"
-          placeholder="请选择市"
-          @change="groupTypeChange"
-          clearable
-        >
-          <el-option v-for="item in groupType" :key="item.value" :label="item.label" :value="item.label" />
+        <el-select v-model="drawerProps.row!.group_type" placeholder="请选择市" @change="changeDistricts" clearable>
+          <el-option v-for="item in cities" :key="item.name" :label="item.name" :value="item.name" />
         </el-select>
       </el-form-item>
       <el-form-item label="区" prop="region_type">
-        <el-select v-model="drawerProps.row!.region_type" :disabled="isGroupRegionDisabled" placeholder="请选择区" clearable>
-          <el-option v-for="item in regionType" :key="item.value" :label="item.label" :value="item.label" />
+        <el-select v-model="drawerProps.row!.region_type" placeholder="请选择区" clearable>
+          <el-option v-for="item in districts" :key="item.name" :label="item.name" :value="item.name" />
         </el-select>
       </el-form-item>
       <el-form-item label="相位类型" prop="calc_type">
@@ -63,6 +49,9 @@
           <el-option v-for="item in crossingType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
+      <el-form-item label="创建用户" prop="create_user_name">
+        <el-input v-model="drawerProps.row!.create_user_name" disabled="true" placeholder="请填写创建用户" clearable></el-input>
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="drawerVisible = false"> 取消 </el-button>
@@ -75,21 +64,8 @@
 import { ref, reactive, onMounted, computed } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ResIntersection } from "@/api/interface";
-import {
-  LiaoNingGroupType,
-  calcType,
-  twoCrossingType,
-  threeCrossingType,
-  FourCrossingType,
-  FiveCrossingType,
-  DaLianRegionType,
-  ShenYangRegionType,
-  BenXiRegionType,
-  ProvinceType,
-  NanJingRegionType,
-  SuZhouRegionType,
-  JiangSuGroupType
-} from "@/utils/serviceDict";
+import { calcType, twoCrossingType, threeCrossingType, FourCrossingType, FiveCrossingType } from "@/utils/serviceDict";
+import pcaData from "@/assets/json/pca-code.json";
 import { useUserStore } from "@/stores/modules/user";
 
 const rules = reactive({
@@ -102,8 +78,9 @@ const rules = reactive({
   crossing_type: [{ required: true, message: "请选择路口类型" }]
 });
 
-let groupType: any = ref([]);
-let regionType: any = ref([]);
+const provinces = ref(pcaData);
+const cities = ref([]);
+const districts = ref([]);
 
 interface DrawerProps {
   title: string;
@@ -124,16 +101,12 @@ const drawerProps = ref<DrawerProps>({
 
 let userStore = useUserStore();
 let role = computed(() => userStore.userInfo.role);
-// let currentGroupType = computed(() => userStore.userInfo.group_type);
+let currentUser = computed(() => userStore.userInfo.name);
 
-let isProvinceRegionDisabled = ref(false);
 let isGroupDisabled = ref(false);
-let isGroupRegionDisabled = ref(false);
 
 onMounted(() => {
   if (role.value == "区域管理员") {
-    isGroupRegionDisabled.value = true;
-    isProvinceRegionDisabled.value = true;
   }
 
   if (role.value == "普通用户") {
@@ -164,51 +137,40 @@ const acceptParams = (params: DrawerProps) => {
   //   drawerProps.value.row.group_type = currentGroupType.value;
   // }
 
-  getGroupType(params.row.province_type);
+  loadCities();
+  loadDistricts();
+
+  if (params.api.name === "add_item") {
+    drawerProps.value.row!.create_user_name = currentUser.value;
+  }
 
   drawerVisible.value = true;
 };
 
-function provinceTypeChange(provinceType: any) {
-  getGroupType(provinceType);
+const loadCities = () => {
+  let curProvince = drawerProps.value.row!.province_type;
+  let curCities = provinces.value.find(p => p.name === curProvince);
+  cities.value = curCities?.children || [];
+};
 
-  drawerProps.value.row!.group_type = "";
-  drawerProps.value.row!.region_type = "";
-}
+const loadDistricts = () => {
+  let curCity = drawerProps.value.row!.group_type;
+  let curCities = cities.value.find(c => c.name === curCity);
+  districts.value = curCities?.children || [];
+};
 
-function groupTypeChange(groupType: any) {
-  getRegionType(groupType);
-  drawerProps.value.row!.region_type = "";
-}
+const changeCities = () => {
+  loadCities();
 
-function getGroupType(provinceType: any) {
-  if (provinceType === "辽宁") {
-    groupType.value = LiaoNingGroupType;
-  } else if (provinceType === "江苏") {
-    groupType.value = JiangSuGroupType;
-  } else {
-    groupType.value = [];
-  }
+  drawerProps.value.row!.group_type = null;
+  drawerProps.value.row!.region_type = null;
+};
 
-  getRegionType(groupType.value);
-}
+const changeDistricts = () => {
+  loadDistricts();
 
-function getRegionType(groupType: any) {
-  if (groupType === "大连") {
-    regionType.value = DaLianRegionType;
-  } else if (groupType === "沈阳") {
-    regionType.value = ShenYangRegionType;
-  } else if (groupType === "本溪") {
-    regionType.value = BenXiRegionType;
-  } else if (groupType === "南京") {
-    regionType.value = NanJingRegionType;
-  } else if (groupType === "苏州") {
-    regionType.value = SuZhouRegionType;
-  } else {
-    regionType.value = [];
-  }
-}
-
+  drawerProps.value.row!.region_type = null;
+};
 // 提交数据（新增/编辑）
 const ruleFormRef = ref<FormInstance>();
 const handleSubmit = () => {

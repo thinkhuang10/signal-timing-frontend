@@ -73,6 +73,7 @@ const login = (formEl: FormInstance | undefined) => {
       userStore.setToken(data.access_token);
       userStore.setUserInfo({
         name: data.name,
+        parent_name: data.parent_name,
         role: data.role,
         province_type: data.province_type,
         group_type: data.group_type,
