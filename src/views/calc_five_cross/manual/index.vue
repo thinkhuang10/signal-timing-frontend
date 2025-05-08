@@ -887,12 +887,13 @@ import { FormInstance } from "element-plus/es/components/form";
 import { ElMessage, ElMessageBox } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
+import { getUserListByParentName } from "@/api/modules/user";
 
 const userStore = useUserStore();
 const role: string = userStore.userInfo.role;
 const user_name: string = userStore.userInfo.name;
-const group_type: string = userStore.userInfo.group_type;
-const region_type: string = userStore.userInfo.region_type;
+// const group_type: string = userStore.userInfo.group_type;
+// const region_type: string = userStore.userInfo.region_type;
 
 let codeRef: any = ref("");
 let positionRef: any = ref("");
@@ -1665,11 +1666,19 @@ onMounted(async () => {
   params.calc_type = "五相位";
   // crossing_type如果不定义, 为undefined,则查询所有路口类型
   // params.crossing_type = "十字路口";
-  if ("普通用户" == role) {
-    params.group_type = group_type;
-    params.region_type = region_type;
+
+  if (role == "普通用户") {
+    params.create_user_name = [user_name];
   } else if (role == "区域管理员") {
-    params.group_type = group_type;
+    let childUserNames: any = await getUserListByParentName({ parentName: user_name });
+    let userNames = [];
+    userNames.push(user_name);
+    if (childUserNames.data && Array.isArray(childUserNames.data)) {
+      childUserNames.data.forEach(item => {
+        userNames.push(item.name);
+      });
+    }
+    params.create_user_name = userNames;
   }
 
   let result: any = await get_list(params);

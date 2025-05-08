@@ -10,7 +10,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" v-if="is_show_add_new" :icon="CirclePlus" @click="openDrawer('新增')">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增</el-button>
       </template>
       <!-- Expand -->
       <template #expand="scope">
@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="tsx" name="useProTable">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import { ResIntersection } from "@/api/interface";
 import ProTable from "@/components/ProTable/index.vue";
 import UserDrawer from "./components/UserDrawer.vue";
@@ -76,8 +76,6 @@ const role: string = userStore.userInfo.role;
 // const region_type: string = userStore.userInfo.region_type;
 const user_name: string = userStore.userInfo.name;
 
-let is_show_add_new: any = ref(true);
-
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
 
@@ -95,12 +93,6 @@ const dataCallback = (data: any) => {
   };
 };
 
-onMounted(() => {
-  if (role == "普通用户") {
-    is_show_add_new.value = false;
-  }
-});
-
 // 如果你想在请求之前对当前请求参数做一些操作，可以自定义如下函数：params 为当前所有的请求参数（包括分页），最后返回请求列表接口
 // 默认不做操作就直接在 ProTable 组件上绑定	:requestApi="getUserList"
 const getTableList = async (params: any) => {
@@ -109,7 +101,6 @@ const getTableList = async (params: any) => {
   if (role == "普通用户") {
     newParams.create_user_name = [user_name];
   } else if (role == "区域管理员") {
-    debugger;
     let childUserNames: any = await getUserListByParentName({ parentName: user_name });
     let userNames = [];
     userNames.push(user_name);

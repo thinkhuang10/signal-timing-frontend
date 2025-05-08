@@ -389,19 +389,20 @@ import router from "@/routers";
 import { get_calc_stiminge } from "@/api/modules/calc";
 import { get_import_detail_by_code, getCheckExcelFormat, set_import_detail_by_code } from "@/api/modules/calc_import";
 import { getTraffic_data_preprocessing_v2 } from "@/api/modules/calc_import";
-// import { useUserStore } from "@/stores/modules/user";
+import { useUserStore } from "@/stores/modules/user";
 import { get_list } from "@/api/modules/intersection";
 import { FormInstance, ElMessage } from "element-plus";
 import CalcProcessDialog from "./components/CalcProcessDialog.vue";
 import { HOME_URL } from "@/config";
 import { get_Two_Cross_ImportFormatData, sortIdAsc } from "@/utils/import_calc";
-
-// const userStore = useUserStore();
-// const role = computed(() => userStore.userInfo.role);
-
 // 配置上传文件
 import { genFileId } from "element-plus";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+import { getUserListByParentName } from "@/api/modules/user";
+
+const userStore = useUserStore();
+const role = userStore.userInfo.role;
+const user_name = userStore.userInfo.name;
 
 const upload = ref<UploadInstance>();
 
@@ -878,6 +879,22 @@ onMounted(async () => {
   params.pageSize = 1000;
   params.type = 1;
   params.calc_type = "两相位";
+
+  if (role == "普通用户") {
+    params.create_user_name = [user_name];
+  } else if (role == "区域管理员") {
+    let childUserNames: any = await getUserListByParentName({ parentName: user_name });
+    let userNames = [];
+    userNames.push(user_name);
+    if (childUserNames.data && Array.isArray(childUserNames.data)) {
+      childUserNames.data.forEach(item => {
+        userNames.push(item.name);
+      });
+    }
+
+    params.create_user_name = userNames;
+  }
+
   // crossing_type如果不定义, 为undefined,则查询所有路口类型
   // params.crossing_type = "十字路口";
 

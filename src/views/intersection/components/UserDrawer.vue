@@ -34,18 +34,12 @@
         </el-select>
       </el-form-item>
       <el-form-item label="相位类型" prop="calc_type">
-        <el-select
-          v-model="drawerProps.row!.calc_type"
-          :disabled="isGroupDisabled"
-          placeholder="请选择相位类型"
-          @change="calcTypeChange"
-          clearable
-        >
+        <el-select v-model="drawerProps.row!.calc_type" placeholder="请选择相位类型" @change="calcTypeChange" clearable>
           <el-option v-for="item in calcType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
       <el-form-item label="路口类型" prop="crossing_type">
-        <el-select v-model="drawerProps.row!.crossing_type" :disabled="isGroupDisabled" placeholder="请选择路口类型" clearable>
+        <el-select v-model="drawerProps.row!.crossing_type" placeholder="请选择路口类型" clearable>
           <el-option v-for="item in crossingType" :key="item.value" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
@@ -61,7 +55,7 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { ref, reactive, onMounted, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ResIntersection } from "@/api/interface";
 import { calcType, twoCrossingType, threeCrossingType, FourCrossingType, FiveCrossingType } from "@/utils/serviceDict";
@@ -100,19 +94,7 @@ const drawerProps = ref<DrawerProps>({
 });
 
 let userStore = useUserStore();
-let role = computed(() => userStore.userInfo.role);
 let currentUser = computed(() => userStore.userInfo.name);
-
-let isGroupDisabled = ref(false);
-
-onMounted(() => {
-  if (role.value == "区域管理员") {
-  }
-
-  if (role.value == "普通用户") {
-    isGroupDisabled.value = true;
-  }
-});
 
 function calcTypeChange(selectedVal: any) {
   drawerProps.value.row.crossing_type = "";
