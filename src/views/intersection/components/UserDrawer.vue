@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ResIntersection } from "@/api/interface";
 import { calcType, twoCrossingType, threeCrossingType, FourCrossingType, FiveCrossingType } from "@/utils/serviceDict";
@@ -94,7 +94,7 @@ const drawerProps = ref<DrawerProps>({
 });
 
 let userStore = useUserStore();
-let currentUser = computed(() => userStore.userInfo.name);
+let user_name = userStore.userInfo.name;
 
 function calcTypeChange(selectedVal: any) {
   drawerProps.value.row.crossing_type = "";
@@ -123,7 +123,7 @@ const acceptParams = (params: DrawerProps) => {
   loadDistricts();
 
   if (params.api.name === "add_item") {
-    drawerProps.value.row!.create_user_name = currentUser.value;
+    drawerProps.value.row!.create_user_name = user_name;
   }
 
   drawerVisible.value = true;

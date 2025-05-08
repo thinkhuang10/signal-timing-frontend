@@ -19,12 +19,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { computed } from "vue";
 import { useUserStore } from "@/stores/modules/user";
 
 const userStore = useUserStore();
-const username = computed(() => userStore.userInfo.name);
-const role = computed(() => userStore.userInfo.role);
+const username = userStore.userInfo.name;
+const role = userStore.userInfo.role;
 
 const dialogVisible = ref(false);
 const openDialog = () => {
