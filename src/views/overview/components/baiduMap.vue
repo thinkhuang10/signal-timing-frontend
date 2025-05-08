@@ -6,6 +6,7 @@
 import { ref, onMounted } from "vue";
 import { get_list } from "@/api/modules/intersection";
 import { useUserStore } from "@/stores/modules/user";
+import { getUserListByParentName } from "@/api/modules/user";
 
 declare const BMapGL: any;
 
@@ -13,8 +14,9 @@ const props = defineProps(["detailLocation"]);
 
 const userStore = useUserStore();
 const role: string = userStore.userInfo.role;
+const user_name: string = userStore.userInfo.name;
 const group_type: string = userStore.userInfo.group_type;
-const region_type: string = userStore.userInfo.region_type;
+// const region_type: string = userStore.userInfo.region_type;
 
 const baiduRef = ref();
 
@@ -40,14 +42,22 @@ function initMap(locationPoint: any[]) {
 // }
 
 async function addMarker(map: any) {
-  let parameters: any;
-  if ("普通用户" == role) {
-    parameters = { group_type: group_type, region_type: region_type };
+  let params: any = {};
+  if (role == "普通用户") {
+    params.create_user_name = [user_name];
   } else if (role == "区域管理员") {
-    parameters = { group_type: group_type };
+    let childUserNames: any = await getUserListByParentName({ parentName: user_name });
+    let userNames = [];
+    userNames.push(user_name);
+    if (childUserNames.data && Array.isArray(childUserNames.data)) {
+      childUserNames.data.forEach(item => {
+        userNames.push(item.name);
+      });
+    }
+    params.create_user_name = userNames;
   }
 
-  let intersections: any = await get_list(parameters);
+  let intersections: any = await get_list(params);
 
   // 自定义统计数据
   let control = StaticalControl(intersections);
